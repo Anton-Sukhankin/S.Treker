@@ -1,0 +1,1 @@
+export function showToast(m) { const t = document.getElementById('js-global-toast'); if (t) { t.querySelector('.js-toast-text').textContent = m; t.classList.add('is-active'); setTimeout(()=>t.classList.remove('is-active'), 3000); } }

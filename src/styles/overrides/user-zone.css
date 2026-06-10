@@ -1,0 +1,205 @@
+/* ==========================================================================
+   Unified Header
+   ========================================================================== */
+.app-header-unified {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-header-top {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.app-header-left, .app-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 0.2s;
+  border-radius: 6px;
+}
+
+.header-icon-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+}
+
+.header-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.header-branding {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-help {
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  opacity: 0.85;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.header-help:hover {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.app-header-nav {
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 8px;
+  height: 44px;
+  background-color: var(--color-primary);
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  border-radius: 100px;
+  transition: all 0.2s;
+}
+
+.nav-link:hover {
+  color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.is-active {
+  color: #FFFFFF;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.nav-link svg {
+  opacity: 0.7;
+}
+
+.nav-link:hover svg {
+  opacity: 1;
+}
+
+/* User Zone Overrides */
+.app-header-unified .ds-avatar {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ==========================================================================
+   Row Status Indicators (Absolute Positioned)
+   ========================================================================== */
+.ds-task-row.is-overdue, 
+.ds-task-row.is-new,
+.ds-table-row.is-overdue .ds-table-cell:first-child,
+.ds-table-row.is-new .ds-table-cell:first-child {
+  position: relative;
+}
+
+.ds-task-row.is-overdue::before,
+.ds-task-row.is-new::before,
+.ds-table-row.is-overdue .ds-table-cell:first-child::before,
+.ds-table-row.is-new .ds-table-cell:first-child::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.ds-task-row.is-overdue::before,
+.ds-table-row.is-overdue .ds-table-cell:first-child::before {
+  background-color: #dc2626;
+}
+
+.ds-task-row.is-new::before,
+.ds-table-row.is-new .ds-table-cell:first-child::before {
+  background-color: #22c55e;
+}
+
+.ds-task-row.is-overdue { border-left: none !important; }
+.ds-task-row.is-new { border-left: none !important; }
+
+.ds-table-row.is-overdue .ds-table-cell--sticky-left[data-col="col-cb"],
+.ds-table-row.is-new .ds-table-cell--sticky-left[data-col="col-cb"] {
+  position: sticky !important;
+  left: 0 !important;
+  z-index: 24;
+}
+
+.ds-table-row .ds-table-cell {
+  transition: none !important;
+}
+
+.ds-task-row:hover {
+  border-color: var(--color-border);
+}
+
+.ds-task-row:not(.is-overdue):not(.is-new):hover,
+.ds-task-row:not(.is-overdue):not(.is-new).is-selected {
+  background-color: #f8fafc !important;
+}
+
+.ds-table-row:not(.is-overdue):not(.is-new):hover .ds-table-cell,
+.ds-table-row:not(.is-overdue):not(.is-new):hover .ds-table-cell--sticky-left {
+  background-color: #f8fafc !important;
+}
+
+.ds-task-row.is-selected {
+  background-color: #ffffff !important;
+  border-color: var(--color-border);
+}
+
+.ds-task-row.is-overdue.is-selected {
+  background-color: #F7E6E9 !important;
+}
+
+.ds-task-row.is-new.is-selected {
+  background-color: #D7F3E3 !important;
+}
+
+.js-status-tabs {
+  gap: 8px;
+}
+
+.js-status-tabs .ds-segmented-control__item:hover {
+  background-color: rgba(17, 24, 39, 0.06);
+}
+
+.js-status-tabs .ds-segmented-control__item.is-active,
+.js-status-tabs .ds-segmented-control__item.is-active:hover {
+  background-color: var(--color-bg-surface);
+}

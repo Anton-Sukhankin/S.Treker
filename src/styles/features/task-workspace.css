@@ -1,0 +1,1014 @@
+/* ==========================================================
+   Multi Select Refinements
+   ========================================================== */
+.ds-multi-select__input {
+  background: #fff;
+  overflow: hidden;
+}
+
+.ds-multi-select__input:hover {
+  border-color: var(--color-primary);
+}
+
+.ds-multi-select__placeholder {
+  color: #ABB5BE !important;
+  font-size: 0.8125rem;
+  display: block;
+  flex: 1;
+  text-align: left !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ds-multi-select__tags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.ds-multi-select__tags:empty {
+  display: none;
+}
+
+.ds-multi-select__tag {
+  background: #6B7280;
+  color: #fff;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: normal;
+  letter-spacing: -0.01em;
+}
+
+.ds-multi-select__tag-remove {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+  color: #fff;
+}
+
+.ds-multi-select__tag-remove:hover { opacity: 1; }
+
+.ds-multi-select__controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0; /* ensure it doesn't squash */
+}
+
+.ds-checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ds-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.ds-checkbox-native {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #D1D5DB;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.ds-checkbox-native:hover {
+  border-color: #007BFB;
+}
+
+.ds-checkbox-native:checked {
+  background-color: #007BFB;
+  border-color: #007BFB;
+}
+
+.ds-checkbox-native:checked::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: translate(-50%, -50%);
+}
+
+.ds-checkbox-item span {
+  font-size: 0.8125rem;
+  color: var(--color-text-primary);
+  line-height: normal;
+  display: flex;
+  align-items: center;
+}
+
+/* Status Tags - STRICT Colors */
+.ds-tag {
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  line-height: normal;
+}
+
+.ds-tag--todo {
+  background: #6D7986 !important;
+  color: #fff !important;
+}
+
+.ds-tag--in-progress {
+  background: #007BFB !important;
+  color: #fff !important;
+}
+
+.ds-tag--done {
+  background: #28A745 !important;
+  color: #fff !important;
+}
+
+.ds-input {
+  height: 36px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 0.8125rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ds-input::placeholder {
+  text-align: left !important;
+}
+
+.ds-drawer__footer .ds-button--primary {
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ds-drawer__footer .ds-button--text {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 8px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ==========================================================
+   FILTER DRAWER COMPONENTS (Stage 20 Precision & Fixes)
+   ========================================================== */
+
+.ds-drawer__icon-box {
+  background: var(--color-bg-content) !important;
+  color: var(--color-text-secondary) !important;
+  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ds-drawer__subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.ds-filter-section__title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin-top: 8px !important;
+  margin-bottom: 0 !important;
+  opacity: 0.8;
+}
+
+.ds-multi-select__input {
+  min-height: 36px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 3px 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  flex-wrap: wrap;
+  gap: 4px;
+  background: #fff;
+  transition: all 0.2s;
+}
+
+.ds-multi-select__input:hover {
+  border-color: var(--color-blue);
+}
+
+.ds-multi-select__placeholder {
+  color: #ABB5BE !important;
+  font-size: 0.8125rem;
+  text-align: left !important;
+}
+
+.ds-checkbox-item span {
+  font-size: 0.8125rem;
+  color: var(--color-text-primary);
+  line-height: var(--line-height-reset, 1.2);
+}
+
+.ds-tag {
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.ds-tag--todo {
+  background: #6D7986;
+  color: #fff;
+}
+
+.ds-tag--in-progress {
+  background: #007BFB;
+  color: #fff;
+}
+
+.ds-tag--done {
+  background: #28A745;
+  color: #fff;
+}
+
+.ds-input {
+  height: 36px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 0.8125rem;
+  width: 100%;
+}
+
+.ds-input::placeholder {
+  text-align: left !important;
+}
+
+.ds-drawer__footer .ds-button--primary {
+  background: var(--color-blue);
+  color: #fff;
+  border-radius: 4px;
+  padding: 8px 20px;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  border: none;
+  cursor: pointer;
+}
+
+.ds-drawer__footer .ds-button--text {
+  color: var(--color-blue);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+
+/* ==========================================================
+   FILTER DRAWER COMPONENTS (Stage 18-19 Precision UI)
+   ========================================================== */
+
+.ds-drawer__header-left {
+  display: flex;
+  align-items: center;
+}
+
+.ds-drawer__icon-box {
+  background: var(--color-bg-content) !important;
+  color: var(--color-text-secondary) !important;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ds-drawer__subtitle {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  margin: 2px 0 0 0;
+}
+
+.ds-filter-label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin-bottom: 6px;
+}
+
+.ds-multi-select {
+  position: relative;
+  width: 100%;
+}
+
+.ds-multi-select__input {
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fff;
+  min-height: 40px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 4px 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  flex-wrap: wrap;
+  gap: 6px;
+  box-sizing: border-box;
+}
+
+.ds-multi-select__input:hover {
+  border-color: var(--color-blue-hover);
+}
+
+.ds-multi-select.is-open .ds-multi-select__input {
+  border-color: var(--color-blue);
+}
+
+.ds-multi-select__placeholder {
+  color: #ABB5BE !important;
+  font-size: 0.875rem;
+  text-align: left;
+}
+
+.ds-multi-select__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+
+.ds-multi-select__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 2px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 1000;
+  max-height: 240px;
+  overflow-y: auto;
+  display: none;
+  padding: 4px;
+}
+
+.ds-multi-select.is-open .ds-multi-select__dropdown {
+  display: block;
+}
+
+.ds-multi-select__option {
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: var(--color-text-primary);
+}
+
+.ds-multi-select__option:hover {
+  background: var(--color-bg-content);
+}
+
+.ds-multi-select__option.is-selected {
+  background: var(--color-blue-light);
+  color: var(--color-blue);
+  font-weight: 500;
+}
+
+.ds-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  min-height: 24px;
+}
+
+
+.ds-checkbox-item span {
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.ds-input {
+  height: 40px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0 12px;
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ds-input:focus {
+  outline: none;
+  border-color: var(--color-blue);
+}
+
+.ds-input::placeholder {
+  color: #ABB5BE;
+}
+
+.ds-drawer__content--scrollable {
+  scrollbar-width: thin;
+}
+
+.ds-drawer__footer .ds-button--text {
+  background: none;
+  border: none;
+  font-size: 0.875rem;
+  color: var(--color-blue);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 16px;
+}
+
+.ds-drawer__footer .ds-button--primary {
+  background: var(--color-blue);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 24px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.ds-drawer__footer .ds-button--primary:hover {
+  background: var(--color-blue-hover);
+}
+
+
+/* ==========================================================
+   FILTER DRAWER COMPONENTS (Stage 18-19)
+   ========================================================== */
+
+.ds-multi-select {
+  position: relative;
+  width: 100%;
+}
+
+.ds-multi-select__input {
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fff;
+  min-height: 40px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ds-multi-select__input:hover {
+  border-color: var(--color-blue);
+}
+
+.ds-multi-select.is-open .ds-multi-select__input {
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 3px rgba(0, 123, 251, 0.1);
+}
+
+.ds-multi-select.is-open svg {
+  transform: rotate(180deg);
+}
+
+.ds-multi-select__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+
+.ds-multi-select__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 2px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  max-height: 240px;
+  overflow-y: auto;
+  display: none;
+  padding: 4px;
+}
+
+.ds-multi-select.is-open .ds-multi-select__dropdown {
+  display: block;
+}
+
+.ds-multi-select__option {
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ds-multi-select__option:hover {
+  background: var(--color-bg-gray);
+}
+
+.ds-multi-select__option.is-selected {
+  color: var(--color-blue);
+  background: var(--color-blue-light);
+  font-weight: 500;
+}
+
+.ds-checkbox-native {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-blue);
+  cursor: pointer;
+}
+
+.ds-drawer__content--scrollable {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.ds-drawer__content--scrollable::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ds-drawer__content--scrollable::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 10px;
+}
+
+.ds-filter-section {
+  padding-bottom: 24px;
+}
+
+.ds-range-group input {
+  width: 100%;
+}
+
+#js-draggable-columns-list.ds-filter-options {
+  gap: 12px !important;
+}
+
+#js-draggable-columns-list .ds-column-row {
+  margin: 0 !important;
+}
+
+/* Fix drawer footer primary button hover state */
+.ds-drawer__footer .ds-button--primary {
+  background-color: var(--color-primary) !important;
+  color: #ffffff !important;
+  transition: background-color 0.2s ease;
+}
+
+/* Stage 4 additions */
+.nav-subgroup-header {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 16px;
+    padding-right: 24px;
+    height: 24px;
+    margin: 0;
+    pointer-events: auto;
+}
+.nav-subgroup-header-text {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-sidebar-text);
+    opacity: 0.6;
+    letter-spacing: 0.05em;
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.nav-subgroup-block {
+    padding: 8px;
+}
+.nav-subgroup-block:not(.is-expanded) .nav-subgroup-list {
+    display: none !important;
+}
+.nav-subgroup-block:not(.is-expanded) .ds-accordion-chevron {
+    transform: rotate(-90deg) !important;
+}
+.nav-subgroup-block.is-expanded .ds-accordion-chevron {
+    transform: rotate(0deg) !important;
+}
+.nav-subgroup-item.is-active {
+    background-color: #EBF5FF !important;
+    color: var(--color-primary) !important;
+}
+.nav-subgroup-item.is-active .nav-subgroup-count,
+.nav-subgroup-item.is-active .ds-badge {
+    color: var(--color-primary) !important;
+}
+
+/* Stage 5 refinement */
+.expand-action {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    display: none !important;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0 !important;
+    margin-right: 8px !important;
+    color: var(--color-text-secondary);
+    transition: opacity 0.2s;
+    cursor: pointer;
+}
+.nav-domain-wrapper.has-grouping .expand-action {
+    display: flex !important;
+}
+.nav-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+}
+.nav-item-actions .ds-badge {
+    margin-left: 0 !important;
+}
+.nav-item-actions .expand-action {
+    margin-right: 0 !important;
+}
+.nav-subgroup-item {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px 0 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    user-select: none;
+    font-size: 0.8125rem;
+    color: var(--color-text-primary);
+}
+.nav-subgroup-item:hover {
+    background-color: var(--color-sidebar-active-bg);
+}
+.nav-subgroup-name {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Stage 5 Action Icons */
+.nav-action-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    color: var(--color-text-secondary);
+    opacity: 0;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: absolute;
+    right: 12px;
+    transform: translateX(10px);
+    z-index: 10;
+}
+
+.nav-action-icon:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--color-error, #f44336) !important;
+}
+
+/* Restricted hover icons: Domain reset only shows if has-grouping */
+.nav-domain-wrapper.has-grouping .nav-item:hover .nav-action-icon,
+#js-list-custom-groups .nav-item:hover .nav-action-icon,
+.nav-subgroup-item:hover .nav-action-icon {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+#js-list-custom-groups .nav-item:hover .ds-badge {
+    transform: translateX(-30px);
+}
+
+/* Shift existing indicators only if groupings exist (for domain level) */
+.nav-domain-wrapper.has-grouping .nav-item:hover .nav-item-actions,
+.nav-domain-wrapper.has-grouping .nav-item:hover .nav-dot,
+.nav-subgroup-item:hover .ds-badge {
+    transform: translateX(-30px);
+}
+
+.nav-item .nav-item-actions,
+.nav-item .nav-dot,
+.nav-subgroup-header .ds-accordion-chevron,
+.nav-subgroup-item .ds-badge {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Specific styling for Reset All groups icon at Domain level */
+.nav-item .reset-all-groups {
+    color: var(--color-primary);
+}
+.nav-item .reset-all-groups:hover {
+    background-color: rgba(0, 123, 251, 0.1);
+    color: var(--color-primary) !important;
+}
+
+.nav-item, .nav-subgroup-header, .nav-subgroup-item {
+    position: relative !important;
+}
+
+.ds-badge--blue { background-color: #EBF5FF !important; color: #007BFF !important; border: 1px solid #D6E9FF !important; margin-left: 0 !important; font-weight: 500 !important; } .ds-badge--red { background-color: #FFEBEB !important; color: #DC3545 !important; border: 1px solid #FFD6D6 !important; margin-left: 0 !important; display: flex !important; gap: 4px !important; align-items: center !important; font-weight: 500 !important; } .ds-badge--red svg { width: 12px; height: 12px; opacity: 0.8; } .ds-badge--green { background-color: #E6FFFA !important; color: #047857 !important; border: 1px solid #B2F5EA !important; margin-left: 0 !important; display: flex !important; gap: 4px !important; align-items: center !important; font-weight: 500 !important; } .ds-badge--green svg { width: 12px; height: 12px; opacity: 0.8; }
+
+/* Styled empty values in table */
+.ds-table-empty-val {
+    color: #ABB5BE;
+    font-weight: 400;
+}
+
+
+.ds-table-row.is-new,
+.ds-task-row.is-new {
+    background-color: #f0fdf4 !important;
+}
+
+.nav-dot--green {
+    background-color: #22c55e !important;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Preset Dropdown Styles */
+.ds-preset-option { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-radius: var(--radius-sm); cursor: pointer; color: var(--color-text-primary); font-size: 14px; }
+.ds-preset-option:hover { background-color: var(--color-bg-content); }
+.ds-preset-option.is-active { background-color: rgba(0, 123, 251, 0.1); color: var(--color-primary); font-weight: 500; }
+.ds-preset-option-delete { color: var(--color-text-secondary); display: none; padding: 2px; margin: -2px; border-radius: 4px; }
+.ds-preset-option:hover .ds-preset-option-delete { display: block; }
+.ds-preset-option-delete:hover { color: var(--color-badge-danger); background-color: rgba(239, 68, 68, 0.1); }
+
+/* Preset save button state styling */
+.js-preset-save-btn:disabled { background-color: #f3f4f6 !important; color: #9ca3af !important; border: 1px solid #e5e7eb !important; opacity: 1 !important; cursor: not-allowed !important; }
+.js-preset-save-btn:not(:disabled) { background-color: var(--color-primary) !important; color: #ffffff !important; border: 1px solid var(--color-primary) !important; cursor: pointer !important; }
+
+.ds-drawer__body { display: flex; flex: 1; overflow: hidden; }
+.ds-drawer__pane { display: flex; flex-direction: column; width: 440px; flex-shrink: 0; height: 100%; overflow: hidden; }
+.ds-drawer__pane--library { border-right: 1px solid var(--color-border); display: none; }
+.ds-drawer.is-expanded .ds-drawer__pane--library { display: flex; }
+
+/* Library Items */
+.ds-library-item {
+  width: 100%;
+  padding: 4px 10px;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  border-bottom: 1px solid #F3F4F6;
+  transition: background-color 0.2s;
+}
+
+.ds-library-item:last-child {
+  border-bottom: none;
+}
+
+.ds-library-item:hover {
+  background-color: var(--color-bg-app);
+}
+
+.ds-library-item__label {
+  color: #111827;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  flex: 1;
+  padding-right: 12px;
+}
+
+.js-library-item-action {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  padding: 0;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #D2D3D7;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.js-library-item-action:hover {
+  border-color: var(--color-primary);
+  background-color: #F9FAFB;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.js-library-item-action[data-added="true"] {
+  background-color: #F3F4F6;
+  border-color: #D2D3D7;
+}
+
+/* Columns Drawer Styling Adjustments */
+#columns-drawer .ds-drawer__header-pane .ds-drawer__title {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #111827 !important;
+}
+
+#columns-drawer .ds-drawer__header-pane {
+  padding-bottom: 8px !important;
+}
+
+#columns-drawer .ds-drawer__footer-pane--main {
+  padding: 16px !important;
+  border-top: 0 !important;
+  background: #fff !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  flex: 1 1 auto !important;
+}
+
+#columns-drawer .ds-drawer__footer-pane--library,
+#columns-drawer.ds-drawer.is-expanded .ds-drawer__footer-pane--library {
+  display: none !important;
+}
+
+.js-columns-reset {
+  color: #007BFF !important;
+  background: transparent !important;
+  border: none !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  padding: 8px 12px !important;
+  cursor: pointer !important;
+  transition: opacity 0.2s !important;
+}
+
+.js-columns-reset:hover {
+  opacity: 0.8 !important;
+}
+
+.js-columns-apply {
+  background: #007BFF !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 10px 24px !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.js-columns-apply:hover {
+  background: #0069d9 !important;
+}
+
+.js-open-library {
+  width: 36px;
+  height: 36px;
+  background: #F3F4F6 !important;
+  border: 1px solid #D1D5DB !important;
+  border-radius: 8px !important;
+  color: #111827 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease !important;
+  padding: 0 !important;
+}
+
+.js-open-library:hover {
+  background-color: #E5E7EB !important;
+  border-color: #BEC3CC !important;
+}
+
+.js-open-library.is-active {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: #FFFFFF !important;
+}
+
+#columns-drawer .js-library-reset {
+  display: none !important;
+  height: 36px !important;
+  padding: 0 14px !important;
+  border: 1px solid #D1D5DB !important;
+  border-radius: 8px !important;
+  background: #FFFFFF !important;
+  color: #374151 !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  gap: 8px !important;
+}
+
+#columns-drawer.is-expanded .js-library-reset {
+  display: inline-flex !important;
+}
+
+#columns-drawer .js-library-reset:disabled {
+  background: #F9FAFB !important;
+  border-color: #E5E7EB !important;
+  color: #9CA3AF !important;
+  cursor: not-allowed !important;
+  opacity: 1 !important;
+}
+
+#columns-drawer .js-library-reset:not(:disabled):hover {
+  background: #F3F4F6 !important;
+  border-color: #BEC3CC !important;
+}
+
+/* Section Title in Column Settings */
+.ds-column-section-title {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: #6B7280 !important;
+  margin-bottom: 0px !important;
+  text-transform: none !important;
+  padding-left: 4px !important;
+}
+
+.ds-drawer { box-shadow: none !important; }
+
+.js-return-to-library:hover {
+  color: var(--color-primary) !important;
+  transform: scale(1.1);
+  transition: all 0.2s ease;
+}
+
+/* Filter Panel Layout Fixes */
+#filter-drawer .ds-drawer__header {
+  padding: 16px 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  min-height: auto !important;
+}
+
+#filter-drawer .ds-drawer__footer {
+  padding: 16px 24px !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 12px !important;
+  align-items: center !important;
+}
