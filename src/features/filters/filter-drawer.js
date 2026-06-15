@@ -6,6 +6,8 @@ const DOMAIN_FILTER_KEYS = {
   control: ['object', 'criticality']
 };
 
+const PANEL_FILTER_KEYS = ['id', 'title', 'docType', 'contractor', 'sum', 'unit', 'sla', 'object', 'criticality'];
+
 function isEmptyFilterValue(value) {
   if (Array.isArray(value)) return value.length === 0;
   if (value && typeof value === 'object') return value.from === null && value.to === null;
@@ -189,7 +191,8 @@ export function initFilterDrawer({ updateSidebarCounts, reverseStatusMap }) {
   function countActive() {
     let count = 0;
     const f = window.activeFilters || {};
-    Object.values(f).forEach(value => {
+    PANEL_FILTER_KEYS.forEach(key => {
+      const value = f[key];
       if (Array.isArray(value)) {
         if (value.length > 0) count++;
       }
@@ -218,10 +221,10 @@ export function initFilterDrawer({ updateSidebarCounts, reverseStatusMap }) {
     updateSidebarCounts();
   }
 
-  function resetAllFilters() {
+  function resetFilterControlValues() {
+    const currentSearch = window.activeFilters?.search || '';
     resetFilters(window.activeFilters);
-    const globalSearch = document.getElementById('js-global-search');
-    if (globalSearch) globalSearch.value = '';
+    window.activeFilters.search = currentSearch;
 
     dr.querySelectorAll('input').forEach(i => {
       if (i.type === 'checkbox') i.checked = false;
@@ -231,9 +234,17 @@ export function initFilterDrawer({ updateSidebarCounts, reverseStatusMap }) {
     dr.querySelectorAll('.ds-multi-select__placeholder').forEach(p => { p.style.display = 'block'; });
     dr.querySelectorAll('.js-ms-clear').forEach(btn => { btn.style.display = 'none'; });
     dr.querySelectorAll('.ds-multi-select__option.is-selected').forEach(opt => opt.classList.remove('is-selected'));
+    dr.querySelectorAll('.js-multi-select.is-open').forEach(ms => ms.classList.remove('is-open'));
     renderMoneyRangeControls(dr);
-
     countActive();
+  }
+
+  function resetPanelFilters() {
+    resetFilterControlValues();
+  }
+
+  function resetPanelFiltersAndApply() {
+    resetFilterControlValues();
     ov.classList.remove('is-active');
     dr.classList.remove('is-active');
     rerenderAfterFilterChange();
@@ -259,7 +270,7 @@ export function initFilterDrawer({ updateSidebarCounts, reverseStatusMap }) {
   });
 
   document.querySelectorAll('.js-filter-reset').forEach(b => b.onclick = () => {
-    resetAllFilters();
+    resetPanelFilters();
   });
 
   document.querySelectorAll('.js-btn-open-filters').forEach(b => b.onclick = () => {
@@ -280,7 +291,7 @@ export function initFilterDrawer({ updateSidebarCounts, reverseStatusMap }) {
     indicator.addEventListener('click', event => {
       event.preventDefault();
       event.stopPropagation();
-      resetAllFilters();
+      resetPanelFiltersAndApply();
     });
   });
 
