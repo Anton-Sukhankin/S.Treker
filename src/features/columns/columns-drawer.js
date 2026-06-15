@@ -288,6 +288,7 @@ export function initColumnsDrawer({ updateSidebarCounts, reverseStatusMap }) {
         draftActiveColumnPreset[navId] = 'base';
         setDraftState(navId, getBaseState(navId));
         renderColumnsDrawer();
+        if (dr.classList.contains('is-expanded')) renderLibrary();
       } else {
         renderPresetDropdown();
         checkChanges();
@@ -304,6 +305,7 @@ export function initColumnsDrawer({ updateSidebarCounts, reverseStatusMap }) {
       const dd = dr.querySelector('.js-preset-dropdown');
       if (dd) dd.style.display = 'none';
       renderColumnsDrawer();
+      if (dr.classList.contains('is-expanded')) renderLibrary();
     }
   });
 
@@ -391,17 +393,23 @@ export function initColumnsDrawer({ updateSidebarCounts, reverseStatusMap }) {
     if (!list) return;
     const navId = window.navigationContext.id;
     const available = getLibraryAttributesForNavigation(navId);
-    const currentKeys = new Set(getDraftBaseCols(navId).map(column => column.key));
+    const draftKeys = new Set(getDraftState(navId).map(item => item.key));
     const query = document.querySelector('.js-library-search')?.value.toLowerCase() || '';
-    const filtered = available.filter(attr => attr.label.toLowerCase().includes(query) && !currentKeys.has(attr.key));
+    const filtered = available.filter(attr => attr.label.toLowerCase().includes(query));
 
     let html = '';
     filtered.forEach(attr => {
+      const isAdded = draftKeys.has(attr.key);
+      const actionTitle = isAdded ? 'Вернуть в библиотеку' : 'Добавить в колонки';
+      const actionIcon = isAdded
+        ? '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#6B7280" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="#007BFF" stroke-width="2.2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>';
+
       html += `
         <div class="ds-library-item">
           <div class="ds-library-item__label">${attr.label}</div>
-          <button class="js-library-item-action" data-key="${attr.key}" data-added="false" title="Добавить в колонки">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#007BFF" stroke-width="2.2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <button class="js-library-item-action" data-key="${attr.key}" data-added="${isAdded ? 'true' : 'false'}" title="${actionTitle}">
+            ${actionIcon}
           </button>
         </div>
       `;
@@ -427,7 +435,9 @@ export function initColumnsDrawer({ updateSidebarCounts, reverseStatusMap }) {
     if (!attr) return;
 
     syncDraftFromDrawer(navId);
-    if (!getDraftState(navId).some(item => item.key === key)) {
+    if (getDraftState(navId).some(item => item.key === key)) {
+      setDraftState(navId, getDraftState(navId).filter(item => item.key !== key));
+    } else {
       setDraftState(navId, [...getDraftState(navId), { key, visible: true }]);
     }
 
