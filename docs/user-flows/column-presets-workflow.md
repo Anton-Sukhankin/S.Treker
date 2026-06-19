@@ -2,7 +2,7 @@
 
 Основной пользовательский путь пресетов колонок теперь описан в спецификации компонента:
 
-`docs/components/column-presets/02-behavior.md`
+`docs/components/column-settings/presets/02-behavior.md`
 
 Этот файл остается навигационной ссылкой, чтобы старые ссылки на flow не ломались.
 
@@ -10,12 +10,12 @@
 
 | Что нужно понять | Где описано |
 |---|---|
-| Где находятся элементы пресетов и модальное окно сохранения | `docs/components/column-presets/01-structure.md` |
-| Сохранение, выбор, удаление и применение пресета | `docs/components/column-presets/02-behavior.md` |
-| Данные, состояния, контексты и правила пресетов | `docs/components/column-presets/03-data-states-rules.md` |
+| Где находятся элементы пресетов и модальное окно сохранения | `docs/components/column-settings/presets/01-structure.md` |
+| Сохранение, выбор, удаление и применение пресета | `docs/components/column-settings/presets/02-behavior.md` |
+| Данные, состояния, контексты и правила пресетов | `docs/components/column-settings/presets/03-data-states-rules.md` |
 
 ## Правило обновления
 
-Если меняется интерфейс или поведение пресетов колонок, обновлять нужно спецификацию в `docs/components/column-presets/`.
+Если меняется интерфейс или поведение пресетов колонок, обновлять нужно спецификацию в `docs/components/column-settings/presets/` и проверить связь с родительским компонентом `docs/components/column-settings/`.
 
 Этот файл не должен содержать отдельную версию сценария, чтобы не создавать вторую точку истины.

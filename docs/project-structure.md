@@ -1,48 +1,239 @@
-# S-Tracker Project Structure
+# Структура проекта S-Tracker
 
-This prototype is organized as a Vite-powered vanilla HTML/CSS/JS application.
+Этот документ описывает физическую структуру текущего прототипа S-Tracker: где находятся исходники, документация, данные, стили, публичные ресурсы и результат сборки.
 
-## Runtime Entry
+Документ не заменяет:
 
-- `index.html` keeps the static page markup and loads `/src/main.js`.
-- `src/main.js` initializes application state and wires feature modules on `DOMContentLoaded`.
+- `docs/components/README.md` - карту интерфейсных компонентов;
+- `docs/component-code-map.md` - связь компонентов с файлами реализации;
+- `docs/agent-context-routing.md` - маршрут выбора контекста для AI-агента и субагентов.
 
-## Source Layers
+## Дерево проекта
 
-- `src/data/` contains dictionaries, mock task data, and the shared users/authors directory.
-- `src/data/task-statuses.js` contains the task status dictionary and tag color metadata.
-- `src/domain/` contains reusable business rules and calculations.
-- `src/features/` contains UI behavior grouped by product area.
-- `src/ui/` contains small shared UI helpers and fragments.
-- `src/styles/` contains CSS split by responsibility.
-- `public/avatars/` contains optimized avatars used by the interface.
-- `assets/avatar-originals/` contains large source avatar images that are kept for future replacement or re-export.
+```text
+S-Tracker/
+├─ index.html
+├─ src/
+│  ├─ main.js
+│  ├─ data/
+│  │  ├─ task-model.js
+│  │  ├─ mock-tasks.js
+│  │  ├─ attributes.js
+│  │  ├─ statuses.js
+│  │  ├─ task-statuses.js
+│  │  └─ users.js
+│  ├─ domain/
+│  │  ├─ columns.js
+│  │  ├─ filters.js
+│  │  ├─ grouping.js
+│  │  ├─ pagination.js
+│  │  ├─ state.js
+│  │  └─ task-selectors.js
+│  ├─ features/
+│  │  ├─ columns/
+│  │  ├─ filters/
+│  │  ├─ grouping/
+│  │  ├─ pagination/
+│  │  ├─ sidebar/
+│  │  ├─ task-selection/
+│  │  └─ tasks/
+│  ├─ ui/
+│  │  ├─ basic-controls.js
+│  │  ├─ empty-state.js
+│  │  ├─ icons.js
+│  │  └─ toast.js
+│  └─ styles/
+│     ├─ main.css
+│     ├─ base/
+│     ├─ components/
+│     ├─ features/
+│     ├─ layout/
+│     ├─ overrides/
+│     └─ patterns/
+├─ docs/
+│  ├─ README.md
+│  ├─ project-structure.md
+│  ├─ agent-context-routing.md
+│  ├─ documentation-standards.md
+│  ├─ documentation-standards-audit.md
+│  ├─ component-code-map.md
+│  ├─ glossary.md
+│  ├─ components/
+│  │  ├─ README.md
+│  │  ├─ filters/
+│  │  ├─ toolbar/
+│  │  ├─ left-navigation/
+│  │  ├─ queues/
+│  │  ├─ tasks/
+│  │  ├─ column-settings/
+│  │  │  ├─ README.md
+│  │  │  ├─ attribute-library/
+│  │  │  └─ presets/
+│  │  ├─ bulk-actions/
+│  │  └─ pagination/
+│  ├─ entities/
+│  ├─ templates/
+│  └─ user-flows/
+├─ public/
+│  └─ avatars/
+├─ assets/
+│  └─ avatar-originals/
+├─ dist/
+├─ node_modules/
+├─ package.json
+├─ package-lock.json
+├─ vite.config.js
+├─ PROJECT-OVERVIEW.md
+├─ AGENTS.md
+└─ DOCUMENTATION-ITERATION-PLAN.md
+```
 
-## Feature Modules
+## Назначение веток
 
-- `features/tasks/tasks-view.js` renders task tabs, cards, table rows, and task counts.
-- `features/sidebar/sidebar.js` controls sidebar navigation, counters, generated groups, and custom groups.
-- `features/filters/` controls filter drawer and multi-select behavior.
-- `features/columns/columns-drawer.js` controls column visibility, presets, and attribute library changes.
-- `features/task-selection/floating-action-bar.js` controls row selection and bulk action bar behavior.
-- `features/pagination/pagination-controls.js` renders pagination controls.
-- `features/grouping/grouping-controls.js` handles table-header grouping triggers.
+| Ветка | Роль в проекте | Как использовать |
+|---|---|---|
+| `index.html` | Статическая разметка страницы и точка подключения `/src/main.js`. | Проверять при изменении корневого DOM, точек монтирования или порядка подключений. |
+| `src/` | Рабочий код прототипа. | Основные изменения функциональности, поведения и внешнего вида выполняются здесь. |
+| `docs/` | Спецификация интерфейса, поведения, состояния, пользовательских путей и правил работы агента. | Использовать как продуктовый источник перед изменением кода или генерацией интерфейса. |
+| `public/` | Публичные ресурсы, доступные приложению без обработки сборщиком. | Использовать для оптимизированных ассетов, которые нужны интерфейсу во время работы. |
+| `assets/` | Исходные ресурсы, которые сохранены для будущей обработки или замены. | Не использовать как основной runtime-источник, если ресурс уже подготовлен в `public/`. |
+| `dist/` | Результат сборки. | Не править вручную. Пересоздается командой сборки. |
+| `node_modules/` | Установленные зависимости. | Не править вручную. Восстанавливается через пакетный менеджер. |
 
-## CSS Layers
+## Рабочий код
 
-- `styles/base/tokens.css` defines tokens and base page rules.
-- `styles/layout/app-shell.css` defines app shell, header, sidebar, and main layout.
-- `styles/components/core-ui.css` defines reusable UI component classes.
-- `styles/patterns/drawers-filters-actions.css` defines larger UI patterns.
-- `styles/features/task-workspace.css` defines task workspace-specific styles.
-- `styles/overrides/user-zone.css` keeps late overrides isolated until they are normalized.
+`src/main.js` инициализирует состояние приложения и подключает поведение после загрузки страницы.
 
-## Commands
+### `src/data/`
 
-- `npm.cmd run dev` starts the local Vite server.
-- `npm.cmd run build -- --emptyOutDir` verifies the production bundle.
+Хранит данные и справочники прототипа.
 
-## Notes
+Ключевой файл: `src/data/task-model.js`. Он является главным источником модели задач, бизнес-доменов, очередей, атрибутов и значений.
 
-- `node_modules/`, `dist/`, `.vite/`, and `.npm-cache/` are generated and ignored.
-- The current implementation keeps the existing DOM structure and class names to preserve prototype behavior.
+### `src/domain/`
+
+Хранит правила выборки, фильтрации, колонок, пагинации, группировки и сборки строк таблицы.
+
+Этот слой нужен, чтобы UI не придумывал данные и правила самостоятельно.
+
+### `src/features/`
+
+Хранит поведение крупных продуктовых областей:
+
+- `features/tasks/tasks-view.js` - карточный и табличный список задач, счетчики, строки и карточки;
+- `features/sidebar/sidebar.js` - левая навигация, счетчики, бизнес-домены, группы и закладки;
+- `features/filters/` - дровер фильтров и мультиселекты;
+- `features/columns/columns-drawer.js` - настройки колонок, библиотека атрибутов и пресеты;
+- `features/task-selection/floating-action-bar.js` - выбор задач и массовые действия;
+- `features/pagination/pagination-controls.js` - элементы пагинации;
+- `features/grouping/grouping-controls.js` - действия группировки в заголовке таблицы.
+
+### `src/ui/`
+
+Хранит небольшие общие UI-помощники и фрагменты, которые используются несколькими feature-модулями.
+
+### `src/styles/`
+
+Хранит CSS, разделенный по ответственности:
+
+- `styles/main.css` - основной файл подключения CSS-слоев;
+- `styles/base/tokens.css` - токены и базовые правила страницы;
+- `styles/layout/app-shell.css` - оболочка приложения, header, sidebar и основной layout;
+- `styles/components/core-ui.css` - переиспользуемые UI-классы;
+- `styles/patterns/drawers-filters-actions.css` - крупные паттерны вроде дроверов, фильтров и панелей действий;
+- `styles/features/task-workspace.css` - стили рабочей области задач;
+- `styles/overrides/user-zone.css` - поздние переопределения, изолированные до нормализации.
+
+## Документация
+
+`docs/` является общей спецификацией для команды, главного AI-агента и субагентов.
+
+| Документ или папка | Роль |
+|---|---|
+| `docs/README.md` | Верхняя карта документации. |
+| `docs/project-structure.md` | Физическая структура проекта и назначение веток. |
+| `docs/agent-context-routing.md` | Правила выбора ограниченного пакета контекста для агента и субагентов. |
+| `docs/documentation-standards.md` | Стандарт оформления компонентной документации. |
+| `docs/documentation-standards-audit.md` | Итоги аудита соответствия документации стандарту. |
+| `docs/component-code-map.md` | Мост между компонентными спецификациями и файлами реализации. |
+| `docs/components/` | Спецификации интерфейсных компонентов. |
+| `docs/entities/` | Описание сущностей данных. |
+| `docs/user-flows/` | Сквозные пользовательские пути. |
+| `docs/templates/` | Шаблоны документации. |
+| `docs/glossary.md` | Словарь терминов проекта. |
+
+## Компонентная документация
+
+Актуальная карта компонентов находится в `docs/components/README.md`.
+
+Основные компонентные комплекты:
+
+- `filters/`;
+- `toolbar/`;
+- `left-navigation/`;
+- `queues/`;
+- `tasks/`;
+- `column-settings/`;
+- `bulk-actions/`;
+- `pagination/`.
+
+`column-settings/` является родительским компонентным комплексом. Внутри него есть дочерние комплекты:
+
+- `column-settings/presets/`;
+- `column-settings/attribute-library/`.
+
+Каждый крупный компонент описывается комплектом:
+
+- `01-structure.md` - структура, зоны, элементы, границы и связи;
+- `02-behavior.md` - действия пользователя и реакции интерфейса;
+- `03-data-states-rules.md` - данные, состояния, правила, владельцы состояния и контракты.
+
+## Как агенту читать структуру проекта
+
+1. Для общего понимания проекта читать `AGENTS.md`, `PROJECT-OVERVIEW.md`, `docs/README.md` и этот файл.
+2. Для выбора ограниченного пакета контекста читать `docs/agent-context-routing.md`.
+3. Для интерфейсной задачи читать `docs/components/README.md`, затем комплект конкретного компонента.
+4. Для реализации функциональности добавлять `docs/component-code-map.md` и только релевантные файлы `src/`.
+5. Не передавать субагенту всю папку `docs/`, всю папку `docs/components/` или все дерево `src/`.
+
+## Что редактировать
+
+| Задача | Где вносить изменения |
+|---|---|
+| Изменить данные, атрибуты, домены, очереди или значения задач | `src/data/` |
+| Изменить правила фильтрации, колонок, пагинации или выборки задач | `src/domain/` |
+| Изменить поведение интерфейсной области | `src/features/` |
+| Изменить общий UI-фрагмент или helper | `src/ui/` |
+| Изменить внешний вид | `src/styles/` |
+| Изменить спецификацию компонента | `docs/components/<component>/` |
+| Изменить сквозной пользовательский путь | `docs/user-flows/` |
+| Изменить связь компонентов с кодом | `docs/component-code-map.md` |
+
+## Что не редактировать вручную
+
+- `dist/` - результат сборки;
+- `node_modules/` - установленные зависимости;
+- `.vite/` - служебный кэш Vite, если появляется локально;
+- `.npm-cache/` - служебный кэш npm, если появляется локально.
+
+## Команды
+
+- `npm.cmd run dev` - запускает локальный Vite-сервер.
+- `npm.cmd run build -- --emptyOutDir` - проверяет production-сборку.
+
+## Правило сохранения поведения
+
+Текущая реализация сохраняет существующую DOM-структуру и CSS-классы, чтобы не ломать рабочие сценарии прототипа.
+
+Перед изменением структуры, классов или расположения логики нужно проверить влияние на:
+
+- список задач и режим `Все задачи`;
+- переключение бизнес-доменов;
+- статусы над таблицей;
+- поиск и фильтры;
+- настройки колонок;
+- библиотеку атрибутов;
+- пресеты колонок;
+- массовые действия;
+- пагинацию;
+- связь данных, фильтров, колонок и таблицы.
