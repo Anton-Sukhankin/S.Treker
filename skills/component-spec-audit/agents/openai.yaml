@@ -1,0 +1,4 @@
+interface:
+  display_name: "Component Spec Audit"
+  short_description: "Audit S-Tracker component specs"
+  default_prompt: "Audit the selected component documentation against Documentation Standards and rewrite unclear statements into precise interface rules."
