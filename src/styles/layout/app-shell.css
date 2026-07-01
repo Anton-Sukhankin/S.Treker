@@ -20,6 +20,7 @@
   z-index: 100;
   position: relative;
   min-width: var(--sidebar-min-width);
+  min-height: 0;
 }
 
 .app-sidebar__branding {
@@ -76,7 +77,8 @@
 }
 
 .app-sidebar__nav {
-  flex-grow: 1;
+  flex: 1 1 auto;
+  min-height: 0;
   padding: var(--space-4) 0;
   overflow-y: auto;
 }
@@ -230,11 +232,60 @@
 .nav-domain-wrapper {
   display: flex;
   flex-direction: column;
+  min-height: 0;
 }
 
 .nav-domain-subgroups {
-  padding: 0 0 12px 44px;
   margin-top: -4px;
+  box-sizing: border-box;
+  max-height: clamp(180px, 38vh, 360px);
+  overflow: hidden;
+  position: relative;
+}
+
+.nav-domain-subgroups__content {
+  box-sizing: border-box;
+  max-height: inherit;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 0 12px 44px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.nav-domain-subgroups__content::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.nav-domain-scrollbar {
+  position: absolute;
+  top: 8px;
+  right: 4px;
+  bottom: 12px;
+  width: 2px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+}
+
+.nav-domain-subgroups.is-scrolling .nav-domain-scrollbar {
+  opacity: 1;
+}
+
+.nav-domain-scrollbar-thumb {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2px;
+  min-height: 24px;
+  border-radius: 999px;
+  background-color: #D1D5DB;
+  transform: translateY(0);
+}
+
+.nav-domain-wrapper > .js-sidebar-system {
+  flex-shrink: 0;
 }
 
 .nav-subgroup-block {

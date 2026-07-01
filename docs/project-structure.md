@@ -72,6 +72,7 @@ S-Tracker/
 │  │  ├─ bulk-actions/
 │  │  └─ pagination/
 │  ├─ entities/
+│  ├─ subagents/
 │  ├─ templates/
 │  └─ user-flows/
 ├─ skills/
@@ -156,13 +157,14 @@ S-Tracker/
 | `docs/README.md` | Верхняя карта документации. |
 | `docs/project-structure.md` | Физическая структура проекта и назначение веток. |
 | `docs/agent-context-routing.md` | Правила выбора ограниченного пакета контекста для агента и субагентов. |
-| `docs/documentation-standards.md` | Стандарт оформления компонентной документации. |
-| `docs/documentation-standards-audit.md` | Итоги аудита соответствия документации стандарту. |
+| `docs/documentation-standards.md` | Нормативный стандарт подготовки документации интерфейса. |
+| `docs/documentation-standards-audit.md` | Чекпоинт последней проверки соответствия документации стандарту. |
 | `docs/component-code-map.md` | Мост между компонентными спецификациями и файлами реализации. |
 | `docs/components/` | Спецификации интерфейсных компонентов. |
-| `docs/entities/` | Описание сущностей данных. |
+| `docs/entities/` | Минимальный словарь общих интерфейсных данных прототипа. |
 | `docs/user-flows/` | Сквозные пользовательские пути. |
-| `docs/templates/` | Шаблоны документации. |
+| `docs/templates/` | Шаблоны создания и аудита документации. |
+| `docs/subagents/` | Профили временных субагентов для повторяемых задач с ограниченным контекстом. |
 | `docs/glossary.md` | Словарь терминов проекта. |
 
 ## Компонентная документация
@@ -196,8 +198,10 @@ S-Tracker/
 1. Для общего понимания проекта читать `AGENTS.md`, `PROJECT-OVERVIEW.md`, `docs/README.md` и этот файл.
 2. Для выбора ограниченного пакета контекста читать `docs/agent-context-routing.md`.
 3. Для интерфейсной задачи читать `docs/components/README.md`, затем комплект конкретного компонента.
-4. Для реализации функциональности добавлять `docs/component-code-map.md` и только релевантные файлы `src/`.
-5. Не передавать субагенту всю папку `docs/`, всю папку `docs/components/` или все дерево `src/`.
+4. Для создания нового комплекта документации добавлять `docs/templates/component-template.md`.
+5. Для проверки или исправления компонентной документации использовать профиль `docs/subagents/component-documentation-auditor.md` и skill `component-spec-audit`.
+6. Для реализации функциональности добавлять `docs/component-code-map.md` и только релевантные файлы `src/`.
+7. Не передавать субагенту всю папку `docs/`, всю папку `docs/components/` или все дерево `src/`.
 
 ## Что редактировать
 
@@ -210,6 +214,10 @@ S-Tracker/
 | Изменить внешний вид | `src/styles/` |
 | Изменить спецификацию компонента | `docs/components/<component>/` |
 | Изменить сквозной пользовательский путь | `docs/user-flows/` |
+| Изменить общий словарь интерфейсных данных | `docs/entities/` |
+| Изменить шаблон создания компонентной спецификации | `docs/templates/component-template.md` |
+| Изменить профиль субагента аудита документации | `docs/subagents/component-documentation-auditor.md` |
+| Зафиксировать новый результат проверки документации | `docs/documentation-standards-audit.md` |
 | Изменить связь компонентов с кодом | `docs/component-code-map.md` |
 
 ## Что не редактировать вручную

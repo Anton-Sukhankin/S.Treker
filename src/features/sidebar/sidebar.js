@@ -6,8 +6,62 @@ import { getVisibleBusinessDomainIds } from '../../domain/task-selectors.js';
 import { EMPTY_STATE_HTML } from '../../ui/empty-state.js';
 import { TASK_METAPHOR_ICON } from '../../ui/icons.js';
 
+const sidebarGroupScrollTimers = new WeakMap();
+
+function updateSidebarGroupScrollbar(subgroupsContainer) {
+  const scrollContent = subgroupsContainer.querySelector('.nav-domain-subgroups__content');
+  const scrollbar = subgroupsContainer.querySelector('.nav-domain-scrollbar');
+  const thumb = subgroupsContainer.querySelector('.nav-domain-scrollbar-thumb');
+  if (!scrollContent || !scrollbar || !thumb) return;
+
+  const maxScrollTop = scrollContent.scrollHeight - scrollContent.clientHeight;
+  const canScroll = maxScrollTop > 1;
+  subgroupsContainer.classList.toggle('has-scrollable-groups', canScroll);
+
+  if (!canScroll) {
+    subgroupsContainer.classList.remove('is-scrolling');
+    thumb.style.height = '0px';
+    thumb.style.transform = 'translateY(0)';
+    return;
+  }
+
+  const trackHeight = scrollbar.clientHeight || scrollContent.clientHeight;
+  const thumbHeight = Math.max(24, Math.round((scrollContent.clientHeight / scrollContent.scrollHeight) * trackHeight));
+  const maxThumbTop = Math.max(0, trackHeight - thumbHeight);
+  const thumbTop = Math.round((scrollContent.scrollTop / maxScrollTop) * maxThumbTop);
+
+  thumb.style.height = `${thumbHeight}px`;
+  thumb.style.transform = `translateY(${thumbTop}px)`;
+}
+
+function showSidebarGroupScrollbar(subgroupsContainer) {
+  updateSidebarGroupScrollbar(subgroupsContainer);
+  if (!subgroupsContainer.classList.contains('has-scrollable-groups')) return;
+
+  subgroupsContainer.classList.add('is-scrolling');
+  window.clearTimeout(sidebarGroupScrollTimers.get(subgroupsContainer));
+  sidebarGroupScrollTimers.set(subgroupsContainer, window.setTimeout(() => {
+    subgroupsContainer.classList.remove('is-scrolling');
+  }, 700));
+}
+
+function initSidebarGroupScrollbar(subgroupsContainer) {
+  const scrollContent = subgroupsContainer.querySelector('.nav-domain-subgroups__content');
+  if (!scrollContent) return;
+
+  scrollContent.addEventListener('scroll', () => {
+    showSidebarGroupScrollbar(subgroupsContainer);
+  }, { passive: true });
+
+  requestAnimationFrame(() => updateSidebarGroupScrollbar(subgroupsContainer));
+}
+
 export function initSidebarNavigation() {
   const mt = document.getElementById('js-main-title');
+  window.addEventListener('resize', () => {
+    document.querySelectorAll('.nav-domain-subgroups').forEach(updateSidebarGroupScrollbar);
+  });
+
   document.addEventListener('click', e => {
       const stoggle = e.target.closest('.js-subgroup-toggle');
       if (stoggle) {
@@ -27,6 +81,11 @@ export function initSidebarNavigation() {
               const g = window.generatedGroups.find(x => x.domainId === domainId && x.attribute === attr);
               if (g) {
                   g.isExpanded = !isExpanded;
+              }
+
+              const subgroupsContainer = block.closest('.nav-domain-subgroups');
+              if (subgroupsContainer) {
+                  requestAnimationFrame(() => updateSidebarGroupScrollbar(subgroupsContainer));
               }
           }
           return;
@@ -124,6 +183,9 @@ export function initSidebarNavigation() {
              const subgroups = wrapper.querySelector('.nav-domain-subgroups');
              if (subgroups) {
                  subgroups.style.display = isExpanded ? 'none' : 'block';
+                 if (!isExpanded) {
+                     requestAnimationFrame(() => updateSidebarGroupScrollbar(subgroups));
+                 }
              }
          }
          
@@ -394,7 +456,15 @@ export function renderSidebarGroupings() {
          html += `</div></div>`;
      });
      
-     subgroupsContainer.innerHTML = html;
+     subgroupsContainer.innerHTML = `
+       <div class="nav-domain-subgroups__content">
+         ${html}
+       </div>
+       <div class="nav-domain-scrollbar" aria-hidden="true">
+         <div class="nav-domain-scrollbar-thumb"></div>
+       </div>
+     `;
+     initSidebarGroupScrollbar(subgroupsContainer);
      
      const groupCountEl = domainEl.querySelector('.js-group-count');
      if (groupCountEl) {

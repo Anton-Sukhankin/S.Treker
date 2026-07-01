@@ -59,6 +59,8 @@ Do not rely only on a fixed banned-word list. Test every statement by asking:
 
 Risk words such as `управляет`, `влияет`, `связано`, `обновляется`, `появляется`, `позволяет`, `отвечает за`, `обеспечивает` are indicators only. A sentence without these words can still be too abstract.
 
+Action names must match the actual user action in the interface. Do not use an internal or generic label such as `запуск`, `активация`, or `обработка` when the user actually selects a checkbox, enters text, switches a segment, applies settings, resets values, saves, deletes, opens, or closes something. Use the factual action name: `выбор`, `снятие выбора`, `ввод`, `переключение`, `применение`, `сброс`, `сохранение`, `удаление`, `открытие`, `закрытие`. Use `запуск` only when the action actually starts a separate visible process, creates a visible block, or opens a component.
+
 Rewrite by type:
 
 | Statement type | Required replacement |
@@ -85,6 +87,28 @@ Require:
 - state owner.
 
 Do not add `margin`, `padding`, `top`, `bottom`, `left`, `right`, `z-index`, class names, selectors, or technical layout values unless the value is a product rule.
+
+## Design System Boundary Audit
+
+Component specs describe S-Tracker product UI/UX rules. They do not repeat internal documentation for corporate React components.
+
+Remove or rewrite descriptions of standard library mechanics:
+
+- hover, focus, pressed, loading, disabled, active, checked, unchecked when they are only default component states;
+- dropdown opening mechanics, keyboard navigation, focus trap, scroll lock, overlay behavior, positioning, animation;
+- internal behavior of Select, MultiSelect, Input, Checkbox, Button, Modal, Drawer, Table, Toast, and similar library components;
+- implementation props, internal events, handlers, DOM structure, CSS classes, and source-code details.
+
+Keep product rules:
+
+- S-Tracker conditions that make a control active, disabled, selected, visible, hidden, applied, saved, or reset;
+- selected task sets, active filters, active queue, active navigation area, draft columns, applied columns, saved presets;
+- counters and what they count;
+- product rules for Apply, Reset, Save, Delete, and Close actions;
+- cross-component contracts: source action, transmitted result, receiving component, visible result;
+- responsibility limits: what the component does not create, change, reset, save, or own.
+
+When a statement names a design-system state, check whether S-Tracker defines the condition for that state. If yes, keep the product condition and visible result. If no, remove the statement as library behavior.
 
 ## File Checks
 
@@ -119,13 +143,17 @@ Do not let `02` become a full contract map. Put full cross-component contracts i
 
 Check:
 
+- owners of product state;
 - component states and their entry conditions;
-- active, empty, selected, applied, draft, saved, disabled, and visible states when relevant;
+- active, empty, selected, applied, draft, saved, disabled, and visible states only when S-Tracker defines the product condition for them;
+- exit, reset, or apply conditions for product states;
 - counters and visibility rules;
 - filtering, selection, grouping, pagination, or column rules when relevant;
 - incoming links from neighboring components;
 - outgoing links to neighboring components;
 - owner of dynamic state;
+- responsibility limits;
+- no internal design-system mechanics;
 - no repeated structure from `01`;
 - no repeated click-by-click scenario from `02`.
 
