@@ -1,0 +1,35 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ .ds-move-dialog__close-mount > .tend-ui-button {
+   min-width: 40px !important;
+   padding: 0 !important;
+ }
++
++.ds-preset-dialog__close-mount {
++  width: 40px;
++  height: 40px;
++  display: inline-flex;
++  align-items: center;
++  justify-content: center;
++  flex-shrink: 0;
++}
++
++.ds-preset-dialog__input-mount {
++  width: 100%;
++}
++
++.ds-preset-dialog__actions {
++  align-items: center;
++}
++
++.ds-preset-dialog__actions > .tend-ui-button {
++  flex: 1 1 0;
++  min-width: 0;
++}
++
++.ds-preset-dialog__close-mount > .tend-ui-button {
++  min-width: 40px !important;
++  padding: 0 !important;
++}
+*** End Patch

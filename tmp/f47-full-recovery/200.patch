@@ -1,0 +1,14 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+-The next group is F-38: migrate the column-settings header close action and attribute-library search field while preserving discard-on-close, library collapse, filtering and query lifecycle.
++## F-38 Column-Settings Drawer Controls Result
++
++- the header close action and library search render through Tend UI `Button`, `Input`, `Close` and `Search`;
++- React owns presentation and stable DOM hooks only;
++- vanilla code owns close, library collapse, filtering, query lifecycle and draft reconstruction;
++- exact filtering, empty state, persistence and discard-on-close scenarios pass;
++- all build, security and bundle gates remain green.
++
++The next group is F-39: migrate attribute-library row actions while preserving add/return semantics, current filtering, draft isolation and library reset behavior.
+*** End Patch

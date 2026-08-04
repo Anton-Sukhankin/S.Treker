@@ -1,0 +1,35 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const columnsAdapterSource = readText('src/integrations/tend-ui/columns-button.jsx');
++const downloadAdapterSource = readText('src/integrations/tend-ui/download-button.jsx');
+@@
+ assert.match(indexHtml, /id="tend-ui-columns-root"/);
++assert.match(indexHtml, /id="tend-ui-download-root"/);
+@@
+ assert.doesNotMatch(indexHtml, /<button[^>]+id="js-columns-btn"/);
++assert.doesNotMatch(indexHtml, /<button[^>]+id="js-download-btn"/);
+@@
+ assert.match(mainSource, /mountTendUiColumnsButton\(\)/);
++assert.match(mainSource, /mountTendUiDownloadButton\(\)/);
+@@
+ assert.doesNotMatch(columnsAdapterSource, /customColumnState|columnPresets|columns-drawer|renderColumnsDrawer/);
++assert.match(downloadAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(downloadAdapterSource, /@10d\/tend-ui-icons\/Download\/Download\.js/);
++assert.match(downloadAdapterSource, /id="js-download-btn"/);
++assert.match(downloadAdapterSource, /data-testid="tend-ui-download-button"/);
++assert.doesNotMatch(downloadAdapterSource, /onClick|showToast|location\.|fetch\(|download=/);
+@@
+ assert.match(tasksViewSource, /insertBefore\(printControl, toolbarAnchor\)/);
++assert.match(tasksViewSource, /getElementById\('tend-ui-download-root'\)/);
++assert.match(tasksViewSource, /appendChild\(downloadControl\)/);
++assert.match(tasksViewSource, /insertBefore\(downloadControl, toolbarAnchor\)/);
+@@
+ assert.match(basicControlsSource, /columnsButton\.style\.display = isTableView \? 'inline-flex' : 'none'/);
++assert.match(basicControlsSource, /getElementById\('js-download-btn'\)/);
++assert.match(basicControlsSource, /downloadButton\.style\.display = isTableView \? 'inline-flex' : 'none'/);
+@@
+ assert.match(builtJavaScript, /tend-ui-settings-icon/);
++assert.match(builtJavaScript, /tend-ui-download-button/);
++assert.match(builtJavaScript, /tend-ui-download-icon/);
+*** End Patch

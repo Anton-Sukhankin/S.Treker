@@ -1,0 +1,75 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-queue-tabs.md
++# F-30: Tend UI Queue Tabs
++
++## Result
++
++Status: `[x] complete`
++
++The queue/status selector now renders through Tend UI `Tabs` with six accessible queue tabs and the existing dynamic counters.
++
++## Ownership Contract
++
++React owns only the visual tabs, selected indicator and rendered count labels.
++
++S-Tracker vanilla modules remain authoritative:
++
++1. React emits `s-tracker:queue-request` with a validated status key candidate.
++2. `src/features/tasks/tasks-view.js` confirms the status through `src/domain/queue-state.js`.
++3. Vanilla code renders tasks, pagination, detail counts and sidebar totals.
++4. Vanilla code calculates every queue summary with the active navigation and filters.
++5. Vanilla code emits `s-tracker:queues-changed`.
++6. React synchronizes the selected tab, counts and overdue indicator.
++
++The adapter contains no mock-task generation, filter rules, navigation matching, pagination or direct `renderTab` call.
++
++## Public Package Export
++
++F-30 exposed the existing Tabs component through a narrow package path:
++
++```text
++@10d/tend-ui/primitives/Tabs
++```
++
++The export provides ESM, CJS and type entrypoints. The main package, local tarball and S-Tracker lockfile were refreshed offline.
++
++## Preserved Product Contract
++
++| Scenario | Verified result |
++| --- | --- |
++| Queue labels | Six accessible Tend UI tabs |
++| Counted queues | `К исполнению: 134`, `В работе: 121`, `К назначению: 117` |
++| Overdue state | Todo count retains the red overdue indicator |
++| Queue switching | All six status keys become active and rerender tasks |
++| Detail count | Present for counted queues; omitted for the three excluded queues |
++| Card/table mode | Selected queue remains unchanged |
++| Custom group | Tabs hidden; selected queue remains in state |
++| Return to all tasks | Tabs visible again with the same selected queue |
++
++## Verification
++
++`npm.cmd run verify:tend-ui:all` passed:
++
++```text
++Vite modules: 814
++JavaScript chunks: 1
++Bundle raw: 809,677 bytes
++Bundle gzip: 249,892 bytes
++```
++
++Static gates reject raw queue buttons, direct `.js-overview-tab.is-active` reads, aggregate imports and ownership leakage into the React adapter.
++
++The refreshed `@10d/tend-ui@4.82.0` tarball SHA-256 is:
++
++```text
++7f84f1334cc2ee090c07c6eef468dded6f5a681537c7bd805372d36eebd667f4
++```
++
++No closed corporate registry, service or source was accessed. No package was published.
++
++## Next Group
++
++```text
++F-31: migrate S-Tracker pagination to Tend UI Pagination while preserving current page, total-page calculation, task counts and card/table behavior.
++```
+*** End Patch

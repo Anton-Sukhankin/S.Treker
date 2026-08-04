@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>S-Tracker — прототип раздела «Задачи»</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="../file-fallback.css" />
+  </head>
+  <body>
+    <div id="section-prototype">
+      <main class="stand-file-fallback">
+        <section class="stand-file-fallback__card">
+          <p class="stand-file-fallback__eyebrow">Прототип · Задачи</p>
+          <h1 class="stand-file-fallback__title">Для отображения карточки задачи запустите локальный сервер</h1>
+          <p class="stand-file-fallback__text">Дважды нажмите <strong>start-local-stands.cmd</strong> в корне local-stands. После запуска эта страница автоматически откроет рабочий интерфейс.</p>
+          <code class="stand-file-fallback__command">npm.cmd run dev</code>
+          <a class="stand-file-fallback__link" data-local-stand-link href="http://127.0.0.1:4175/tasks/">Открыть раздел «Задачи»</a>
+        </section>
+      </main>
+    </div>
+    <script>
+      if (window.location.protocol === 'file:') {
+        const targetUrl = 'http://127.0.0.1:4175/tasks/';
+        fetch(targetUrl, { mode: 'no-cors' })
+          .then(() => window.location.replace(targetUrl))
+          .catch(() => {});
+      }
+    </script>
+    <script type="module" src="/src/entries/tasks.js"></script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+-The next group is F-34: migrate move-to-group dialog controls while preserving native dialog lifecycle, group creation, fallback naming, toast and selection clearing.
++## F-34 Move Dialog Result
++
++- the native move dialog renders one Tend UI `Input` and three Tend UI `Button` controls;
++- the adapter owns presentation and stable hooks only;
++- vanilla code owns input reset, native lifecycle, fallback naming, group creation, toast and selection side effects;
++- close, cancel, fallback `Группа` and exact custom-name scenarios pass;
++- explicit label/title associations and stable `40 px` geometry pass;
++- all build, security and bundle gates remain green.
++
++The next group is F-35: migrate preset-save dialog controls while preserving empty-name validation, trimmed names, draft capture, dropdown refresh and close/cancel behavior.
+*** End Patch

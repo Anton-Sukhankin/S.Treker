@@ -1,0 +1,15 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+-assert.match(taskSelectionSource, /if \(input\) input\.value = ''/);
++assert.match(taskSelectionSource, /s-tracker:move-group-name-reset/);
++assert.match(moveDialogAdapterSource, /React\.useState\(''\)/);
++assert.match(moveDialogAdapterSource, /s-tracker:move-group-name-reset/);
++assert.match(moveDialogAdapterSource, /onChange=\{event => setValue\(event\.target\.value\)\}/);
+@@
+-assert.match(columnsDrawerSource, /pInput\.value = ''/);
++assert.match(columnsDrawerSource, /s-tracker:preset-name-reset/);
++assert.match(presetDialogAdapterSource, /React\.useState\(''\)/);
++assert.match(presetDialogAdapterSource, /s-tracker:preset-name-reset/);
++assert.match(presetDialogAdapterSource, /onChange=\{event => setValue\(event\.target\.value\)\}/);
+*** End Patch

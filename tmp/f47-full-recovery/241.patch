@@ -1,0 +1,10 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\package.json
+@@
+     "verify:tend-ui": "node scripts/verify-tend-ui-adapter.mjs",
++    "verify:tend-ui:columns": "node scripts/verify-column-settings-completion.mjs",
+     "verify:tend-ui:security": "node scripts/audit-tend-ui-local-compensations.mjs",
+     "verify:tend-ui:bundle": "node scripts/report-tend-ui-bundle.mjs",
+-    "verify:tend-ui:all": "npm run build && npm run verify:tend-ui && npm run verify:tend-ui:security && npm run verify:tend-ui:bundle"
++    "verify:tend-ui:all": "npm run build && npm run verify:tend-ui && npm run verify:tend-ui:columns && npm run verify:tend-ui:security && npm run verify:tend-ui:bundle"
+*** End Patch

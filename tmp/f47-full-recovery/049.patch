@@ -1,0 +1,50 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-print-action.md
++# F-25: Tend UI Print Action
++
++## Result
++
++The toolbar print action now renders through an isolated Tend UI adapter:
++
++```text
++src/integrations/tend-ui/print-button.jsx
++```
++
++The adapter uses `@10d/tend-ui/primitives/Button` and the packaged Tend UI `Print` icon. It preserves the stable `#js-print-btn` selector so the existing vanilla handler remains the owner of the action.
++
++## Preserved Product Contract
++
++- the control remains an icon-only `40 x 40` button;
++- accessible name and tooltip remain `Печать`;
++- clicking shows `Подготовка к печати...` in the existing global toast;
++- the control stays in the toolbar in card and table views;
++- the complete React mount moves to `#js-header-actions` in a custom-group view;
++- React does not own toast state, task state, filters or navigation.
++
++## Implementation Boundary
++
++`index.html` contains only `#tend-ui-print-root`. `src/main.js` mounts the Tend UI control before `initPrintAction()` attaches the existing click listener. `tasks-view.js` moves the mount node rather than moving React-owned children.
++
++The adapter contains no call to `showToast` and no product-state mutation. Removing this adapter and restoring the former HTML button is an independent rollback.
++
++## Verification
++
++`npm.cmd run verify:tend-ui:all` passed:
++
++```text
++Vite modules: 723
++JavaScript chunks: 1
++Bundle raw: 724,984 bytes
++Bundle gzip: 223,608 bytes
++```
++
++Browser checks passed in card, table and a temporary custom-group view. Each view contained one Tend UI print button and one Tend UI print icon; the button remained `40 x 40`, and every click produced the exact existing toast text.
++
++No corporate registry or closed corporate source was accessed.
++
++## Next Group
++
++```text
++F-26: migrate the S-Tracker Filters toolbar trigger to Tend UI Button while preserving drawer opening, active-count/reset indication and vanilla filter ownership.
++```
+*** End Patch

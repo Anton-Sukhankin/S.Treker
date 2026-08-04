@@ -1,0 +1,173 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+         <!-- PAGINATION COMPONENT -->
+         <div id="js-pagination-container" style="display: none; flex-shrink: 0; width: 100%; padding-top: 16px; padding-bottom: 16px; justify-content: center; align-items: center; background: white; border-top: 1px solid var(--color-border);">
+-            <div style="justify-content: flex-start; align-items: flex-start; gap: 8px; display: flex;" id="js-pagination-wrapper">
+-                <!-- Pagination arrows and numbers will be rendered here dynamically -->
+-            </div>
++            <div id="tend-ui-pagination-root" data-tend-ui-adapter="pagination"></div>
+         </div>
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\pagination.jsx
++import React from 'react';
++import { Pagination } from '@10d/tend-ui/primitives/Pagination';
++
++import { renderTendUi } from './runtime.jsx';
++
++const PAGINATION_CHANGED_EVENT = 's-tracker:pagination-changed';
++const PAGE_REQUEST_EVENT = 's-tracker:page-request';
++
++function TaskPagination({ mountNode }) {
++  const [state, setState] = React.useState({
++    current: 1,
++    pageSize: 20,
++    total: 0,
++  });
++
++  React.useEffect(() => {
++    const syncPagination = event => {
++      setState({
++        current: event.detail?.current || 1,
++        pageSize: event.detail?.pageSize || 20,
++        total: event.detail?.total || 0,
++      });
++    };
++
++    mountNode.addEventListener(PAGINATION_CHANGED_EVENT, syncPagination);
++    return () => mountNode.removeEventListener(PAGINATION_CHANGED_EVENT, syncPagination);
++  }, [mountNode]);
++
++  const requestPage = page => {
++    mountNode.dispatchEvent(
++      new CustomEvent(PAGE_REQUEST_EVENT, {
++        bubbles: true,
++        detail: { page },
++      }),
++    );
++  };
++
++  return (
++    <Pagination
++      current={state.current}
++      data-testid="tend-ui-task-pagination"
++      onChange={requestPage}
++      pageSize={state.pageSize}
++      showLessItems
++      showQuickJumper={false}
++      showSizeChanger={false}
++      size="medium"
++      total={state.total}
++    />
++  );
++}
++
++export function mountTendUiPagination() {
++  const mountNode = document.getElementById('tend-ui-pagination-root');
++  return renderTendUi(<TaskPagination mountNode={mountNode} />, mountNode);
++}
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\pagination\pagination-controls.js
+@@
+-import { getPaginationItems } from '../../domain/pagination.js';
++function bindPaginationRequest(root) {
++  if (root.dataset.pageRequestBound === 'true') return;
++
++  root.dataset.pageRequestBound = 'true';
++  root.addEventListener('s-tracker:page-request', event => {
++    const page = Number.parseInt(event.detail?.page, 10);
++    const totalPages = Number.parseInt(root.dataset.totalPages, 10);
++    const tabName = root.dataset.tabName;
++
++    if (!Number.isInteger(page) || page < 1 || page > totalPages || !tabName) return;
++
++    window.paginationState.current = page;
++    window.renderTab(tabName, true);
++  });
++}
+ 
+ export function renderPaginationControls(totalPages, current, totalTasks, tabName) {
+   const container = document.getElementById('js-pagination-container');
+-  const wrapper = document.getElementById('js-pagination-wrapper');
+-  if (!container || !wrapper) return;
++  const root = document.getElementById('tend-ui-pagination-root');
++  if (!container || !root) return;
++
++  bindPaginationRequest(root);
++
++  root.dataset.tabName = tabName;
++  root.dataset.totalPages = String(totalPages);
++  root.dispatchEvent(
++    new CustomEvent('s-tracker:pagination-changed', {
++      detail: {
++        current,
++        pageSize: window.paginationState?.pageSize || 20,
++        total: totalTasks,
++        totalPages,
++      },
++    }),
++  );
+ 
+   if (totalTasks <= (window.paginationState?.pageSize || 20)) {
+     container.style.display = 'none';
+@@
+ 
+   container.style.display = 'flex';
+-
+-  const pages = getPaginationItems(totalPages, current);
+-  const prevDisabled = current === 1;
+-  const nextDisabled = current === totalPages;
+-
+-  function renderPageItem(page) {
+-    if (page === '...') {
+-      return `<div class="ds-pagination-item ds-pagination-item--ellipsis">...</div>`;
+-    }
+-
+-    if (page === current) {
+-      return `<div class="ds-pagination-item ds-pagination-item--active">${page}</div>`;
+-    }
+-
+-    return `<button class="ds-pagination-item js-page-jump" type="button" data-page="${page}">${page}</button>`;
+-  }
+-
+-  function renderArrowButton(direction, disabled) {
+-    const icon = direction === 'prev'
+-      ? '<polyline points="15 18 9 12 15 6"></polyline>'
+-      : '<polyline points="9 18 15 12 9 6"></polyline>';
+-
+-    return `
+-      <button class="ds-pagination-arrow js-page-${direction}" type="button" ${disabled ? 'disabled' : ''}>
+-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${icon}</svg>
+-      </button>
+-    `;
+-  }
+-
+-  wrapper.innerHTML = `
+-    ${renderArrowButton('prev', prevDisabled)}
+-    ${pages.map(renderPageItem).join('')}
+-    ${renderArrowButton('next', nextDisabled)}
+-  `;
+-
+-  wrapper.querySelectorAll('.js-page-jump').forEach(button => {
+-    button.addEventListener('click', () => {
+-      window.paginationState.current = parseInt(button.getAttribute('data-page'), 10);
+-      window.renderTab(tabName, true);
+-    });
+-  });
+-
+-  wrapper.querySelector('.js-page-prev')?.addEventListener('click', () => {
+-    window.paginationState.current--;
+-    window.renderTab(tabName, true);
+-  });
+-
+-  wrapper.querySelector('.js-page-next')?.addEventListener('click', () => {
+-    window.paginationState.current++;
+-    window.renderTab(tabName, true);
+-  });
+ }
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiPrintButton } from './integrations/tend-ui/print-button.jsx';
++import { mountTendUiPagination } from './integrations/tend-ui/pagination.jsx';
+@@
+ mountTendUiPrintButton();
++mountTendUiPagination();
+*** End Patch

@@ -1,0 +1,11 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+ npm.cmd install --ignore-scripts --registry=https://registry.npmjs.org --cache=.npm-cache
++npm.cmd ci --ignore-scripts --offline --cache=.npm-cache
+ npm.cmd run build
+@@
+ После запуска приложение доступно по адресу `http://127.0.0.1:5173/`.
++
++Первый `npm install` заполняет локальный `.npm-cache`. После этого чистое восстановление `node_modules` командой `npm ci --offline` проходит без сети, если dev server заранее остановлен и не удерживает файлы Windows.
+*** End Patch

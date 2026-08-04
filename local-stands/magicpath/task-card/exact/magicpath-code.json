@@ -1,0 +1,29 @@
+{
+  "mode": "edit",
+  "componentId": "434530402607190016",
+  "projectId": "433158690502225920",
+  "selectedRevisionId": "434620812218216448",
+  "baseRevisionId": "434620812218216448",
+  "jobId": "432825861566263296-external-agent-434620932661858304",
+  "generatedName": "coolly-week-2652",
+  "name": "S Tracker Task Card Exact",
+  "selectedImages": [],
+  "editableFiles": [
+    {
+      "path": "src/App.tsx",
+      "sha256": "d33a072bc41b9079854d6eb5358f653f9b430039ff2e45176e31d2025aa4f9b5"
+    },
+    {
+      "path": "src/components/generated/STrackerTaskCardExact.tsx",
+      "sha256": "9e59e4424ed936d3db98b348716bc6d5f585d16e7122f5b49c52dee343e8d9ed"
+    },
+    {
+      "path": "src/components/generated/Select.tsx",
+      "sha256": "6d24a464792f13b418a67a4f826af91b86f3c8d3b58da1ab83c18a1b56c5d10f"
+    },
+    {
+      "path": "src/index.css",
+      "sha256": "7368de48299b94e066341c642bfad7b62ed66d426b80d2b43512223cb46be162"
+    }
+  ]
+}

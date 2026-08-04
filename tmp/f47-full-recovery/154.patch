@@ -1,0 +1,9 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiPagination } from './integrations/tend-ui/pagination.jsx';
++import { mountTendUiPresetDialogControls } from './integrations/tend-ui/preset-dialog-controls.jsx';
+@@
+ mountTendUiPagination();
++mountTendUiPresetDialogControls();
+*** End Patch

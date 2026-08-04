@@ -1,0 +1,11 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+       <div class="ds-drawer__pane ds-drawer__pane--main">
+         <div class="ds-drawer__content">
+@@
+             <div id="columns-visibility-sections">
+               <!-- Sections injected by JS -->
+             </div>
++            <div id="tend-ui-column-row-controls-root" hidden></div>
+*** End Patch

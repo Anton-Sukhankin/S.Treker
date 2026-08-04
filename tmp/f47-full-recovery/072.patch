@@ -1,0 +1,28 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\download-button.jsx
++import React from 'react';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Download } from '@10d/tend-ui-icons/Download/Download.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++export function mountTendUiDownloadButton() {
++  const mountNode = document.getElementById('tend-ui-download-root');
++
++  return renderTendUi(
++    <Button
++      aria-label="Скачать"
++      before={<Download size={16} />}
++      className="ds-button--icon-only"
++      data-testid="tend-ui-download-button"
++      id="js-download-btn"
++      size="medium"
++      style={{ display: 'none' }}
++      title="Скачать"
++      type="button"
++      variant="secondary"
++    />,
++    mountNode,
++  );
++}
+*** End Patch

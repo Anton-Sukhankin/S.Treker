@@ -1,0 +1,79 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\library-item-actions.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Add } from '@10d/tend-ui-icons/Add/Add.js';
++import { ArrowBack } from '@10d/tend-ui-icons/ArrowBack/ArrowBack.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++const LIBRARY_ACTIONS_CHANGED_EVENT = 's-tracker:library-actions-changed';
++const actionStyle = {
++  height: 24,
++  minWidth: 24,
++  padding: 0,
++  width: 24,
++};
++
++function collectActions() {
++  return Array.from(document.querySelectorAll('[data-tend-ui-library-action]')).map(node => ({
++    added: node.dataset.added === 'true',
++    key: node.dataset.key,
++    node,
++  }));
++}
++
++function LibraryItemAction({ action }) {
++  const Icon = action.added ? ArrowBack : Add;
++  const title = action.added ? 'Вернуть в библиотеку' : 'Добавить в колонки';
++  const testId = action.added ? 'tend-ui-library-item-return' : 'tend-ui-library-item-add';
++
++  return (
++    <Button
++      aria-label={title}
++      before={
++        <Icon
++          aria-hidden="true"
++          data-testid={action.added ? 'tend-ui-arrow-back-icon' : 'tend-ui-add-icon'}
++          size={14}
++        />
++      }
++      className="js-library-item-action"
++      data-added={action.added ? 'true' : 'false'}
++      data-key={action.key}
++      data-testid={testId}
++      size="medium"
++      style={actionStyle}
++      title={title}
++      type="button"
++      variant={action.added ? 'ghost' : 'secondary'}
++    />
++  );
++}
++
++function LibraryItemActionPortals({ mountNode }) {
++  const [actions, setActions] = React.useState(collectActions);
++
++  React.useLayoutEffect(() => {
++    const refresh = () => setActions(collectActions());
++    mountNode.addEventListener(LIBRARY_ACTIONS_CHANGED_EVENT, refresh);
++    refresh();
++
++    return () => mountNode.removeEventListener(LIBRARY_ACTIONS_CHANGED_EVENT, refresh);
++  }, [mountNode]);
++
++  return actions.map(action =>
++    ReactDOM.createPortal(
++      <LibraryItemAction action={action} />,
++      action.node,
++      action.key,
++    ),
++  );
++}
++
++export function mountTendUiLibraryItemActions() {
++  const mountNode = document.getElementById('tend-ui-library-actions-root');
++  return renderTendUi(<LibraryItemActionPortals mountNode={mountNode} />, mountNode);
++}
+*** End Patch

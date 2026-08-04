@@ -1,0 +1,27 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+-const f32Result = { raw: 928233, gzip: 286643 };
+-const f33BulkActionsBudget = { raw: 40 * 1024, gzip: 12 * 1024 };
++const f33Result = { raw: 936175, gzip: 288864 };
++const f34MoveDialogBudget = { raw: 24 * 1024, gzip: 8 * 1024 };
+@@
+-  rawBytes <= f32Result.raw + f33BulkActionsBudget.raw,
+-  `JavaScript bundle exceeds the reviewed F-33 bulk-actions budget: ${rawBytes} bytes`,
++  rawBytes <= f33Result.raw + f34MoveDialogBudget.raw,
++  `JavaScript bundle exceeds the reviewed F-34 move-dialog budget: ${rawBytes} bytes`,
+@@
+-  gzipBytes <= f32Result.gzip + f33BulkActionsBudget.gzip,
+-  `Gzipped JavaScript bundle exceeds the reviewed F-33 bulk-actions budget: ${gzipBytes} bytes`,
++  gzipBytes <= f33Result.gzip + f34MoveDialogBudget.gzip,
++  `Gzipped JavaScript bundle exceeds the reviewed F-34 move-dialog budget: ${gzipBytes} bytes`,
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-bulk-clear/);
++assert.match(bundle.toString('utf8'), /tend-ui-move-group-input/);
++assert.match(bundle.toString('utf8'), /tend-ui-move-dialog-close/);
++assert.match(bundle.toString('utf8'), /tend-ui-move-dialog-cancel/);
++assert.match(bundle.toString('utf8'), /tend-ui-move-dialog-confirm/);
+@@
+-console.log('Budget: F-32 result plus 40 KiB raw / 12 KiB gzip for Tend UI bulk actions');
++console.log('Budget: F-33 result plus 24 KiB raw / 8 KiB gzip for Tend UI move dialog controls');
+*** End Patch

@@ -1,0 +1,17 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/src/styles/components/core-ui.css
+@@
+ .ds-columns-footer__mount {
++  display: flex;
++  align-items: center;
++  gap: 12px;
+   width: 100%;
+ }
+-
+-.ds-columns-footer__mount > div {
+-  display: flex;
+-  align-items: center;
+-  gap: 12px;
+-  width: 100%;
+-}
+*** End Patch

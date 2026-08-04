@@ -1,0 +1,10 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\columns\columns-drawer.js
+@@
+-    pInput.value = '';
++    window.dispatchEvent(new CustomEvent('s-tracker:preset-name-reset'));
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\task-selection\floating-action-bar.js
+@@
+-    if (input) input.value = ''; 
++    if (input) window.dispatchEvent(new CustomEvent('s-tracker:move-group-name-reset'));
+*** End Patch

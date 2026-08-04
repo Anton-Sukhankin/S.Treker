@@ -1,0 +1,45 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+-Минимальная интеграция выполнена и проверена. S-Tracker сохраняет основной vanilla/Vite lifecycle, а React используется только внутри отдельной точки монтирования для кнопки `Создать задачу`.
++Интеграция двух primitives выполнена и проверена. S-Tracker сохраняет основной vanilla/Vite lifecycle, а React используется только внутри отдельных точек монтирования для кнопки `Создать задачу` и поля `Поиск по задачам`.
+@@
+-| `index.html` | Содержит только mount point `tend-ui-create-task-root`. |
+-| `src/integrations/tend-ui/create-task-button.jsx` | Инициализирует `TendUI`, provider и один `Button`. |
+-| `src/main.js` | Вызывает адаптер до общей инициализации обработчиков интерфейса. |
++| `index.html` | Содержит mount points `tend-ui-create-task-root` и `tend-ui-global-search-root`. |
++| `src/integrations/tend-ui/runtime.jsx` | Единожды вызывает `TendUI.init()` и рендерит каждый изолированный primitive внутри одинакового provider contract. |
++| `src/integrations/tend-ui/create-task-button.jsx` | Монтирует Tend UI `Button`. |
++| `src/integrations/tend-ui/global-search-input.jsx` | Монтирует Tend UI `Input`, сохраняя `#js-global-search`. |
++| `src/main.js` | Вызывает оба адаптера до общей инициализации обработчиков интерфейса и корректно обрабатывает уже наступивший `DOMContentLoaded`. |
+@@
+-React не управляет списком задач, навигацией, фильтрами, данными или состоянием приложения.
++React не управляет списком задач, навигацией, фильтрами, данными или состоянием приложения. Поисковое значение и вызов фильтрации остаются в `src/ui/basic-controls.js`.
+@@
+ - клик по кнопке, как и до миграции, не изменяет видимое состояние прототипа;
++- в DOM присутствует ровно один Tend UI `Input` с `data-testid="tend-ui-global-search-input"` и `id="js-global-search"`;
++- поле сохраняет плейсхолдер `Поиск по задачам`, размер `430 x 36` в desktop-компоновке и существующий focus state;
++- ввод `Дашборд` сокращает карточки и строки таблицы с `20` до `4`, а полная очистка возвращает `20`;
++- React adapter не обращается к `window.activeFilters` и `window.applyFilters`;
+ - сборка проходит без ошибок;
+@@
+-- мигрирована только одна кнопка;
++- мигрированы одна кнопка и одно поле поиска;
+@@
+-Адаптер обратим: вернуть исходную HTML-кнопку, удалить вызов из `src/main.js`, затем удалить Tend UI dependencies и `vendor/tend-ui/`. Остальные модули S-Tracker от React не зависят.
++Адаптеры обратимы независимо: вернуть соответствующий HTML-контрол, удалить его mount-вызов из `src/main.js` и оставить второй адаптер без изменений. Полный откат дополнительно удаляет общий runtime, Tend UI dependencies и `vendor/tend-ui/`. Остальные модули S-Tracker от React не зависят.
+@@
+-The next migration candidate is documented in `docs/tend-ui-next-migration.md`: global task search through Tend UI `Input` in F-24.
++F-24 completed the candidate described in `docs/tend-ui-next-migration.md`: global task search now renders through Tend UI `Input` while vanilla filtering remains unchanged.
++
++## F-24 Search Input Result
++
++- `@10d/tend-ui/primitives/Input` is rendered through a second isolated mount;
++- shared `runtime.jsx` owns the single theme initialization contract;
++- card and table search behavior is verified with a real query and full clear;
++- responsive geometry has no horizontal overflow at the tested mobile viewport;
++- the bundle remains one classic deferred script and stays under F-23 limits;
++- browser console errors: `0`.
++
++The next group is F-25: migrate the functional `Печать` toolbar action to Tend UI `Button` while preserving its existing toast behavior.
+*** End Patch

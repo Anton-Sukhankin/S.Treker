@@ -1,0 +1,59 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\pagination.jsx
++import React from 'react';
++import { Pagination } from '@10d/tend-ui/primitives/Pagination';
++
++import { renderTendUi } from './runtime.jsx';
++
++const PAGINATION_CHANGED_EVENT = 's-tracker:pagination-changed';
++const PAGE_REQUEST_EVENT = 's-tracker:page-request';
++
++function TaskPagination({ mountNode }) {
++  const [state, setState] = React.useState({
++    current: 1,
++    pageSize: 20,
++    total: 0,
++  });
++
++  React.useEffect(() => {
++    const syncPagination = event => {
++      setState({
++        current: event.detail?.current || 1,
++        pageSize: event.detail?.pageSize || 20,
++        total: event.detail?.total || 0,
++      });
++    };
++
++    mountNode.addEventListener(PAGINATION_CHANGED_EVENT, syncPagination);
++    return () => mountNode.removeEventListener(PAGINATION_CHANGED_EVENT, syncPagination);
++  }, [mountNode]);
++
++  const requestPage = page => {
++    mountNode.dispatchEvent(
++      new CustomEvent(PAGE_REQUEST_EVENT, {
++        bubbles: true,
++        detail: { page },
++      }),
++    );
++  };
++
++  return (
++    <Pagination
++      current={state.current}
++      data-testid="tend-ui-task-pagination"
++      onChange={requestPage}
++      pageSize={state.pageSize}
++      showLessItems
++      showQuickJumper={false}
++      showSizeChanger={false}
++      size="medium"
++      total={state.total}
++    />
++  );
++}
++
++export function mountTendUiPagination() {
++  const mountNode = document.getElementById('tend-ui-pagination-root');
++  return renderTendUi(<TaskPagination mountNode={mountNode} />, mountNode);
++}
+*** End Patch

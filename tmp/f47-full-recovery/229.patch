@@ -1,0 +1,38 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\column-row-controls.jsx
+@@
+ import { Checkbox } from '@10d/tend-ui/primitives/Checkbox';
+ import { ArrowBack } from '@10d/tend-ui-icons/ArrowBack/ArrowBack.js';
++import { DragIndicator } from '@10d/tend-ui-icons/DragIndicator/DragIndicator.js';
+@@
+       label: node.dataset.label,
+       node,
++      dragNode: row?.querySelector('[data-tend-ui-column-drag]') || null,
+       returnNode: row?.querySelector('[data-tend-ui-column-return]') || null,
+@@
+ }
++
++function ColumnDragHandle() {
++  return (
++    <DragIndicator
++      aria-hidden="true"
++      data-testid="tend-ui-column-drag-icon"
++      size={16}
++    />
++  );
++}
+@@
+     if (row.returnNode) {
+@@
+     }
++
++    if (row.dragNode) {
++      portals.push(
++        ReactDOM.createPortal(
++          <ColumnDragHandle />,
++          row.dragNode,
++          `drag:${row.key}`,
++        ),
++      );
++    }
+*** End Patch

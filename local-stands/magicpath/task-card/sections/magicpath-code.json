@@ -1,0 +1,29 @@
+{
+  "mode": "edit",
+  "componentId": "434530309460074496",
+  "projectId": "433158690502225920",
+  "selectedRevisionId": "434530309460074497",
+  "jobId": "432825861566263296-external-agent-434531974670090240",
+  "generatedName": "readily-peak-5156",
+  "name": "S Tracker Task Card Sections",
+  "dimensions": {
+    "width": 760,
+    "height": 1180
+  },
+  "selectedImages": [],
+  "editableFiles": [
+    {
+      "path": "src/App.tsx",
+      "sha256": "9caadc77620778485552d62ac879c204e73bade1d3b4766825ac2f6b590c430e"
+    },
+    {
+      "path": "src/components/generated/STrackerTaskCardSections.tsx",
+      "sha256": "7e3bc5ed65726a89961ecb6e04d335a3062267e5fb2219ab39e6cd11b5914190"
+    },
+    {
+      "path": "src/index.css",
+      "sha256": "b1388883066853fc4b7b8bbc55ba83bd4e7536b4c9d5203f268892d4186ccaef"
+    }
+  ],
+  "baseRevisionId": "434530309460074497"
+}

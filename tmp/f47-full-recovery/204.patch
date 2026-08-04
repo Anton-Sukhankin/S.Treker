@@ -1,0 +1,9 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+             <div class="ds-filter-options" id="js-library-list">
+               <!-- Library attributes injected here -->
+             </div>
++            <div id="tend-ui-library-actions-root" hidden></div>
+           </div>
+*** End Patch

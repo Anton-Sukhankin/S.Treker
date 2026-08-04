@@ -1,0 +1,7 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+-const f30Baseline = { raw: 809677, gzip: 249892 };
+-const f31PaginationBudget = { raw: 120 * 1024, gzip: 40 * 1024 };
+ const f31Result = { raw: 913695, gzip: 282112 };
+*** End Patch

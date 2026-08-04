@@ -1,0 +1,39 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ #tend-ui-download-root .ds-button--icon-only {
+   width: 40px;
+   min-width: 40px;
+   height: 40px;
+   padding: 0;
+ }
++
++#tend-ui-view-switcher-root {
++  display: inline-flex;
++  width: 105px;
++  min-width: 105px;
++  height: 40px;
++  flex-shrink: 0;
++}
++
++#tend-ui-view-switcher-root .ds-view-switcher {
++  width: 100%;
++  height: 40px;
++}
++
++#tend-ui-view-switcher-root .tend-ui-segmented-item {
++  min-width: 46px;
++}
++
++.ds-view-switcher__label {
++  position: absolute;
++  width: 1px;
++  height: 1px;
++  padding: 0;
++  margin: -1px;
++  overflow: hidden;
++  clip: rect(0, 0, 0, 0);
++  white-space: nowrap;
++  border: 0;
++}
+*** End Patch

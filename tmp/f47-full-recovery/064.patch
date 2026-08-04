@@ -1,0 +1,16 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ #tend-ui-toolbar-filters-root { display: contents; }
++#tend-ui-columns-root { display: contents; }
+@@
+ #tend-ui-print-root .ds-button--icon-only {
+@@
+ }
++#tend-ui-columns-root .ds-button--icon-only {
++  width: 40px;
++  min-width: 40px;
++  height: 40px;
++  padding: 0;
++}
+*** End Patch

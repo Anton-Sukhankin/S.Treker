@@ -1,0 +1,29 @@
+{
+  "mode": "edit",
+  "componentId": "434634985115381760",
+  "projectId": "433158690502225920",
+  "selectedRevisionId": "435008466558554112",
+  "baseRevisionId": "435008466558554112",
+  "jobId": "432825861566263296-external-agent-435008590823178240",
+  "generatedName": "sharp-sky-1234",
+  "name": "S Tracker Lego Form Steps",
+  "selectedImages": [],
+  "editableFiles": [
+    {
+      "path": "assets/summary-review-illustration.png",
+      "sha256": "f0a2cc17c23bcefc546019dbcf9baec1b67a8987fb901baa4c053510ac831cc4"
+    },
+    {
+      "path": "src/App.tsx",
+      "sha256": "2351a1f827bbfcd6dfebcf4d593d81a7cf3204185b783f784c171b65966e2500"
+    },
+    {
+      "path": "src/components/generated/STrackerLegoFormSteps.tsx",
+      "sha256": "0a82a329eecdf5f50fa17534ed52e2af82e4b8427657cb0f836d1dd7bc837376"
+    },
+    {
+      "path": "src/index.css",
+      "sha256": "f082f116efe315bfb66cf610166bd3dc7aa7c1707047cf48e18680e1269600ca"
+    }
+  ]
+}

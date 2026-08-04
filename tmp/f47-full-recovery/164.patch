@@ -1,0 +1,42 @@
+*** Begin Patch
+*** Add File: ../S-Tracker/docs/tend-ui-preset-dialog.md
++# F-35: Tend UI Preset Dialog Controls
++
++## Result
++
++Status: `[x] complete`
++
++The native preset-save dialog now presents its field and three actions through Tend UI `Input`, `Button` and `Close`.
++
++## Ownership Boundary
++
++`preset-dialog-controls.jsx` owns the four controls and controlled reset state. `columns-drawer.js` still owns the native dialog lifecycle, empty-name validation, trimming, draft capture, preset storage, active preset and dropdown refresh.
++
++## Preserved Hooks
++
++```text
++#js-preset-name-input
++.js-btn-preset-submit
++.js-modal-preset-close
++```
++
++## Verification
++
++- four Tend UI controls and zero legacy preset-dialog controls;
++- header close and cancel create no preset;
++- every open resets the field;
++- whitespace-only confirmation keeps the dialog open;
++- names are trimmed before storage;
++- the current drawer draft is captured and becomes the active preset;
++- base/saved switching restores the expected `Система` visibility;
++- input and footer actions are `40 px` high; close is `40 x 40`;
++- `npm.cmd run verify:tend-ui:all` passes with `932` modules;
++- bundle: `939,361` raw / `289,710` gzip bytes;
++- no closed corporate source access.
++
++## Next Group
++
++```text
++F-36: migrate the preset trigger and Save action to Tend UI Button while preserving dropdown and dirty-state mechanics.
++```
+*** End Patch

@@ -1,0 +1,146 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\column-row-controls.jsx
+@@
+ import { Checkbox } from '@10d/tend-ui/primitives/Checkbox';
+ import { ArrowBack } from '@10d/tend-ui-icons/ArrowBack/ArrowBack.js';
++import { DragIndicator } from '@10d/tend-ui-icons/DragIndicator/DragIndicator.js';
+@@
+       label: node.dataset.label,
+       node,
++      dragNode: row?.querySelector('[data-tend-ui-column-drag]') || null,
+       returnNode: row?.querySelector('[data-tend-ui-column-return]') || null,
+@@
+ }
++
++function ColumnDragHandle() {
++  return (
++    <DragIndicator
++      aria-hidden="true"
++      data-testid="tend-ui-column-drag-icon"
++      size={16}
++    />
++  );
++}
+@@
+     if (row.returnNode) {
+@@
+     }
++
++    if (row.dragNode) {
++      portals.push(
++        ReactDOM.createPortal(
++          <ColumnDragHandle />,
++          row.dragNode,
++          `drag:${row.key}`,
++        ),
++      );
++    }
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\preset-delete-actions.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Delete } from '@10d/tend-ui-icons/Delete/Delete.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++const PRESET_DELETE_ACTIONS_CHANGED_EVENT = 's-tracker:preset-delete-actions-changed';
++const deleteStyle = {
++  height: 24,
++  minWidth: 24,
++  padding: 0,
++  width: 24,
++};
++
++function collectActions() {
++  return Array.from(document.querySelectorAll('[data-tend-ui-preset-delete]')).map(node => ({
++    name: node.dataset.preset,
++    node,
++  }));
++}
++
++function PresetDeleteButton({ name }) {
++  return (
++    <Button
++      aria-label={`Удалить пресет ${name}`}
++      before={
++        <Delete
++          aria-hidden="true"
++          data-testid="tend-ui-preset-delete-icon"
++          size={14}
++        />
++      }
++      className="ds-preset-option-delete js-preset-delete"
++      data-preset={name}
++      data-testid="tend-ui-preset-delete"
++      size="medium"
++      style={deleteStyle}
++      title="Удалить"
++      type="button"
++      variant="ghost"
++    />
++  );
++}
++
++function PresetDeleteActionPortals({ mountNode }) {
++  const [actions, setActions] = React.useState(collectActions);
++
++  React.useLayoutEffect(() => {
++    const refresh = () => setActions(collectActions());
++    mountNode.addEventListener(PRESET_DELETE_ACTIONS_CHANGED_EVENT, refresh);
++    refresh();
++
++    return () => mountNode.removeEventListener(PRESET_DELETE_ACTIONS_CHANGED_EVENT, refresh);
++  }, [mountNode]);
++
++  return actions.map(action => ReactDOM.createPortal(
++    <PresetDeleteButton name={action.name} />,
++    action.node,
++    action.name,
++  ));
++}
++
++export function mountTendUiPresetDeleteActions() {
++  const mountNode = document.getElementById('tend-ui-preset-delete-actions-root');
++  return renderTendUi(<PresetDeleteActionPortals mountNode={mountNode} />, mountNode);
++}
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\columns\columns-drawer.js
+@@
+   function renderPresetDropdown() {
+@@
+     const dd = dr.querySelector('.js-preset-dropdown');
++    const presetDeleteActionsMount = document.getElementById('tend-ui-preset-delete-actions-root');
+@@
+       html += `<div aria-selected="${active === pName}" class="ds-preset-option ${active === pName ? 'is-active' : ''} js-preset-option" data-preset="${pName}" role="option">
+         <span class="ds-preset-option-name">${pName}</span>
+-        <button aria-label="Удалить пресет ${pName}" class="ds-preset-option-delete js-preset-delete" title="Удалить" type="button" data-preset="${pName}">
+-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+-        </button>
++        <span class="ds-preset-option-delete-mount" data-preset="${pName}" data-tend-ui-preset-delete></span>
+       </div>`;
+@@
+     dd.innerHTML = html;
++    presetDeleteActionsMount?.dispatchEvent(new CustomEvent('s-tracker:preset-delete-actions-changed'));
+@@
+-          <div class="ds-drag-handle" style="cursor: grab; display: flex;">
+-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+-          </div>
++          <span class="ds-drag-handle" data-tend-ui-column-drag></span>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiPresetDialogControls } from './integrations/tend-ui/preset-dialog-controls.jsx';
++import { mountTendUiPresetDeleteActions } from './integrations/tend-ui/preset-delete-actions.jsx';
+ import { mountTendUiPresetToolbar } from './integrations/tend-ui/preset-toolbar.jsx';
+@@
+ mountTendUiPresetDialogControls();
++mountTendUiPresetDeleteActions();
+ mountTendUiPresetToolbar();
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+             <div id="tend-ui-column-row-controls-root" hidden></div>
++            <div id="tend-ui-preset-delete-actions-root" hidden></div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\features\task-workspace.css
+@@
+ .ds-preset-option.is-active { background-color: rgba(0, 123, 251, 0.1); color: var(--color-primary); font-weight: 500; }
++.ds-preset-option-delete-mount { display: flex; flex: 0 0 24px; height: 24px; }
+ .ds-preset-option-delete { color: var(--color-text-secondary); opacity: 0; padding: 2px; margin: -2px; border: 0; border-radius: 4px; background: transparent; cursor: pointer; line-height: 0; transition: opacity 0.15s ease; }
+*** End Patch

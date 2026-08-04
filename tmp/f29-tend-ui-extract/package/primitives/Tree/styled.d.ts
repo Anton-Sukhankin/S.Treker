@@ -1,0 +1,1 @@
+export declare const Root: import("styled-components").StyledComponent<import("react").ForwardRefExoticComponent<import("antd-core/es/tree/Tree").TreeProps<import("antd-core").TreeDataNode> & import("react").RefAttributes<import("rc-tree").default<import("antd-core").TreeDataNode>>>, import("styled-components").DefaultTheme, {}, never>;

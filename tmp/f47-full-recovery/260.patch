@@ -1,0 +1,17 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-            <div class="ds-money-range__inputs">
+-              <input id="js-money-range-from" type="text" inputmode="numeric" class="ds-input ds-money-range__input js-money-range-input" data-type="from" placeholder="От">
+-              <span class="ds-money-range__separator">-</span>
+-              <input type="text" inputmode="numeric" class="ds-input ds-money-range__input js-money-range-input" data-type="to" placeholder="До">
+-            </div>
++            <div class="ds-money-range__inputs" id="tend-ui-money-range-inputs-root"></div>
+@@
+-            <div class="ds-money-range__presets">
+-              <button type="button" class="ds-money-range__preset js-money-range-preset" data-from="" data-to="500000">до 500 тыс.</button>
+-              <button type="button" class="ds-money-range__preset js-money-range-preset" data-from="1000000" data-to="5000000">1 млн - 5 млн</button>
+-              <button type="button" class="ds-money-range__preset js-money-range-preset" data-from="10000000" data-to="">свыше 10 млн</button>
+-            </div>
++            <div class="ds-money-range__presets" id="tend-ui-money-range-presets-root"></div>
+*** End Patch

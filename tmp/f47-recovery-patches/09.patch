@@ -1,0 +1,7 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ #tend-ui-toolbar-filters-root .js-btn-open-filters {
++  width: 120px;
+   min-height: 36px;
+*** End Patch

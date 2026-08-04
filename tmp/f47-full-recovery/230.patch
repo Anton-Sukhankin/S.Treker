@@ -1,0 +1,70 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\preset-delete-actions.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Delete } from '@10d/tend-ui-icons/Delete/Delete.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++const PRESET_DELETE_ACTIONS_CHANGED_EVENT = 's-tracker:preset-delete-actions-changed';
++const deleteStyle = {
++  height: 24,
++  minWidth: 24,
++  padding: 0,
++  width: 24,
++};
++
++function collectActions() {
++  return Array.from(document.querySelectorAll('[data-tend-ui-preset-delete]')).map(node => ({
++    name: node.dataset.preset,
++    node,
++  }));
++}
++
++function PresetDeleteButton({ name }) {
++  return (
++    <Button
++      aria-label={`Удалить пресет ${name}`}
++      before={
++        <Delete
++          aria-hidden="true"
++          data-testid="tend-ui-preset-delete-icon"
++          size={14}
++        />
++      }
++      className="ds-preset-option-delete js-preset-delete"
++      data-preset={name}
++      data-testid="tend-ui-preset-delete"
++      size="medium"
++      style={deleteStyle}
++      title="Удалить"
++      type="button"
++      variant="ghost"
++    />
++  );
++}
++
++function PresetDeleteActionPortals({ mountNode }) {
++  const [actions, setActions] = React.useState(collectActions);
++
++  React.useLayoutEffect(() => {
++    const refresh = () => setActions(collectActions());
++    mountNode.addEventListener(PRESET_DELETE_ACTIONS_CHANGED_EVENT, refresh);
++    refresh();
++
++    return () => mountNode.removeEventListener(PRESET_DELETE_ACTIONS_CHANGED_EVENT, refresh);
++  }, [mountNode]);
++
++  return actions.map(action => ReactDOM.createPortal(
++    <PresetDeleteButton name={action.name} />,
++    action.node,
++    action.name,
++  ));
++}
++
++export function mountTendUiPresetDeleteActions() {
++  const mountNode = document.getElementById('tend-ui-preset-delete-actions-root');
++  return renderTendUi(<PresetDeleteActionPortals mountNode={mountNode} />, mountNode);
++}
+*** End Patch

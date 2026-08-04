@@ -1,0 +1,59 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-columns-action.md
++# F-27: Tend UI Column Settings Action
++
++## Result
++
++The main column-settings toolbar action now renders through:
++
++```text
++src/integrations/tend-ui/columns-button.jsx
++```
++
++The adapter uses Tend UI `Button` and `Settings`. The second column-settings trigger inside the system overlay remains unchanged and continues to open the same vanilla drawer.
++
++## Preserved Product Contract
++
++- stable id: `#js-columns-btn`;
++- shared drawer selector: `.js-btn-open-columns`;
++- hidden in card view;
++- visible as `40 x 40` in table view;
++- accessible name and title: `Настройка колонок`;
++- click opens `#columns-overlay` and `#columns-drawer`;
++- hidden in custom-group card view;
++- visible in the custom-group header in table view;
++- returns to the main toolbar when navigation leaves the custom group.
++
++## Ownership Boundary
++
++React renders only the icon button. `src/features/columns/columns-drawer.js` remains the owner of draft column state, presets, library attributes, apply/reset actions and table rerendering.
++
++`tasks-view.js` moves `#tend-ui-columns-root`, not React-owned children. The return route uses `#tend-ui-create-task-root` as its direct-child toolbar anchor.
++
++## Integration Defect Fixed
++
++Runtime verification found that the old return route used the React-owned `.js-btn-create-task` child as an `insertBefore` anchor. After F-22 that node was no longer a direct toolbar child, so moved controls could remain in the custom header.
++
++F-27 now uses the create-task mount node as the toolbar anchor. Column settings and print mounts return correctly without detaching React-owned DOM.
++
++## Verification
++
++The pre-documentation consumer gate passed:
++
++```text
++Vite modules: 727
++JavaScript chunks: 1
++Bundle raw: 729,669 bytes
++Bundle gzip: 225,148 bytes
++```
++
++Browser checks passed for card/table visibility, drawer opening, custom-header transfer and return to the main toolbar.
++
++No corporate registry or closed corporate source was accessed.
++
++## Next Group
++
++```text
++F-28: migrate the S-Tracker download toolbar action to Tend UI Button/Icon while preserving table visibility, custom-view placement and the current no-op contract.
++```
+*** End Patch

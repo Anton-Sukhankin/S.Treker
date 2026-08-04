@@ -1,0 +1,69 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\columns\columns-drawer.js
+@@
+ } from '../../domain/columns.js';
++import { getActiveQueueLabel } from '../../domain/queue-state.js';
+@@
+-    const at = document.querySelector('.js-status-tabs .js-overview-tab.is-active');
+-    window.renderTab(REVERSE_STATUS_MAP[at?.getAttribute('data-status')] || 'К исполнению');
++    window.renderTab(getActiveQueueLabel(REVERSE_STATUS_MAP));
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\filters\filter-drawer.js
+@@
+ import { createDefaultFilters, resetFilters } from '../../domain/filters.js';
++import { getActiveQueueLabel } from '../../domain/queue-state.js';
+@@
+-    const at = document.querySelector('.js-status-tabs .js-overview-tab.is-active');
+-    window.renderTab(REVERSE_STATUS_MAP[at?.getAttribute('data-status')] || 'К исполнению');
++    window.renderTab(getActiveQueueLabel(REVERSE_STATUS_MAP));
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\filters\multi-select.js
+@@
+ import { taskPassesFilters } from '../../domain/filters.js';
++import { getActiveQueueLabel } from '../../domain/queue-state.js';
+@@
+-  const activeTabEl = document.querySelector('.js-overview-tab.is-active');
+-  const activeStatusKey = activeTabEl?.getAttribute('data-status');
+-  const activeTabName = REVERSE_STATUS_MAP[activeStatusKey] || 'К исполнению';
++  const activeTabName = getActiveQueueLabel(REVERSE_STATUS_MAP);
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\task-selection\floating-action-bar.js
+@@
+ import { showToast } from '../../ui/toast.js';
++import { getActiveQueueLabel } from '../../domain/queue-state.js';
+@@
+-    const at = document.querySelector('.js-status-tabs .js-overview-tab.is-active');
+-    window.renderTab(REVERSE_STATUS_MAP[at?.getAttribute('data-status')] || 'К исполнению');
++    window.renderTab(getActiveQueueLabel(REVERSE_STATUS_MAP));
+@@
+-    const at = document.querySelector('.js-status-tabs .js-overview-tab.is-active');
+-    window.renderTab(REVERSE_STATUS_MAP[at?.getAttribute('data-status')] || 'К исполнению');
++    window.renderTab(getActiveQueueLabel(REVERSE_STATUS_MAP));
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\sidebar\sidebar.js
+@@
+ import { skipFilters } from '../../domain/filters.js';
++import { getActiveQueueLabel } from '../../domain/queue-state.js';
+@@
+-              const sl = REVERSE_STATUS_MAP[document.querySelector('.js-status-tabs .js-overview-tab.is-active')?.getAttribute('data-status')] || 'К исполнению';
++              const sl = getActiveQueueLabel(REVERSE_STATUS_MAP);
+@@
+-              const sl = REVERSE_STATUS_MAP[document.querySelector('.js-status-tabs .js-overview-tab.is-active')?.getAttribute('data-status')] || 'К исполнению';
++              const sl = getActiveQueueLabel(REVERSE_STATUS_MAP);
+@@
+-              const sl = REVERSE_STATUS_MAP[document.querySelector('.js-status-tabs .js-overview-tab.is-active')?.getAttribute('data-status')] || 'К исполнению';
++              const sl = getActiveQueueLabel(REVERSE_STATUS_MAP);
+@@
+-          const at = document.querySelector('.js-status-tabs .js-overview-tab.is-active');
+-          const sl = REVERSE_STATUS_MAP[at?.getAttribute('data-status')] || 'К исполнению';
++          const sl = getActiveQueueLabel(REVERSE_STATUS_MAP);
+@@
+-          const at = document.querySelector('.js-status-tabs .js-overview-tab.is-active');
+-          const sl = REVERSE_STATUS_MAP[at?.getAttribute('data-status')] || 'К исполнению';
++          const sl = getActiveQueueLabel(REVERSE_STATUS_MAP);
+@@
+-  const activeTabEl = document.querySelector('.js-overview-tab.is-active');
+-  const activeStatusKey = activeTabEl?.getAttribute('data-status');
+-  const activeTabName = REVERSE_STATUS_MAP[activeStatusKey] || 'К исполнению';
++  const activeTabName = getActiveQueueLabel(REVERSE_STATUS_MAP);
+@@
+-              const at = document.querySelector('.js-status-tabs .js-overview-tab.is-active');
+-              window.renderTab(REVERSE_STATUS_MAP[at?.getAttribute('data-status')] || 'К исполнению');
++              window.renderTab(getActiveQueueLabel(REVERSE_STATUS_MAP));
+*** End Patch

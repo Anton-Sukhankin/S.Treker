@@ -1,0 +1,9 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiToolbarFilterButton } from './integrations/tend-ui/toolbar-filter-button.jsx';
++import { mountTendUiViewSwitcher } from './integrations/tend-ui/view-switcher.jsx';
+@@
+ mountTendUiToolbarFilterButton();
++mountTendUiViewSwitcher();
+*** End Patch

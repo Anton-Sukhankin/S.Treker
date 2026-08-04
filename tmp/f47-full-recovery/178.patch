@@ -1,0 +1,9 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/src/styles/features/task-workspace.css
+@@
+-.ds-preset-option-delete { color: var(--color-text-secondary); display: none; padding: 2px; margin: -2px; border-radius: 4px; }
+-.ds-preset-option:hover .ds-preset-option-delete { display: block; }
++.ds-preset-option-delete { color: var(--color-text-secondary); opacity: 0; padding: 2px; margin: -2px; border: 0; border-radius: 4px; background: transparent; cursor: pointer; line-height: 0; transition: opacity 0.15s ease; }
++.ds-preset-option:hover .ds-preset-option-delete,
++.ds-preset-option:focus-within .ds-preset-option-delete { opacity: 1; }
+*** End Patch

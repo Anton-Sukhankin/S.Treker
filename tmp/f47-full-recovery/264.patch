@@ -1,0 +1,29 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+-const f43Result = { raw: 952144, gzip: 293900 };
+-const f44FilterActionsBudget = { raw: 24 * 1024, gzip: 8 * 1024 };
++const f44Result = { raw: 953065, gzip: 293999 };
++const f45MoneyRangeBudget = { raw: 16 * 1024, gzip: 6 * 1024 };
+ 
+ assert.ok(
+-  rawBytes <= f43Result.raw + f44FilterActionsBudget.raw,
+-  `JavaScript bundle exceeds the reviewed F-44 filter-actions budget: ${rawBytes} bytes`,
++  rawBytes <= f44Result.raw + f45MoneyRangeBudget.raw,
++  `JavaScript bundle exceeds the reviewed F-45 money-range budget: ${rawBytes} bytes`,
+ );
+ assert.ok(
+-  gzipBytes <= f43Result.gzip + f44FilterActionsBudget.gzip,
+-  `Gzipped JavaScript bundle exceeds the reviewed F-44 filter-actions budget: ${gzipBytes} bytes`,
++  gzipBytes <= f44Result.gzip + f45MoneyRangeBudget.gzip,
++  `Gzipped JavaScript bundle exceeds the reviewed F-45 money-range budget: ${gzipBytes} bytes`,
+ );
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-filter-drawer-apply/);
++assert.match(bundle.toString('utf8'), /tend-ui-money-range-from/);
++assert.match(bundle.toString('utf8'), /tend-ui-money-range-to/);
++assert.match(bundle.toString('utf8'), /tend-ui-money-range-preset/);
+@@
+-console.log('Budget: F-43 result plus 24 KiB raw / 8 KiB gzip for Tend UI filter drawer actions');
++console.log('Budget: F-44 result plus 16 KiB raw / 6 KiB gzip for Tend UI money-range controls');
+*** End Patch

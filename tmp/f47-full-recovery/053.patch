@@ -1,0 +1,11 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiGlobalSearchInput } from './integrations/tend-ui/global-search-input.jsx';
+ import { mountTendUiPrintButton } from './integrations/tend-ui/print-button.jsx';
++import { mountTendUiToolbarFilterButton } from './integrations/tend-ui/toolbar-filter-button.jsx';
+@@
+ mountTendUiGlobalSearchInput();
+ mountTendUiPrintButton();
++mountTendUiToolbarFilterButton();
+*** End Patch

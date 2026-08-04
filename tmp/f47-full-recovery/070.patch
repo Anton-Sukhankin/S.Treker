@@ -1,0 +1,32 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+-Интеграция четырёх controls выполнена и проверена. S-Tracker сохраняет основной vanilla/Vite lifecycle, а React используется только внутри отдельных точек монтирования для кнопки `Создать задачу`, поля `Поиск по задачам`, действия `Печать` и toolbar-триггера `Фильтры`.
++Интеграция пяти controls выполнена и проверена. S-Tracker сохраняет основной vanilla/Vite lifecycle, а React используется только внутри отдельных точек монтирования для кнопки `Создать задачу`, поля `Поиск по задачам`, действий `Печать` и `Настройка колонок`, а также toolbar-триггера `Фильтры`.
+@@
+-| `index.html` | Содержит mount points `tend-ui-create-task-root`, `tend-ui-global-search-root`, `tend-ui-print-root` и `tend-ui-toolbar-filters-root`. |
++| `index.html` | Содержит mount points `tend-ui-create-task-root`, `tend-ui-global-search-root`, `tend-ui-print-root`, `tend-ui-toolbar-filters-root` и `tend-ui-columns-root`. |
+@@
+ | `src/integrations/tend-ui/toolbar-filter-button.jsx` | Монтирует Tend UI `Button`, `FilterAlt` и `Close`, сохраняя filter selectors/count DOM. |
+-| `src/main.js` | Вызывает четыре адаптера до общей инициализации обработчиков интерфейса и корректно обрабатывает уже наступивший `DOMContentLoaded`. |
++| `src/integrations/tend-ui/columns-button.jsx` | Монтирует Tend UI `Button` и `Settings`, сохраняя `#js-columns-btn` и drawer selector. |
++| `src/main.js` | Вызывает пять адаптеров до общей инициализации обработчиков интерфейса и корректно обрабатывает уже наступивший `DOMContentLoaded`. |
+@@
+ - drawer открывается из Tend UI-кнопки в карточном, табличном и пользовательском представлениях;
++- настройка колонок скрыта в карточках, видима как `40 x 40` в таблице и открывает прежний columns drawer;
++- в custom view перемещается `#tend-ui-columns-root`, а общий mount anchor возвращает его в toolbar без потери React ownership;
+@@
+-- мигрированы три кнопки и одно поле поиска;
++- мигрированы четыре кнопки и одно поле поиска;
+@@
+-The next group is F-27: migrate the column-settings toolbar action to Tend UI `Button`/icon while preserving drawer behavior and custom-view placement.
++## F-27 Column Settings Result
++
++- Tend UI `Button` and `Settings` render through a fifth isolated mount;
++- vanilla view switching still owns card/table visibility;
++- vanilla columns drawer still owns draft, preset, library, apply and reset behavior;
++- custom-view transfer and return use mount nodes and a direct-child toolbar anchor;
++- all consumer security and bundle gates remain green.
++
++The next group is F-28: migrate the download toolbar action to Tend UI `Button`/icon while preserving visibility, custom-view placement and its current no-op contract.
+*** End Patch

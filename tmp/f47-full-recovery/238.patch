@@ -1,0 +1,49 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-column-chrome-controls.md
++# Tend UI Column Chrome Controls
++
++Date: 2026-07-26
++
++Status: F-41 `[x]`.
++
++## Result
++
++The remaining generated column-settings chrome now uses Tend UI:
++
++- every main column row renders packaged `DragIndicator` through the existing row portal adapter;
++- every user preset renders a Tend UI `Button` with packaged `Delete` through a dedicated dynamic portal adapter;
++- generated inline drag and delete SVG markup is removed.
++
++## Ownership
++
++React owns only control presentation, icons and accessible names. Vanilla S-Tracker code still owns:
++
++- `draggable` rows and `dragstart`, `dragover`, `dragend` ordering;
++- DOM-order collection and draft state;
++- preset storage and delegated delete handling;
++- active and draft preset fallback to `base`;
++- Apply and table rerender behavior.
++
++The adapters contain no click, drag or product-state handlers.
++
++## Verification
++
++- `18/18` generated rows expose Tend UI drag icons;
++- direct legacy drag SVG count is `0`;
++- the active `F41 Preset` was created and deleted through the Tend UI action;
++- deletion removed the option, selected `Базовое отображение`, restored `Система` and disabled Save;
++- executable source gates retain all drag listeners and both active-preset fallbacks;
++- `npm.cmd run verify:tend-ui:all` passes;
++- Vite transforms `943` modules;
++- the single direct-file bundle is `952,144` raw / `293,900` gzip bytes;
++- browser application errors are `0`;
++- no closed corporate source was accessed.
++
++Pointer drag remains covered by the executable source contract because the in-app browser driver has no pointer drag API. All supported preset and visual scenarios were browser-verified.
++
++## Next Group
++
++```text
++F-42: run a column-settings migration completion audit, remove any remaining safe legacy controls and verify the full drawer lifecycle as one regression suite.
++```
+*** End Patch

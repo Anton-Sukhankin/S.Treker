@@ -1,0 +1,107 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\download-button.jsx
++import React from 'react';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Download } from '@10d/tend-ui-icons/Download/Download.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++export function mountTendUiDownloadButton() {
++  const mountNode = document.getElementById('tend-ui-download-root');
++
++  return renderTendUi(
++    <Button
++      aria-label="Скачать"
++      before={<Download size={16} />}
++      className="ds-button--icon-only"
++      data-testid="tend-ui-download-button"
++      id="js-download-btn"
++      size="medium"
++      style={{ display: 'none' }}
++      title="Скачать"
++      type="button"
++      variant="secondary"
++    />,
++    mountNode,
++  );
++}
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-            <button class="ds-button ds-button--outlined ds-button--icon-only" id="js-download-btn" title="Скачать" style="display: none;">
+-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+-                <polyline points="7 10 12 15 17 10"></polyline>
+-                <line x1="12" y1="15" x2="12" y2="3"></line>
+-              </svg>
+-            </button>
++            <div id="tend-ui-download-root" data-tend-ui-adapter="download"></div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiColumnsButton } from './integrations/tend-ui/columns-button.jsx';
++import { mountTendUiDownloadButton } from './integrations/tend-ui/download-button.jsx';
+@@
+ mountTendUiColumnsButton();
++mountTendUiDownloadButton();
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\tasks\tasks-view.js
+@@
+-  const downloadButton = document.getElementById('js-download-btn');
++  const downloadControl = document.getElementById('tend-ui-download-root') ?? document.getElementById('js-download-btn');
+@@
+-      if (downloadButton && downloadButton.parentNode !== headerActions) headerActions.appendChild(downloadButton);
++      if (downloadControl && downloadControl.parentNode !== headerActions) headerActions.appendChild(downloadControl);
+@@
+-    if (downloadButton && downloadButton.parentNode === headerActions) toolbarRight.insertBefore(downloadButton, toolbarAnchor);
++    if (downloadControl && downloadControl.parentNode === headerActions) toolbarRight.insertBefore(downloadControl, toolbarAnchor);
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ #tend-ui-columns-root { display: contents; }
++#tend-ui-download-root { display: contents; }
+@@
+ #tend-ui-columns-root .ds-button--icon-only {
+@@
+ }
++#tend-ui-download-root .ds-button--icon-only {
++  width: 40px;
++  min-width: 40px;
++  height: 40px;
++  padding: 0;
++}
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const columnsAdapterSource = readText('src/integrations/tend-ui/columns-button.jsx');
++const downloadAdapterSource = readText('src/integrations/tend-ui/download-button.jsx');
+@@
+ assert.match(indexHtml, /id="tend-ui-columns-root"/);
++assert.match(indexHtml, /id="tend-ui-download-root"/);
+@@
+ assert.doesNotMatch(indexHtml, /<button[^>]+id="js-columns-btn"/);
++assert.doesNotMatch(indexHtml, /<button[^>]+id="js-download-btn"/);
+@@
+ assert.match(mainSource, /mountTendUiColumnsButton\(\)/);
++assert.match(mainSource, /mountTendUiDownloadButton\(\)/);
+@@
+ assert.doesNotMatch(columnsAdapterSource, /customColumnState|columnPresets|columns-drawer|renderColumnsDrawer/);
++assert.match(downloadAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(downloadAdapterSource, /@10d\/tend-ui-icons\/Download\/Download\.js/);
++assert.match(downloadAdapterSource, /id="js-download-btn"/);
++assert.match(downloadAdapterSource, /data-testid="tend-ui-download-button"/);
++assert.doesNotMatch(downloadAdapterSource, /onClick|showToast|location\.|fetch\(|download=/);
+@@
+ assert.match(tasksViewSource, /insertBefore\(printControl, toolbarAnchor\)/);
++assert.match(tasksViewSource, /getElementById\('tend-ui-download-root'\)/);
++assert.match(tasksViewSource, /appendChild\(downloadControl\)/);
++assert.match(tasksViewSource, /insertBefore\(downloadControl, toolbarAnchor\)/);
+@@
+ assert.match(basicControlsSource, /columnsButton\.style\.display = isTableView \? 'inline-flex' : 'none'/);
++assert.match(basicControlsSource, /getElementById\('js-download-btn'\)/);
++assert.match(basicControlsSource, /downloadButton\.style\.display = isTableView \? 'inline-flex' : 'none'/);
+@@
+ assert.match(builtJavaScript, /tend-ui-settings-icon/);
++assert.match(builtJavaScript, /tend-ui-download-button/);
++assert.match(builtJavaScript, /tend-ui-download-icon/);
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-settings-icon/);
++assert.match(bundle.toString('utf8'), /tend-ui-download-button/);
++assert.match(bundle.toString('utf8'), /tend-ui-download-icon/);
+*** End Patch

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>S-Tracker — прототип раздела «Документы»</title>
+    <link rel="stylesheet" href="../file-fallback.css" />
+  </head>
+  <body>
+    <div id="section-prototype">
+      <main class="stand-file-fallback">
+        <section class="stand-file-fallback__card">
+          <p class="stand-file-fallback__eyebrow">Прототип · Документы</p>
+          <h1 class="stand-file-fallback__title">Для отображения страницы запустите локальный сервер</h1>
+          <p class="stand-file-fallback__text">Закройте эту вкладку и дважды нажмите <strong>documents/open.cmd</strong> в папке local-stands. Launcher запустит сервер и сам откроет раздел «Документы».</p>
+          <code class="stand-file-fallback__command">npm.cmd run dev</code>
+          <a class="stand-file-fallback__link" data-local-stand-link href="http://127.0.0.1:4175/documents/">Открыть раздел «Документы»</a>
+        </section>
+      </main>
+    </div>
+    <script>
+      if (window.location.protocol === 'file:') {
+        const targetUrl = 'http://127.0.0.1:4175/documents/';
+        fetch(targetUrl, { mode: 'no-cors' })
+          .then(() => window.location.replace(targetUrl))
+          .catch(() => {});
+      }
+    </script>
+    <script type="module" src="/src/entries/documents.js"></script>
+  </body>
+</html>

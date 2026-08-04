@@ -1,0 +1,9 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/src/main.js
+@@
+ import { mountTendUiPresetDialogControls } from './integrations/tend-ui/preset-dialog-controls.jsx';
++import { mountTendUiPresetToolbar } from './integrations/tend-ui/preset-toolbar.jsx';
+@@
+ mountTendUiPresetDialogControls();
++mountTendUiPresetToolbar();
+*** End Patch

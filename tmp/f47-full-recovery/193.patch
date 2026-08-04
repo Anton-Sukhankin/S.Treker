@@ -1,0 +1,24 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+         <h2 class="ds-drawer__title">Настройки</h2>
+         <div class="ds-drawer__header-actions">
+-          <button class="ds-icon-button js-columns-close" aria-label="Закрыть">
+-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+-              <line x1="18" y1="6" x2="6" y2="18"></line>
+-              <line x1="6" y1="6" x2="18" y2="18"></line>
+-            </svg>
+-          </button>
++          <div class="ds-columns-close__mount" id="tend-ui-columns-close-root"></div>
+         </div>
+@@
+             <div class="ds-column-section-title ds-library-title">Библиотека атрибутов</div>
+-            <div class="ds-search-input-wrapper" style="width: 100%;">
+-              <svg class="ds-search-input__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+-                <circle cx="11" cy="11" r="8"></circle>
+-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+-              </svg>
+-              <input type="text" class="ds-search-input__control js-library-search" placeholder="Поиск атрибута...">
+-            </div>
++            <div class="ds-library-search__mount" id="tend-ui-library-search-root"></div>
+*** End Patch

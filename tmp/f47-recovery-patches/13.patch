@@ -1,0 +1,101 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-            <!-- View Switcher -->
+-            <div class="ds-segmented-control js-view-switcher">
+-              <button class="ds-segmented-control__item is-active" data-view="cards" title="Оптимизированный вид">
+-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+-              </button>
+-              <button class="ds-segmented-control__item" data-view="table" title="Табличный вид">
+-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+-              </button>
+-            </div>
++            <!-- View Switcher -->
++            <div id="tend-ui-view-switcher-root" class="js-view-switcher" data-tend-ui-adapter="view-switcher"></div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiToolbarFilterButton } from './integrations/tend-ui/toolbar-filter-button.jsx';
++import { mountTendUiViewSwitcher } from './integrations/tend-ui/view-switcher.jsx';
+@@
+ mountTendUiToolbarFilterButton();
++mountTendUiViewSwitcher();
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\ui\basic-controls.js
+@@
+ export function initViewSwitcher() {
+-  const switcherItems = document.querySelectorAll('.js-view-switcher .ds-segmented-control__item');
++  const switcher = document.querySelector('.js-view-switcher');
+   const cardsView = document.getElementById('view-mode-cards');
+   const tableView = document.getElementById('view-mode-table');
+   const downloadButton = document.getElementById('js-download-btn');
+   const columnsButton = document.getElementById('js-columns-btn');
+ 
+-  switcherItems.forEach(item => {
+-    item.onclick = () => {
+-      const view = item.getAttribute('data-view');
+-      const isTableView = view === 'table';
+-
+-      switcherItems.forEach(current => current.classList.remove('is-active'));
+-      item.classList.add('is-active');
+-
+-      if (cardsView) cardsView.style.display = isTableView ? 'none' : 'flex';
+-      if (tableView) tableView.style.display = isTableView ? 'flex' : 'none';
+-      if (downloadButton) downloadButton.style.display = isTableView ? 'inline-flex' : 'none';
+-      if (columnsButton) columnsButton.style.display = isTableView ? 'inline-flex' : 'none';
+-    };
+-  });
++  if (!switcher) return;
++
++  const applyView = view => {
++    if (view !== 'cards' && view !== 'table') return;
++
++    const isTableView = view === 'table';
++    if (cardsView) cardsView.style.display = isTableView ? 'none' : 'flex';
++    if (tableView) tableView.style.display = isTableView ? 'flex' : 'none';
++    if (downloadButton) downloadButton.style.display = isTableView ? 'inline-flex' : 'none';
++    if (columnsButton) columnsButton.style.display = isTableView ? 'inline-flex' : 'none';
++
++    switcher.dataset.currentView = view;
++    switcher.dispatchEvent(new CustomEvent('s-tracker:view-changed', { detail: { view } }));
++  };
++
++  switcher.addEventListener('s-tracker:view-request', event => applyView(event.detail?.view));
++  applyView(switcher.dataset.currentView || 'cards');
+ }
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ #tend-ui-download-root .ds-button--icon-only {
+   width: 40px;
+   min-width: 40px;
+   height: 40px;
+   padding: 0;
+ }
++
++#tend-ui-view-switcher-root {
++  display: inline-flex;
++  width: 105px;
++  min-width: 105px;
++  height: 40px;
++  flex-shrink: 0;
++}
++
++#tend-ui-view-switcher-root .ds-view-switcher {
++  width: 100%;
++  height: 40px;
++}
++
++#tend-ui-view-switcher-root .tend-ui-segmented-item {
++  min-width: 46px;
++}
++
++.ds-view-switcher__label {
++  position: absolute;
++  width: 1px;
++  height: 1px;
++  padding: 0;
++  margin: -1px;
++  overflow: hidden;
++  clip: rect(0, 0, 0, 0);
++  white-space: nowrap;
++  border: 0;
++}
+*** End Patch

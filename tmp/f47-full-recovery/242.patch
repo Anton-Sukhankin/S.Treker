@@ -1,0 +1,64 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-column-settings-completion.md
++# Tend UI Column-Settings Completion
++
++Date: 2026-07-26
++
++Status: F-42 `[x]`.
++
++## Audit Result
++
++The column-settings area is complete at the current Tend UI adapter boundary.
++
++- the static drawer and preset dialog contain Tend UI mount points instead of native controls;
++- generated drawer templates contain no native `button`, `input`, `select`, `textarea` or inline `svg`;
++- seven adapters cover close/search, footer, library rows, main rows, preset toolbar, preset deletion and preset dialog;
++- listbox/options, layout containers and vanilla event hooks remain intentionally product-owned infrastructure rather than missing design-system controls.
++
++No safe legacy control remained to migrate in F-42. Replacing the remaining containers would change semantics or state ownership without adding design-system value.
++
++## Executable Gate
++
++`scripts/verify-column-settings-completion.mjs` is included in:
++
++```text
++npm run verify:tend-ui:all
++```
++
++It verifies:
++
++- `11` static mount points;
++- `7` Tend UI adapters;
++- `19` built control markers;
++- zero native controls or inline SVG in static/dynamic drawer templates;
++- retained vanilla ownership for draft, drag, library, preset fallback and Apply.
++
++## Browser Regression
++
++- baseline: `18` rows, `18` Tend UI Checkbox controls and `18` drag icons;
++- close without Apply discards a hidden-column draft;
++- hide plus Apply removes `Система`;
++- Default remains draft-only until Apply, then restores `Система`;
++- library add creates row `19` without changing the table before Apply;
++- Apply adds `Внутренний номер договора`; return plus Apply removes it;
++- library Reset restores the filtered add action and row count `18`;
++- `F42 Regression` preset saves, replays and deletes;
++- active preset deletion restores `Базовое отображение` and the base draft;
++- visual two-pane layout has no overlaps;
++- browser application errors: `0`.
++
++Pointer drag remains protected by executable source assertions because the browser driver does not expose a pointer drag API.
++
++## Build
++
++- Vite modules: `943`;
++- JavaScript bundle: `952,144` raw / `293,900` gzip bytes;
++- local compensation security gate: passed;
++- closed corporate sources: not used.
++
++## Next Group
++
++```text
++F-43: audit remaining legacy controls outside column settings and define the next bounded Tend UI migration wave, starting with the filter drawer.
++```
+*** End Patch

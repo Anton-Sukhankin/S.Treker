@@ -1,0 +1,61 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\filter-drawer-actions.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Close } from '@10d/tend-ui-icons/Close/Close.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++const actionStyle = { height: 36 };
++
++function FilterDrawerActions({ closeMount }) {
++  return (
++    <>
++      {ReactDOM.createPortal(
++        <Button
++          aria-label="Закрыть"
++          before={<Close aria-hidden="true" size={20} />}
++          className="js-filter-close"
++          data-testid="tend-ui-filter-drawer-close"
++          size="medium"
++          style={{ height: 40, width: 40 }}
++          title="Закрыть"
++          type="button"
++          variant="ghost"
++        />,
++        closeMount,
++      )}
++      <Button
++        className="js-filter-reset"
++        data-testid="tend-ui-filter-drawer-reset"
++        size="medium"
++        style={actionStyle}
++        type="button"
++        variant="ghost"
++      >
++        Сбросить всё
++      </Button>
++      <Button
++        className="js-filter-apply"
++        data-testid="tend-ui-filter-drawer-apply"
++        size="medium"
++        style={actionStyle}
++        type="button"
++        variant="primary"
++      >
++        Применить
++      </Button>
++    </>
++  );
++}
++
++export function mountTendUiFilterDrawerActions() {
++  const closeMount = document.getElementById('tend-ui-filter-drawer-close-root');
++  const actionsMount = document.getElementById('tend-ui-filter-drawer-actions-root');
++
++  if (!closeMount || !actionsMount) return false;
++
++  return renderTendUi(<FilterDrawerActions closeMount={closeMount} />, actionsMount);
++}
+*** End Patch

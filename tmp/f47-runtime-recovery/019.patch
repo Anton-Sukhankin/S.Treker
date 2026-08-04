@@ -1,0 +1,52 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const packageJson = readJson('package.json');
+ const packageLock = readJson('package-lock.json');
++const installedTendUiManifest = readJson('node_modules/@10d/tend-ui/package.json');
+@@
+ const filterAdapterSource = readText('src/integrations/tend-ui/toolbar-filter-button.jsx');
++const viewSwitcherAdapterSource = readText('src/integrations/tend-ui/view-switcher.jsx');
+@@
+ assert.match(indexHtml, /id="tend-ui-download-root"/);
++assert.match(indexHtml, /id="tend-ui-view-switcher-root"/);
+@@
+ assert.doesNotMatch(indexHtml, /<button[^>]+id="js-download-btn"/);
++assert.doesNotMatch(indexHtml, /<button[^>]+data-view="(?:cards|table)"/);
+@@
+ assert.match(mainSource, /mountTendUiDownloadButton\(\)/);
++assert.match(mainSource, /mountTendUiViewSwitcher\(\)/);
+@@
+ assert.doesNotMatch(downloadAdapterSource, /onClick|showToast|location\.|fetch\(|download=/);
++assert.deepEqual(installedTendUiManifest.exports['./primitives/Segmented'], {
++  types: './primitives/Segmented/index.d.ts',
++  import: './primitives/Segmented/index.js',
++  require: './cjs/primitives/Segmented/index.js',
++});
++assert.match(viewSwitcherAdapterSource, /@10d\/tend-ui\/primitives\/Segmented/);
++assert.match(viewSwitcherAdapterSource, /@10d\/tend-ui-icons\/CardView\/CardView\.js/);
++assert.match(viewSwitcherAdapterSource, /@10d\/tend-ui-icons\/TableView\/TableView\.js/);
++assert.match(viewSwitcherAdapterSource, /data-testid="tend-ui-view-switcher"/);
++assert.match(viewSwitcherAdapterSource, /s-tracker:view-request/);
++assert.match(viewSwitcherAdapterSource, /s-tracker:view-changed/);
++assert.doesNotMatch(viewSwitcherAdapterSource, /view-mode-cards|view-mode-table|js-columns-btn|js-download-btn|style\.display/);
+@@
+ assert.match(basicControlsSource, /downloadButton\.style\.display = isTableView \? 'inline-flex' : 'none'/);
++assert.match(basicControlsSource, /addEventListener\('s-tracker:view-request'/);
++assert.match(basicControlsSource, /dispatchEvent\(new CustomEvent\('s-tracker:view-changed'/);
++assert.match(basicControlsSource, /switcher\.dataset\.currentView = view/);
++assert.match(tasksViewSource, /querySelector\('\.js-view-switcher'\)/);
++assert.match(tasksViewSource, /appendChild\(viewSwitcher\)/);
++assert.match(tasksViewSource, /insertBefore\(viewSwitcher, toolbarRight\.firstChild\)/);
+@@
+ assert.match(builtJavaScript, /tend-ui-download-icon/);
++assert.match(builtJavaScript, /tend-ui-view-switcher/);
++assert.match(builtJavaScript, /tend-ui-card-view-icon/);
++assert.match(builtJavaScript, /tend-ui-table-view-icon/);
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-download-icon/);
++assert.match(bundle.toString('utf8'), /tend-ui-view-switcher/);
++assert.match(bundle.toString('utf8'), /tend-ui-card-view-icon/);
++assert.match(bundle.toString('utf8'), /tend-ui-table-view-icon/);
+*** End Patch

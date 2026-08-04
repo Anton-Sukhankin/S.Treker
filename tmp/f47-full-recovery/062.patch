@@ -1,0 +1,9 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiCreateTaskButton } from './integrations/tend-ui/create-task-button.jsx';
++import { mountTendUiColumnsButton } from './integrations/tend-ui/columns-button.jsx';
+@@
+ mountTendUiCreateTaskButton();
++mountTendUiColumnsButton();
+*** End Patch

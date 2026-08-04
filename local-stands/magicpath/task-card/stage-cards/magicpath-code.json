@@ -1,0 +1,28 @@
+{
+  "mode": "create",
+  "componentId": "434570954170044416",
+  "projectId": "433158690502225920",
+  "selectedRevisionId": "434570954170044417",
+  "jobId": "432825861566263296-external-agent-434570954170044417",
+  "generatedName": "fresh-shade-1624",
+  "name": "S Tracker Task Card Stage Cards",
+  "dimensions": {
+    "width": 1280,
+    "height": 720
+  },
+  "selectedImages": [],
+  "editableFiles": [
+    {
+      "path": "src/App.tsx",
+      "sha256": "c421c305774e2fe1dcece7270cb0f4b112b33a3e3b7a855432ce90d52fb3d948"
+    },
+    {
+      "path": "src/index.css",
+      "sha256": "3af92f9f6b5e93767188381bda25e0b3e26d2885569cffb8b46ff6d8966b1860"
+    },
+    {
+      "path": "src/components/generated/STrackerTaskCardStageCards.tsx",
+      "sha256": "c2823ec6da00860f07f6df00f70c2d3f3a63f8a4ff234b3746a5c473767b48f7"
+    }
+  ]
+}

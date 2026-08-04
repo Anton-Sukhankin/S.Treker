@@ -1,0 +1,36 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
++import assert from 'node:assert/strict';
++import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
++import { gzipSync } from 'node:zlib';
++import { resolve } from 'node:path';
++
++const root = resolve(import.meta.dirname, '..');
++const assetsRoot = resolve(root, 'dist', 'assets');
++assert.ok(existsSync(assetsRoot), 'Run npm run build before bundle verification');
++
++const javascriptFiles = readdirSync(assetsRoot).filter(file => file.endsWith('.js')).sort();
++assert.equal(
++  javascriptFiles.length,
++  1,
++  'The direct file:// artifact currently requires one self-contained JavaScript bundle',
++);
++
++const bundlePath = resolve(assetsRoot, javascriptFiles[0]);
++const bundle = readFileSync(bundlePath);
++const rawBytes = statSync(bundlePath).size;
++const gzipBytes = gzipSync(bundle).length;
++
++assert.ok(rawBytes <= 800 * 1024, `JavaScript bundle exceeds the F-23 limit: ${rawBytes} bytes`);
++assert.ok(gzipBytes <= 250 * 1024, `Gzipped JavaScript bundle exceeds the F-23 limit: ${gzipBytes} bytes`);
++assert.match(bundle.toString('utf8'), /tend-ui-create-task-button/);
++
++const builtHtml = readFileSync(resolve(root, 'dist', 'index.html'), 'utf8');
++assert.match(builtHtml, /<script defer src="\.\/assets\/.+\.js"><\/script>/);
++assert.doesNotMatch(builtHtml, /<script type="module"/);
++
++console.log('Tend UI bundle-boundary verification passed.');
++console.log(`JavaScript chunks: ${javascriptFiles.length}`);
++console.log(`Bundle: ${javascriptFiles[0]} (${rawBytes} bytes, ${gzipBytes} bytes gzip)`);
++console.log('Decision: single chunk retained for direct file:// compatibility');
+*** End Patch

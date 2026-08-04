@@ -1,0 +1,116 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\audit-multi-select-migration.mjs
++import assert from 'node:assert/strict';
++import { readFileSync } from 'node:fs';
++import { resolve } from 'node:path';
++
++const root = resolve(import.meta.dirname, '..');
++const readText = relativePath => readFileSync(resolve(root, relativePath), 'utf8');
++const readJson = relativePath => JSON.parse(readText(relativePath));
++const countMatches = (text, pattern) => (text.match(pattern) || []).length;
++
++const indexHtml = readText('index.html');
++const multiSelectSource = readText('src/features/filters/multi-select.js');
++const selectSource = readText('node_modules/@10d/tend-ui/primitives/Select/Select.js');
++const selectTypes = readText('node_modules/@10d/tend-ui/primitives/Select/types.d.ts');
++const tendUiManifest = readJson('node_modules/@10d/tend-ui/package.json');
++
++const drawerStart = indexHtml.indexOf('<aside class="ds-drawer ds-drawer--right" id="filter-drawer">');
++const drawerEnd = indexHtml.indexOf('</aside>', drawerStart);
++assert.ok(drawerStart >= 0 && drawerEnd > drawerStart, 'Filter drawer boundary is missing');
++const filterDrawer = indexHtml.slice(drawerStart, drawerEnd + '</aside>'.length);
++
++const keys = [...filterDrawer.matchAll(/class="ds-multi-select js-multi-select" data-filter="([^"]+)"/g)]
++  .map(match => match[1]);
++const placeholders = [...filterDrawer.matchAll(/class="ds-multi-select__placeholder">([^<]+)<\/span>/g)]
++  .map(match => match[1]);
++
++assert.deepEqual(keys, [
++  'id',
++  'title',
++  'docType',
++  'contractor',
++  'unit',
++  'sla',
++  'object',
++  'criticality',
++]);
++assert.deepEqual(placeholders, [
++  'Выберите номер',
++  'Выберите наименование',
++  'Выберите тип документа',
++  'Выберите контрагента',
++  'Выберите БЮ',
++  'Выберите SLA',
++  'Выберите объект',
++  'Выберите критичность',
++]);
++
++const inventory = {
++  instances: keys.length,
++  alwaysVisible: keys.slice(0, 2),
++  domainScoped: {
++    ecm: keys.slice(2, 4),
++    tracker: keys.slice(4, 6),
++    control: keys.slice(6, 8),
++  },
++  triggerSurfaces: countMatches(filterDrawer, /class="ds-multi-select__input js-ms-trigger"/g),
++  clearActions: countMatches(filterDrawer, /class="ds-multi-select__clear js-ms-clear"/g),
++  suffixArrows: countMatches(filterDrawer, /class="ds-ms-arrow"/g),
++  staticInlineSvg: countMatches(filterDrawer, /<svg\b/gi) - 1,
++  dynamicTagRemoveSvg: countMatches(multiSelectSource, /<svg\b/gi),
++  searchInputs: countMatches(multiSelectSource, /<input\b/gi),
++  keyboardHandlers: countMatches(multiSelectSource, /keydown|Escape|ArrowDown|ArrowUp/gi),
++};
++
++assert.deepEqual(inventory, {
++  instances: 8,
++  alwaysVisible: ['id', 'title'],
++  domainScoped: {
++    ecm: ['docType', 'contractor'],
++    tracker: ['unit', 'sla'],
++    control: ['object', 'criticality'],
++  },
++  triggerSurfaces: 8,
++  clearActions: 8,
++  suffixArrows: 8,
++  staticInlineSvg: 16,
++  dynamicTagRemoveSvg: 1,
++  searchInputs: 0,
++  keyboardHandlers: 0,
++});
++
++assert.match(multiSelectSource, /getActiveOptions/);
++assert.match(multiSelectSource, /taskPassesFilters\(task, \{ ignoreKey: attrKey \}\)/);
++assert.match(multiSelectSource, /window\.activeFilters\[key\]/);
++assert.match(multiSelectSource, /selected\.slice\(0, 1\)/);
++assert.match(multiSelectSource, /selected\.length > 1/);
++assert.match(multiSelectSource, /other\.classList\.remove\('is-open'\)/);
++assert.match(multiSelectSource, /ms\.classList\.toggle\('is-open'\)/);
++assert.match(multiSelectSource, /window\.updateFilterIndicators\?\.\(\)/);
++assert.match(multiSelectSource, /e\.target\.closest\('\.ds-multi-select__option'\)/);
++assert.match(multiSelectSource, /e\.target\.closest\('\.ds-multi-select__tag-remove'\)/);
++assert.match(multiSelectSource, /document\.addEventListener\('click'/);
++assert.doesNotMatch(multiSelectSource, /addEventListener\('keydown'/);
++assert.doesNotMatch(filterDrawer, /class="ds-multi-select[^>]+role="(?:combobox|listbox)"/);
++
++assert.deepEqual(tendUiManifest.exports['./primitives/Select'], {
++  types: './primitives/Select/index.d.ts',
++  import: './primitives/Select/index.js',
++  require: './cjs/primitives/Select/index.js',
++});
++assert.match(selectTypes, /AntSelectProps/);
++assert.match(selectSource, /props\.mode === 'multiple'/);
++assert.match(selectSource, /maxTagCount = 2/);
++assert.match(selectSource, /allowClear/);
++assert.match(selectSource, /menuItemSelectedIcon/);
++assert.match(selectSource, /Checkbox/);
++assert.match(selectSource, /removeIcon/);
++
++console.log('Multi-select migration audit passed.');
++console.log(JSON.stringify(inventory, null, 2));
++console.log('Current behavior: dynamic options, one visible tag plus summary, per-value remove, clear and outside-click close');
++console.log('Current gaps: no search input, keyboard handlers or explicit combobox/listbox roles in the custom implementation');
++console.log('Tend UI candidate: ./primitives/Select with mode="multiple", allowClear and maxTagCount=1');
++console.log('Priority F-47: migrate always-visible id/title selectors through a vanilla-owned Tend UI Select bridge');
+*** End Patch

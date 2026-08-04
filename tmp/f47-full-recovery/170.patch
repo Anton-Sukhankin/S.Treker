@@ -1,0 +1,40 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/src/styles/components/core-ui.css
+@@
+ .ds-preset-dialog__close-mount > .tend-ui-button {
+   min-width: 40px !important;
+   padding: 0 !important;
+ }
++
++.ds-preset-control {
++  display: flex;
++  gap: 8px;
++}
++
++.ds-preset-select-wrapper {
++  flex: 1 1 auto;
++  min-width: 0;
++  position: relative;
++}
++
++.ds-preset-toolbar__trigger-mount {
++  width: 100%;
++}
++
++.ds-preset-toolbar__trigger-mount > .tend-ui-button {
++  justify-content: space-between;
++  min-width: 0;
++  width: 100%;
++}
++
++.ds-preset-toolbar__trigger-mount .js-preset-current > span {
++  min-width: 0;
++  overflow: hidden;
++  text-overflow: ellipsis;
++  white-space: nowrap;
++}
++
++.ds-preset-toolbar__save-mount {
++  flex: 0 0 auto;
++}
+*** End Patch

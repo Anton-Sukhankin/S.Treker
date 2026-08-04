@@ -1,0 +1,42 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-            <button class="ds-button ds-button--outlined ds-button--icon-only js-btn-open-columns" id="js-columns-btn" title="Настройка колонок" style="display: none;">
+-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+-                <circle cx="12" cy="12" r="3"></circle>
+-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+-              </svg>
+-            </button>
++            <div id="tend-ui-columns-root" data-tend-ui-adapter="columns"></div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiCreateTaskButton } from './integrations/tend-ui/create-task-button.jsx';
++import { mountTendUiColumnsButton } from './integrations/tend-ui/columns-button.jsx';
+@@
+ mountTendUiCreateTaskButton();
++mountTendUiColumnsButton();
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\tasks\tasks-view.js
+@@
+-  const columnsButton = document.getElementById('js-columns-btn');
++  const columnsControl = document.getElementById('tend-ui-columns-root') ?? document.getElementById('js-columns-btn');
+@@
+-      if (columnsButton && columnsButton.parentNode !== headerActions) headerActions.appendChild(columnsButton);
++      if (columnsControl && columnsControl.parentNode !== headerActions) headerActions.appendChild(columnsControl);
+@@
+-    if (columnsButton && columnsButton.parentNode === headerActions) toolbarRight.insertBefore(columnsButton, createButton);
++    if (columnsControl && columnsControl.parentNode === headerActions) toolbarRight.insertBefore(columnsControl, createButton);
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ #tend-ui-toolbar-filters-root { display: contents; }
++#tend-ui-columns-root { display: contents; }
+@@
+ #tend-ui-print-root .ds-button--icon-only {
+@@
+ }
++#tend-ui-columns-root .ds-button--icon-only {
++  width: 40px;
++  min-width: 40px;
++  height: 40px;
++  padding: 0;
++}
+*** End Patch

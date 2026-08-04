@@ -1,0 +1,6 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+             <div id="tend-ui-column-row-controls-root" hidden></div>
++            <div id="tend-ui-preset-delete-actions-root" hidden></div>
+*** End Patch

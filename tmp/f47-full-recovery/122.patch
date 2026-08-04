@@ -1,0 +1,42 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\tasks\tasks-view.js
+@@
+-function renderSelectionCheckbox(taskId, isSelected) {
++function renderSelectionCheckbox(taskId, isSelected, surface) {
+   return `
+-    <div class="ds-selection-checkbox js-task-select ${isSelected ? 'is-checked' : ''}" data-id="${taskId}">
+-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+-    </div>
++    <span
++      class="tend-ui-task-selection-mount js-task-select"
++      data-checked="${isSelected}"
++      data-id="${escapeHtml(taskId)}"
++      data-selection-key="${surface}-${escapeHtml(taskId)}"
++      data-selection-kind="task"
++      data-tend-ui-task-selection
++    ></span>
+   `;
+ }
+ 
+ function renderSelectAllCheckbox() {
+   return `
+-    <div class="ds-selection-checkbox js-select-all-table">
+-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+-    </div>
++    <span
++      class="tend-ui-task-selection-mount js-select-all-table"
++      data-checked="false"
++      data-indeterminate="false"
++      data-selection-key="table-select-all"
++      data-selection-kind="all"
++      data-tend-ui-task-selection
++    ></span>
+   `;
+ }
+@@
+-  if (column.key === 'cb') value = renderSelectionCheckbox(task.id, isSelected);
++  if (column.key === 'cb') value = renderSelectionCheckbox(task.id, isSelected, 'table');
+@@
+-      ${renderSelectionCheckbox(task.id, isSelected)}
++      ${renderSelectionCheckbox(task.id, isSelected, 'card')}
+*** End Patch

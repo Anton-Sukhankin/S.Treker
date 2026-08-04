@@ -1,0 +1,10 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ assert.match(tasksViewSource, /getElementById\('tend-ui-columns-root'\)/);
+ assert.match(tasksViewSource, /appendChild\(columnsControl\)/);
++assert.match(tasksViewSource, /getElementById\('tend-ui-create-task-root'\)/);
++assert.match(tasksViewSource, /const toolbarAnchor = createControl\?\.parentNode === toolbarRight \? createControl : null/);
++assert.match(tasksViewSource, /insertBefore\(columnsControl, toolbarAnchor\)/);
++assert.match(tasksViewSource, /insertBefore\(printControl, toolbarAnchor\)/);
+*** End Patch

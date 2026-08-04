@@ -1,0 +1,8 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+             <div id="columns-visibility-sections">
+               <!-- Columns injected here -->
+             </div>
++            <div id="tend-ui-column-row-controls-root" hidden></div>
+*** End Patch

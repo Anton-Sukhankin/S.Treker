@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend Code Audit"
+  short_description: "Audit S-Tracker frontend code"
+  default_prompt: "Use $frontend-code-audit to audit S-Tracker frontend code in vanilla/Vite mode or authorized React/DS mode against specs, maintainability, accessibility, performance, and safety."

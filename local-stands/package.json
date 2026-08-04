@@ -1,0 +1,12 @@
+{
+  "name": "s-tracker-local-stands",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "vite --host 127.0.0.1 --port 4175 --strictPort --open",
+    "dev": "vite --host 127.0.0.1 --port 4175 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4176 --strictPort"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "mode": "edit",
+  "componentId": "434608350467080192",
+  "projectId": "433158690502225920",
+  "selectedRevisionId": "434701870192275456",
+  "baseRevisionId": "434701870192275456",
+  "jobId": "432825861566263296-external-agent-434702072810729472",
+  "generatedName": "ready-field-8874",
+  "name": "S Tracker Documents Package Sidebar",
+  "selectedImages": [],
+  "editableFiles": [
+    {
+      "path": "src/App.tsx",
+      "sha256": "f6e1ee2cc71ce44009e8f08445d1061c23fb2024a69ad27134a45edec698fcd9"
+    },
+    {
+      "path": "src/components/generated/STrackerDocumentsPackageSidebar.tsx",
+      "sha256": "185eebcec7f3d893d87d1806b779cccf1ea267dbd493cd5770672642b72d7548"
+    },
+    {
+      "path": "src/index.css",
+      "sha256": "c34c3556dfc33bf2ff6be43c8aaf8dc2e3cf28c38d8f7f0b61906eef71df24f5"
+    }
+  ]
+}

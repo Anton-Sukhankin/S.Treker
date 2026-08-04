@@ -1,3 +1,5 @@
+import { bindSegmentedControl } from './components/segmented-control.js';
+
 export function initGlobalSearch() {
   const input = document.getElementById('js-global-search');
   if (!input) return;
@@ -11,25 +13,23 @@ export function initGlobalSearch() {
 
 
 export function initViewSwitcher() {
-  const switcherItems = document.querySelectorAll('.js-view-switcher .ds-segmented-control__item');
+  const switcher = document.querySelector('.js-view-switcher');
   const cardsView = document.getElementById('view-mode-cards');
   const tableView = document.getElementById('view-mode-table');
   const downloadButton = document.getElementById('js-download-btn');
   const columnsButton = document.getElementById('js-columns-btn');
 
-  switcherItems.forEach(item => {
-    item.onclick = () => {
-      const view = item.getAttribute('data-view');
-      const isTableView = view === 'table';
+  if (!switcher) return;
 
-      switcherItems.forEach(current => current.classList.remove('is-active'));
-      item.classList.add('is-active');
+  bindSegmentedControl(switcher, {
+    onChange: view => {
+      const isTableView = view === 'table';
 
       if (cardsView) cardsView.style.display = isTableView ? 'none' : 'flex';
       if (tableView) tableView.style.display = isTableView ? 'flex' : 'none';
       if (downloadButton) downloadButton.style.display = isTableView ? 'inline-flex' : 'none';
       if (columnsButton) columnsButton.style.display = isTableView ? 'inline-flex' : 'none';
-    };
+    },
   });
 }
 

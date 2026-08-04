@@ -1,0 +1,51 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/scripts/verify-tend-ui-adapter.mjs
+@@
+ const presetDialogAdapterSource = readText('src/integrations/tend-ui/preset-dialog-controls.jsx');
++const presetToolbarAdapterSource = readText('src/integrations/tend-ui/preset-toolbar.jsx');
+@@
+ assert.match(indexHtml, /id="tend-ui-preset-dialog-actions-root"/);
++assert.match(indexHtml, /id="tend-ui-preset-trigger-root"/);
++assert.match(indexHtml, /id="tend-ui-preset-save-root"/);
++assert.match(indexHtml, /id="js-preset-dropdown"[^>]+role="listbox"/);
+@@
+ assert.doesNotMatch(indexHtml, /<button[^>]+class="[^"]*(?:js-modal-preset-close|js-btn-preset-submit)/);
++assert.doesNotMatch(indexHtml, /<div[^>]+class="[^"]*js-preset-current/);
++assert.doesNotMatch(indexHtml, /<button[^>]+class="[^"]*js-preset-save-btn/);
+@@
+ assert.match(mainSource, /mountTendUiTaskSelection\(\)/);
++assert.match(mainSource, /mountTendUiPresetToolbar\(\)/);
+@@
+ assert.match(coreUiStyles, /\.ds-preset-dialog__actions/);
++assert.match(presetToolbarAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(presetToolbarAdapterSource, /@10d\/tend-ui-icons\/ChevronDown\/ChevronDown\.js/);
++assert.match(presetToolbarAdapterSource, /ReactDOM\.createPortal/);
++assert.match(presetToolbarAdapterSource, /s-tracker:preset-toolbar-changed/);
++assert.match(presetToolbarAdapterSource, /className="js-preset-current"/);
++assert.match(presetToolbarAdapterSource, /className="js-preset-save-btn"/);
++assert.match(presetToolbarAdapterSource, /data-testid="tend-ui-preset-trigger"/);
++assert.match(presetToolbarAdapterSource, /data-testid="tend-ui-preset-save"/);
++assert.match(presetToolbarAdapterSource, /aria-controls="js-preset-dropdown"/);
++assert.match(presetToolbarAdapterSource, /aria-expanded=\{expanded\}/);
++assert.match(presetToolbarAdapterSource, /disabled=\{saveDisabled\}/);
++assert.doesNotMatch(
++  presetToolbarAdapterSource,
++  /onClick|columnPresets|draftColumnState|draftActiveColumnPreset|renderPresetDropdown|setPresetDropdownOpen|showModal|\.close\(/,
++);
++assert.match(columnsDrawerSource, /s-tracker:preset-toolbar-changed/);
++assert.match(columnsDrawerSource, /syncPresetToolbar\(\{ saveDisabled: !isChanged \}\)/);
++assert.match(columnsDrawerSource, /currentLabel: active === 'base'/);
++assert.match(columnsDrawerSource, /setPresetDropdownOpen\(dd\.style\.display === 'none'\)/);
++assert.match(columnsDrawerSource, /delete window\.columnPresets\[navId\]\[presetName\]/);
++assert.match(columnsDrawerSource, /draftActiveColumnPreset\[navId\] = presetName/);
++assert.match(columnsDrawerSource, /role="option"/);
++assert.match(columnsDrawerSource, /aria-selected/);
++assert.match(coreUiStyles, /\.ds-preset-toolbar__trigger-mount/);
++assert.match(coreUiStyles, /\.ds-preset-toolbar__save-mount/);
++assert.doesNotMatch(readText('src/styles/features/task-workspace.css'), /\.js-preset-save-btn:(?:disabled|not\(:disabled\))/);
+@@
+ assert.match(builtJavaScript, /tend-ui-preset-dialog-confirm/);
++assert.match(builtJavaScript, /tend-ui-preset-trigger/);
++assert.match(builtJavaScript, /tend-ui-preset-save/);
++assert.match(builtJavaScript, /tend-ui-chevron-down-icon/);
+*** End Patch

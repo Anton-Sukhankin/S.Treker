@@ -1,0 +1,150 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-</body>
++  <div id="tend-ui-task-selection-root" class="tend-ui-portal-host"></div>
++</body>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\tasks\tasks-view.js
+@@
+-function renderSelectionCheckbox(taskId, isSelected) {
++function renderSelectionCheckbox(taskId, isSelected, surface) {
+   return `
+-    <div class="ds-selection-checkbox js-task-select ${isSelected ? 'is-checked' : ''}" data-id="${taskId}">
+-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+-    </div>
++    <span
++      class="tend-ui-task-selection-mount js-task-select"
++      data-checked="${isSelected}"
++      data-id="${escapeHtml(taskId)}"
++      data-selection-key="${surface}-${escapeHtml(taskId)}"
++      data-selection-kind="task"
++      data-tend-ui-task-selection
++    ></span>
+   `;
+ }
+ 
+ function renderSelectAllCheckbox() {
+   return `
+-    <div class="ds-selection-checkbox js-select-all-table">
+-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+-    </div>
++    <span
++      class="tend-ui-task-selection-mount js-select-all-table"
++      data-checked="false"
++      data-indeterminate="false"
++      data-selection-key="table-select-all"
++      data-selection-kind="all"
++      data-tend-ui-task-selection
++    ></span>
+   `;
+ }
+@@
+-  if (column.key === 'cb') value = renderSelectionCheckbox(task.id, isSelected);
++  if (column.key === 'cb') value = renderSelectionCheckbox(task.id, isSelected, 'table');
+@@
+-      ${renderSelectionCheckbox(task.id, isSelected)}
++      ${renderSelectionCheckbox(task.id, isSelected, 'card')}
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\task-selection\floating-action-bar.js
+@@
+-function syncSelectAllTableCheckbox() {
++function syncSelectionControls() {
++  document.querySelectorAll('.js-task-select[data-id]').forEach(control => {
++    const id = control.getAttribute('data-id');
++    const isSelected = Boolean(id && window.selectedTaskIds.has(id));
++    control.dataset.checked = String(isSelected);
++    control.closest('.ds-task-row, .ds-table-row')?.classList.toggle('is-selected', isSelected);
++  });
++
+   const selectAll = document.querySelector('.js-select-all-table');
+-  if (!selectAll) return;
+-
+-  const visibleIds = getVisibleTableTaskIds();
+-  const selectedVisibleCount = visibleIds.filter(id => window.selectedTaskIds.has(id)).length;
+-  const isAllSelected = visibleIds.length > 0 && selectedVisibleCount === visibleIds.length;
+-  const isPartlySelected = selectedVisibleCount > 0 && selectedVisibleCount < visibleIds.length;
+-
+-  selectAll.classList.toggle('is-checked', isAllSelected);
+-  selectAll.classList.toggle('is-indeterminate', isPartlySelected);
++  if (selectAll) {
++    const visibleIds = getVisibleTableTaskIds();
++    const selectedVisibleCount = visibleIds.filter(id => window.selectedTaskIds.has(id)).length;
++    selectAll.dataset.checked = String(
++      visibleIds.length > 0 && selectedVisibleCount === visibleIds.length,
++    );
++    selectAll.dataset.indeterminate = String(
++      selectedVisibleCount > 0 && selectedVisibleCount < visibleIds.length,
++    );
++  }
++
++  window.dispatchEvent(new CustomEvent('s-tracker:selection-changed'));
+ }
+@@
+-  row.classList.toggle('is-selected', isSelected);
+-  row.querySelector('.js-task-select')?.classList.toggle('is-checked', isSelected);
+-
+   if (isSelected) {
+@@
+ export function initTaskSelection() { 
+-  document.querySelector('.app-layout').addEventListener('click', e => { 
+-    const selectAll = e.target.closest('.js-select-all-table');
+-    if (selectAll) {
+-      const visibleIds = getVisibleTableTaskIds();
+-      const shouldSelectAll = visibleIds.some(id => !window.selectedTaskIds.has(id));
+-
+-      setVisibleTableSelection(shouldSelectAll);
+-      syncSelectAllTableCheckbox();
+-      updateFloatingActionBar();
+-      return;
+-    }
+-
+-    const it = e.target.closest('.js-task-select'); 
+-    if (!it) return; 
+-    const id = it.getAttribute('data-id'); 
+-    const row = it.closest('.ds-task-row, .ds-table-row'); 
+-    
+-    if (window.selectedTaskIds.has(id)) { 
+-      window.selectedTaskIds.delete(id); 
+-      it.classList.remove('is-checked'); 
+-      row?.classList.remove('is-selected'); 
+-    } else { 
+-      window.selectedTaskIds.add(id); 
+-      it.classList.add('is-checked'); 
+-      row?.classList.add('is-selected'); 
+-    } 
+-    syncSelectAllTableCheckbox();
++  document.querySelector('.app-layout').addEventListener('s-tracker:selection-request', event => {
++    const { checked, id, kind } = event.detail || {};
++
++    if (kind === 'all') {
++      setVisibleTableSelection(Boolean(checked));
++    } else if (kind === 'task' && id) {
++      const control = document.querySelector(`.js-task-select[data-id="${CSS.escape(id)}"]`);
++      setTaskSelection(control?.closest('.ds-task-row, .ds-table-row'), Boolean(checked));
++    } else {
++      return;
++    }
++
++    syncSelectionControls();
+     updateFloatingActionBar();
+   }); 
+ 
+-  window.addEventListener('table-rendered', syncSelectAllTableCheckbox);
++  window.addEventListener('table-rendered', syncSelectionControls);
+ }
+@@
+   document.querySelector('.js-fab-clear')?.addEventListener('click', () => { 
+     window.selectedTaskIds.clear(); 
+     updateFloatingActionBar();
+-    document.querySelectorAll('.js-task-select').forEach(c => c.classList.remove('is-checked')); 
+-    document.querySelectorAll('.js-select-all-table').forEach(c => c.classList.remove('is-checked', 'is-indeterminate'));
+-    document.querySelectorAll('.ds-task-row, .ds-table-row').forEach(r => r.classList.remove('is-selected')); 
++    syncSelectionControls();
+   });
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiQueueTabs } from './integrations/tend-ui/queue-tabs.jsx';
++import { mountTendUiTaskSelection } from './integrations/tend-ui/task-selection.jsx';
+@@
+ mountTendUiQueueTabs();
++mountTendUiTaskSelection();
+*** End Patch

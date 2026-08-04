@@ -1,0 +1,175 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\library-item-actions.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Add } from '@10d/tend-ui-icons/Add/Add.js';
++import { ArrowBack } from '@10d/tend-ui-icons/ArrowBack/ArrowBack.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++const LIBRARY_ACTIONS_CHANGED_EVENT = 's-tracker:library-actions-changed';
++const actionStyle = {
++  height: 24,
++  minWidth: 24,
++  padding: 0,
++  width: 24,
++};
++
++function collectActions() {
++  return Array.from(document.querySelectorAll('[data-tend-ui-library-action]')).map(node => ({
++    added: node.dataset.added === 'true',
++    key: node.dataset.key,
++    node,
++  }));
++}
++
++function LibraryItemAction({ action }) {
++  const Icon = action.added ? ArrowBack : Add;
++  const title = action.added ? 'Вернуть в библиотеку' : 'Добавить в колонки';
++  const testId = action.added ? 'tend-ui-library-item-return' : 'tend-ui-library-item-add';
++
++  return (
++    <Button
++      aria-label={title}
++      before={
++        <Icon
++          aria-hidden="true"
++          data-testid={action.added ? 'tend-ui-arrow-back-icon' : 'tend-ui-add-icon'}
++          size={14}
++        />
++      }
++      className="js-library-item-action"
++      data-added={action.added ? 'true' : 'false'}
++      data-key={action.key}
++      data-testid={testId}
++      size="medium"
++      style={actionStyle}
++      title={title}
++      type="button"
++      variant={action.added ? 'ghost' : 'secondary'}
++    />
++  );
++}
++
++function LibraryItemActionPortals({ mountNode }) {
++  const [actions, setActions] = React.useState(collectActions);
++
++  React.useLayoutEffect(() => {
++    const refresh = () => setActions(collectActions());
++    mountNode.addEventListener(LIBRARY_ACTIONS_CHANGED_EVENT, refresh);
++    refresh();
++
++    return () => mountNode.removeEventListener(LIBRARY_ACTIONS_CHANGED_EVENT, refresh);
++  }, [mountNode]);
++
++  return actions.map(action =>
++    ReactDOM.createPortal(
++      <LibraryItemAction action={action} />,
++      action.node,
++      action.key,
++    ),
++  );
++}
++
++export function mountTendUiLibraryItemActions() {
++  const mountNode = document.getElementById('tend-ui-library-actions-root');
++  return renderTendUi(<LibraryItemActionPortals mountNode={mountNode} />, mountNode);
++}
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+             <div class="ds-filter-options" id="js-library-list">
+               <!-- Library attributes injected here -->
+             </div>
++            <div id="tend-ui-library-actions-root" hidden></div>
+           </div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiGlobalSearchInput } from './integrations/tend-ui/global-search-input.jsx';
++import { mountTendUiLibraryItemActions } from './integrations/tend-ui/library-item-actions.jsx';
+ import { mountTendUiMoveDialogControls } from './integrations/tend-ui/move-dialog-controls.jsx';
+@@
+ mountTendUiGlobalSearchInput();
++mountTendUiLibraryItemActions();
+ mountTendUiMoveDialogControls();
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\columns\columns-drawer.js
+@@
+   const draftActiveColumnPreset = {};
+   const presetToolbarMount = document.getElementById('tend-ui-preset-trigger-root');
+   const columnsFooterMount = document.getElementById('tend-ui-columns-footer-root');
++  const libraryActionsMount = document.getElementById('tend-ui-library-actions-root');
+@@
+     let html = '';
+     filtered.forEach(attr => {
+       const isAdded = draftKeys.has(attr.key);
+-      const actionTitle = isAdded ? 'Вернуть в библиотеку' : 'Добавить в колонки';
+-      const actionIcon = isAdded
+-        ? '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#6B7280" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>'
+-        : '<svg viewBox="0 0 24 24" fill="none" stroke="#007BFF" stroke-width="2.2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>';
+ 
+       html += `
+         <div class="ds-library-item">
+           <div class="ds-library-item__label">${attr.label}</div>
+-          <button class="js-library-item-action" data-key="${attr.key}" data-added="${isAdded ? 'true' : 'false'}" title="${actionTitle}">
+-            ${actionIcon}
+-          </button>
++          <span
++            class="ds-library-item__action-mount"
++            data-added="${isAdded ? 'true' : 'false'}"
++            data-key="${attr.key}"
++            data-tend-ui-library-action
++          ></span>
+         </div>
+       `;
+@@
+ 
+     list.innerHTML = html;
++    libraryActionsMount?.dispatchEvent(new CustomEvent('s-tracker:library-actions-changed'));
+     updateLibraryResetButton();
+   }
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\features\task-workspace.css
+@@
+ .ds-library-item__label {
+@@
+   padding-right: 12px;
+ }
+ 
++.ds-library-item__action-mount {
++  align-items: center;
++  display: flex;
++  flex: 0 0 24px;
++  height: 24px;
++  justify-content: center;
++  width: 24px;
++}
++
+ .js-library-item-action {
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+-const f37Result = { raw: 945839, gzip: 291773 };
+-const f38ColumnsDrawerBudget = { raw: 20 * 1024, gzip: 6 * 1024 };
++const f38Result = { raw: 947513, gzip: 292047 };
++const f39LibraryActionsBudget = { raw: 24 * 1024, gzip: 8 * 1024 };
+ 
+ assert.ok(
+-  rawBytes <= f37Result.raw + f38ColumnsDrawerBudget.raw,
+-  `JavaScript bundle exceeds the reviewed F-38 columns-drawer-controls budget: ${rawBytes} bytes`,
++  rawBytes <= f38Result.raw + f39LibraryActionsBudget.raw,
++  `JavaScript bundle exceeds the reviewed F-39 library-item-actions budget: ${rawBytes} bytes`,
+ );
+ assert.ok(
+-  gzipBytes <= f37Result.gzip + f38ColumnsDrawerBudget.gzip,
+-  `Gzipped JavaScript bundle exceeds the reviewed F-38 columns-drawer-controls budget: ${gzipBytes} bytes`,
++  gzipBytes <= f38Result.gzip + f39LibraryActionsBudget.gzip,
++  `Gzipped JavaScript bundle exceeds the reviewed F-39 library-item-actions budget: ${gzipBytes} bytes`,
+ );
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-refresh-icon/);
++assert.match(bundle.toString('utf8'), /tend-ui-library-item-add/);
++assert.match(bundle.toString('utf8'), /tend-ui-library-item-return/);
++assert.match(bundle.toString('utf8'), /tend-ui-add-icon/);
++assert.match(bundle.toString('utf8'), /tend-ui-arrow-back-icon/);
+@@
+-console.log('Budget: F-37 result plus 20 KiB raw / 6 KiB gzip for Tend UI column-settings close and library search controls');
++console.log('Budget: F-38 result plus 24 KiB raw / 8 KiB gzip for Tend UI attribute-library row actions');
+*** End Patch

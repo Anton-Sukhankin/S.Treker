@@ -1,0 +1,10 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\audit-remaining-tend-ui-controls.mjs
+@@
+ console.log('Completed F-45: filter money-range text fields and preset actions');
+-console.log('Priority F-46: audit native range thumbs against Tend UI RangeInput and preserve slider behavior');
+-console.log('Deferred boundaries: multi-select, system overlay, row actions and bookmarks');
++console.log('Intentional native boundary: two money-range thumbs preserve dual-slider behavior');
++console.log('Priority F-46: audit filter multi-select triggers, options and inline icons before migration');
++console.log('Deferred boundaries: system overlay, row actions and bookmarks');
+*** End Patch

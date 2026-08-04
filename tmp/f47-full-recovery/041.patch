@@ -1,0 +1,27 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\print-button.jsx
++import React from 'react';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Print } from '@10d/tend-ui-icons/Print/Print.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++export function mountTendUiPrintButton() {
++  const mountNode = document.getElementById('tend-ui-print-root');
++
++  return renderTendUi(
++    <Button
++      aria-label="Печать"
++      before={<Print size={16} />}
++      className="ds-button--icon-only"
++      data-testid="tend-ui-print-button"
++      id="js-print-btn"
++      size="medium"
++      title="Печать"
++      type="button"
++      variant="secondary"
++    />,
++    mountNode,
++  );
++}
+*** End Patch

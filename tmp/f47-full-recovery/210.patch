@@ -1,0 +1,53 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-library-item-actions.md
++# Tend UI Attribute-Library Row Actions
++
++Date: 2026-07-26
++
++Status: F-39 `[x]`.
++
++## Result
++
++Attribute-library rows now render their add/return actions through Tend UI `Button`, `Add` and `ArrowBack`.
++
++The portal adapter is implemented in:
++
++```text
++src/integrations/tend-ui/library-item-actions.jsx
++```
++
++## Ownership
++
++React owns the action presentation, icon and accessible name. It collects the dynamic mount nodes and refreshes portals after a library render.
++
++Vanilla S-Tracker code continues to own:
++
++- search filtering and empty state;
++- draft membership and add/return decisions;
++- library reset;
++- drawer rerendering and change detection;
++- Apply commit and table rerender.
++
++The existing `.js-library-item-action`, `data-key` and `data-added` contract is preserved. The adapter has no product `onClick` or `onChange` logic.
++
++## Verification
++
++- filtered search produces one Tend UI add action and no legacy row button;
++- add changes the action to `Вернуть в библиотеку`;
++- return restores the add action;
++- the table remains unchanged before Apply;
++- library reset restores the add action and preserves the query;
++- Apply adds the selected column to the table;
++- reverse action plus Apply removes it again;
++- `npm.cmd run verify:tend-ui:all` passes;
++- Vite transforms `940` modules;
++- the reviewed bundle is `949,073` raw / `292,401` gzip bytes;
++- browser application errors: `0`;
++- no closed corporate source was accessed.
++
++## Next Group
++
++```text
++F-40: migrate main column-row visibility and return controls to Tend UI Checkbox/Button/icons while preserving drag order, draft visibility, library membership and Apply behavior.
++```
+*** End Patch

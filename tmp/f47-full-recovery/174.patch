@@ -1,0 +1,12 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/src/features/columns/columns-drawer.js
+@@
+-    let html = `<div class="ds-preset-option ${active === 'base' ? 'is-active' : ''} js-preset-option" data-preset="base">
++    let html = `<div aria-selected="${active === 'base'}" class="ds-preset-option ${active === 'base' ? 'is-active' : ''} js-preset-option" data-preset="base" role="option">
+       <span class="ds-preset-option-name">Базовое отображение</span>
+     </div>`;
+ 
+     Object.keys(presets).forEach(pName => {
+-      html += `<div class="ds-preset-option ${active === pName ? 'is-active' : ''} js-preset-option" data-preset="${pName}">
++      html += `<div aria-selected="${active === pName}" class="ds-preset-option ${active === pName ? 'is-active' : ''} js-preset-option" data-preset="${pName}" role="option">
+*** End Patch

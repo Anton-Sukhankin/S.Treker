@@ -1,0 +1,7 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ assert.doesNotMatch(columnsDrawerSource, /<input type="checkbox" class="js-col-cb"/);
+ assert.doesNotMatch(columnsDrawerSource, /<div class="js-return-to-library"/);
++assert.doesNotMatch(columnsDrawerSource, /class="ds-checkbox ds-column-row"/);
+*** End Patch

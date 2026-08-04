@@ -1,0 +1,85 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const moveDialogAdapterSource = readText('src/integrations/tend-ui/move-dialog-controls.jsx');
++const presetDialogAdapterSource = readText('src/integrations/tend-ui/preset-dialog-controls.jsx');
+@@
+ assert.match(indexHtml, /id="tend-ui-move-dialog-actions-root"/);
++assert.match(indexHtml, /id="tend-ui-preset-dialog-input-root"/);
++assert.match(indexHtml, /id="tend-ui-preset-dialog-close-root"/);
++assert.match(indexHtml, /id="tend-ui-preset-dialog-actions-root"/);
++assert.match(indexHtml, /aria-labelledby="js-preset-dialog-title"/);
++assert.match(indexHtml, /for="js-preset-name-input"/);
+@@
+ assert.doesNotMatch(indexHtml, /<button[^>]+class="[^"]*(?:js-modal-move-close|js-btn-confirm-move)/);
++assert.doesNotMatch(indexHtml, /<input[^>]+id="js-preset-name-input"/);
++assert.doesNotMatch(indexHtml, /<button[^>]+class="[^"]*(?:js-modal-preset-close|js-btn-preset-submit)/);
+@@
+ assert.match(mainSource, /mountTendUiMoveDialogControls\(\)/);
++assert.match(mainSource, /mountTendUiPresetDialogControls\(\)/);
+@@
+ assert.match(coreUiStyles, /\.ds-move-dialog__actions/);
++assert.match(presetDialogAdapterSource, /@10d\/tend-ui\/primitives\/Input/);
++assert.match(presetDialogAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(presetDialogAdapterSource, /@10d\/tend-ui-icons\/Close\/Close\.js/);
++assert.match(presetDialogAdapterSource, /ReactDOM\.createPortal/);
++assert.match(presetDialogAdapterSource, /id="js-preset-name-input"/);
++assert.match(presetDialogAdapterSource, /className="js-modal-preset-close"/);
++assert.match(presetDialogAdapterSource, /className="js-btn-preset-submit"/);
++for (const testId of [
++  'tend-ui-preset-name-input',
++  'tend-ui-preset-dialog-close',
++  'tend-ui-preset-dialog-cancel',
++  'tend-ui-preset-dialog-confirm',
++]) {
++  assert.match(presetDialogAdapterSource, new RegExp(testId));
++}
++assert.doesNotMatch(
++  presetDialogAdapterSource,
++  /onClick|columnPresets|draftActiveColumnPreset|syncDraftFromDrawer|renderPresetDropdown|showModal|\.close\(/,
++);
++assert.match(columnsDrawerSource, /getElementById\('js-preset-name-input'\)/);
++assert.match(columnsDrawerSource, /pInput\.value = ''/);
++assert.match(columnsDrawerSource, /pModal\.showModal\(\)/);
++assert.match(columnsDrawerSource, /pInput\.value\.trim\(\)/);
++assert.match(columnsDrawerSource, /if \(!name\) return/);
++assert.match(columnsDrawerSource, /window\.columnPresets\[navId\]\[name\]/);
++assert.match(columnsDrawerSource, /syncDraftFromDrawer\(navId\)/);
++assert.match(columnsDrawerSource, /renderPresetDropdown\(\)/);
++assert.match(columnsDrawerSource, /checkChanges\(\)/);
++assert.match(columnsDrawerSource, /pModal\.close\(\)/);
++assert.match(coreUiStyles, /\.ds-preset-dialog__close-mount/);
++assert.match(coreUiStyles, /\.ds-preset-dialog__input-mount/);
++assert.match(coreUiStyles, /\.ds-preset-dialog__actions/);
+@@
+ assert.match(builtJavaScript, /tend-ui-move-dialog-confirm/);
++assert.match(builtJavaScript, /tend-ui-preset-name-input/);
++assert.match(builtJavaScript, /tend-ui-preset-dialog-close/);
++assert.match(builtJavaScript, /tend-ui-preset-dialog-cancel/);
++assert.match(builtJavaScript, /tend-ui-preset-dialog-confirm/);
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+-const f33Result = { raw: 936175, gzip: 288864 };
+-const f34MoveDialogBudget = { raw: 24 * 1024, gzip: 8 * 1024 };
++const f34Result = { raw: 937481, gzip: 289178 };
++const f35PresetDialogBudget = { raw: 24 * 1024, gzip: 8 * 1024 };
+@@
+-  rawBytes <= f33Result.raw + f34MoveDialogBudget.raw,
+-  `JavaScript bundle exceeds the reviewed F-34 move-dialog budget: ${rawBytes} bytes`,
++  rawBytes <= f34Result.raw + f35PresetDialogBudget.raw,
++  `JavaScript bundle exceeds the reviewed F-35 preset-dialog budget: ${rawBytes} bytes`,
+@@
+-  gzipBytes <= f33Result.gzip + f34MoveDialogBudget.gzip,
+-  `Gzipped JavaScript bundle exceeds the reviewed F-34 move-dialog budget: ${gzipBytes} bytes`,
++  gzipBytes <= f34Result.gzip + f35PresetDialogBudget.gzip,
++  `Gzipped JavaScript bundle exceeds the reviewed F-35 preset-dialog budget: ${gzipBytes} bytes`,
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-move-dialog-confirm/);
++assert.match(bundle.toString('utf8'), /tend-ui-preset-name-input/);
++assert.match(bundle.toString('utf8'), /tend-ui-preset-dialog-close/);
++assert.match(bundle.toString('utf8'), /tend-ui-preset-dialog-cancel/);
++assert.match(bundle.toString('utf8'), /tend-ui-preset-dialog-confirm/);
+@@
+-console.log('Budget: F-33 result plus 24 KiB raw / 8 KiB gzip for Tend UI move dialog controls');
++console.log('Budget: F-34 result plus 24 KiB raw / 8 KiB gzip for Tend UI preset dialog controls');
+*** End Patch

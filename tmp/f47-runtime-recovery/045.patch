@@ -1,0 +1,92 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/src/styles/features/task-workspace.css
+@@
+-.js-columns-reset {
+-  color: #007BFF !important;
+-  background: transparent !important;
+-  border: none !important;
+-  font-weight: 500 !important;
+-  font-size: 14px !important;
+-  padding: 8px 12px !important;
+-  cursor: pointer !important;
+-  transition: opacity 0.2s !important;
+-}
+-
+-.js-columns-reset:hover {
+-  opacity: 0.8 !important;
+-}
+-
+-.js-columns-apply {
+-  background: #007BFF !important;
+-  color: #fff !important;
+-  border: none !important;
+-  border-radius: 8px !important;
+-  padding: 10px 24px !important;
+-  font-weight: 600 !important;
+-  font-size: 14px !important;
+-  cursor: pointer !important;
+-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+-}
+-
+-.js-columns-apply:hover {
+-  background: #0069d9 !important;
+-}
+-
+-.js-open-library {
+-  width: 36px;
+-  height: 36px;
+-  background: #F3F4F6 !important;
+-  border: 1px solid #D1D5DB !important;
+-  border-radius: 8px !important;
+-  color: #111827 !important;
+-  display: flex !important;
+-  align-items: center;
+-  justify-content: center;
+-  cursor: pointer;
+-  transition: all 0.2s ease !important;
+-  padding: 0 !important;
+-}
+-
+-.js-open-library:hover {
+-  background-color: #E5E7EB !important;
+-  border-color: #BEC3CC !important;
+-}
+-
+-.js-open-library.is-active {
+-  background-color: var(--color-primary) !important;
+-  border-color: var(--color-primary) !important;
+-  color: #FFFFFF !important;
+-}
+-
+-#columns-drawer .js-library-reset {
+-  display: none !important;
+-  height: 36px !important;
+-  padding: 0 14px !important;
+-  border: 1px solid #D1D5DB !important;
+-  border-radius: 8px !important;
+-  background: #FFFFFF !important;
+-  color: #374151 !important;
+-  font-size: 14px !important;
+-  font-weight: 500 !important;
+-  gap: 8px !important;
+-}
+-
+-#columns-drawer.is-expanded .js-library-reset {
+-  display: inline-flex !important;
+-}
+-
+-#columns-drawer .js-library-reset:disabled {
+-  background: #F9FAFB !important;
+-  border-color: #E5E7EB !important;
+-  color: #9CA3AF !important;
+-  cursor: not-allowed !important;
+-  opacity: 1 !important;
+-}
+-
+-#columns-drawer .js-library-reset:not(:disabled):hover {
+-  background: #F3F4F6 !important;
+-  border-color: #BEC3CC !important;
+-}
+-
+ /* Section Title in Column Settings */
+*** End Patch

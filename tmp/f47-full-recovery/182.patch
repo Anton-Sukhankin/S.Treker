@@ -1,0 +1,28 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/index.html
+@@
+-      <div class="ds-drawer__pane ds-drawer__pane--library">
++      <div class="ds-drawer__pane ds-drawer__pane--library" id="columns-attribute-library">
+@@
+       <div class="ds-drawer__footer-pane ds-drawer__footer-pane--library">
+       </div>
+       <div class="ds-drawer__footer-pane ds-drawer__footer-pane--main">
+-        <button class="js-open-library" title="Библиотека атрибутов">
+-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+-          </svg>
+-        </button>
+-        <button class="ds-button ds-button--outlined js-library-reset" disabled title="Сбросить добавленные атрибуты">
+-          <svg class="ds-button__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+-            <polyline points="1 4 1 10 7 10"></polyline>
+-            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+-          </svg>
+-          Сбросить
+-        </button>
+-        <div style="flex: 1;"></div>
+-        <button class="ds-button ds-button--text js-columns-reset">По умолчанию</button>
+-        <button class="ds-button ds-button--primary js-columns-apply">Применить</button>
++        <div class="ds-columns-footer__mount" id="tend-ui-columns-footer-root"></div>
+       </div>
+*** End Patch

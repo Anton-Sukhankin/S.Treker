@@ -1,0 +1,57 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const presetDialogAdapterSource = readText('src/integrations/tend-ui/preset-dialog-controls.jsx');
++const presetDeleteActionsAdapterSource = readText('src/integrations/tend-ui/preset-delete-actions.jsx');
+ const presetToolbarAdapterSource = readText('src/integrations/tend-ui/preset-toolbar.jsx');
+@@
+ assert.match(indexHtml, /id="tend-ui-column-row-controls-root"/);
++assert.match(indexHtml, /id="tend-ui-preset-delete-actions-root"/);
+@@
+ assert.match(mainSource, /mountTendUiColumnRowControls\(\)/);
++assert.match(mainSource, /mountTendUiPresetDeleteActions\(\)/);
+@@
+ assert.match(columnRowControlsAdapterSource, /@10d\/tend-ui-icons\/ArrowBack\/ArrowBack\.js/);
++assert.match(columnRowControlsAdapterSource, /@10d\/tend-ui-icons\/DragIndicator\/DragIndicator\.js/);
+@@
+ assert.match(columnRowControlsAdapterSource, /data-testid="tend-ui-column-return"/);
++assert.match(columnRowControlsAdapterSource, /data-testid="tend-ui-column-drag-icon"/);
+@@
+ );
++assert.match(presetDeleteActionsAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(presetDeleteActionsAdapterSource, /@10d\/tend-ui-icons\/Delete\/Delete\.js/);
++assert.match(presetDeleteActionsAdapterSource, /ReactDOM\.createPortal/);
++assert.match(presetDeleteActionsAdapterSource, /s-tracker:preset-delete-actions-changed/);
++assert.match(presetDeleteActionsAdapterSource, /className="ds-preset-option-delete js-preset-delete"/);
++assert.match(presetDeleteActionsAdapterSource, /data-testid="tend-ui-preset-delete"/);
++assert.match(presetDeleteActionsAdapterSource, /data-testid="tend-ui-preset-delete-icon"/);
++assert.doesNotMatch(
++  presetDeleteActionsAdapterSource,
++  /onClick|onChange|columnPresets|activeColumnPreset|draftActiveColumnPreset|renderPresetDropdown|renderColumnsDrawer/,
++);
+@@
+ assert.match(columnsDrawerSource, /data-tend-ui-column-return/);
++assert.match(columnsDrawerSource, /data-tend-ui-column-drag/);
+ assert.match(columnsDrawerSource, /s-tracker:column-rows-changed/);
+@@
+ assert.match(columnsDrawerSource, /row\.addEventListener\('dragover'/);
++assert.match(columnsDrawerSource, /data-tend-ui-preset-delete/);
++assert.match(columnsDrawerSource, /s-tracker:preset-delete-actions-changed/);
++assert.match(columnsDrawerSource, /e\.target\.closest\('\.js-preset-delete'\)/);
++assert.match(columnsDrawerSource, /delete window\.columnPresets\[navId\]\[presetName\]/);
++assert.match(columnsDrawerSource, /window\.activeColumnPreset\[navId\] = 'base'/);
++assert.match(columnsDrawerSource, /draftActiveColumnPreset\[navId\] = 'base'/);
+ assert.doesNotMatch(columnsDrawerSource, /<input type="checkbox" class="js-col-cb"/);
+@@
+ assert.doesNotMatch(columnsDrawerSource, /class="ds-checkbox ds-column-row"/);
++assert.doesNotMatch(columnsDrawerSource, /<div class="ds-drag-handle"/);
++assert.doesNotMatch(columnsDrawerSource, /<button[^>]+class="ds-preset-option-delete js-preset-delete"/);
+@@
+ assert.match(taskWorkspaceStyles, /\.ds-library-item__action-mount/);
++assert.match(taskWorkspaceStyles, /\.ds-preset-option-delete-mount/);
+@@
+ assert.match(builtJavaScript, /tend-ui-column-return-icon/);
++assert.match(builtJavaScript, /tend-ui-column-drag-icon/);
++assert.match(builtJavaScript, /tend-ui-preset-delete/);
++assert.match(builtJavaScript, /tend-ui-preset-delete-icon/);
+*** End Patch

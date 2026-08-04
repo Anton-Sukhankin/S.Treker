@@ -1,0 +1,112 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\columns-button.jsx
++import React from 'react';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Settings } from '@10d/tend-ui-icons/Settings/Settings.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++export function mountTendUiColumnsButton() {
++  const mountNode = document.getElementById('tend-ui-columns-root');
++
++  return renderTendUi(
++    <Button
++      aria-label="Настройка колонок"
++      before={<Settings size={18} />}
++      className="ds-button--icon-only js-btn-open-columns"
++      data-testid="tend-ui-columns-button"
++      id="js-columns-btn"
++      size="medium"
++      style={{ display: 'none' }}
++      title="Настройка колонок"
++      type="button"
++      variant="secondary"
++    />,
++    mountNode,
++  );
++}
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-            <button class="ds-button ds-button--outlined ds-button--icon-only js-btn-open-columns" id="js-columns-btn" title="Настройка колонок" style="display: none;">
+-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+-                <circle cx="12" cy="12" r="3"></circle>
+-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+-              </svg>
+-            </button>
++            <div id="tend-ui-columns-root" data-tend-ui-adapter="columns"></div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiCreateTaskButton } from './integrations/tend-ui/create-task-button.jsx';
++import { mountTendUiColumnsButton } from './integrations/tend-ui/columns-button.jsx';
+@@
+ mountTendUiCreateTaskButton();
++mountTendUiColumnsButton();
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\tasks\tasks-view.js
+@@
+-  const columnsButton = document.getElementById('js-columns-btn');
++  const columnsControl = document.getElementById('tend-ui-columns-root') ?? document.getElementById('js-columns-btn');
+@@
+-      if (columnsButton && columnsButton.parentNode !== headerActions) headerActions.appendChild(columnsButton);
++      if (columnsControl && columnsControl.parentNode !== headerActions) headerActions.appendChild(columnsControl);
+@@
+-    if (columnsButton && columnsButton.parentNode === headerActions) toolbarRight.insertBefore(columnsButton, createButton);
++    if (columnsControl && columnsControl.parentNode === headerActions) toolbarRight.insertBefore(columnsControl, createButton);
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ #tend-ui-toolbar-filters-root { display: contents; }
++#tend-ui-columns-root { display: contents; }
+@@
+ #tend-ui-print-root .ds-button--icon-only {
+@@
+ }
++#tend-ui-columns-root .ds-button--icon-only {
++  width: 40px;
++  min-width: 40px;
++  height: 40px;
++  padding: 0;
++}
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const buttonAdapterSource = readText('src/integrations/tend-ui/create-task-button.jsx');
++const columnsAdapterSource = readText('src/integrations/tend-ui/columns-button.jsx');
+@@
+ const filterDrawerSource = readText('src/features/filters/filter-drawer.js');
++const columnsDrawerSource = readText('src/features/columns/columns-drawer.js');
+@@
+ assert.match(indexHtml, /id="tend-ui-toolbar-filters-root"/);
++assert.match(indexHtml, /id="tend-ui-columns-root"/);
+@@
+ assert.doesNotMatch(indexHtml, /<button[^>]+id="js-sidebar-filters-btn"/);
++assert.doesNotMatch(indexHtml, /<button[^>]+id="js-columns-btn"/);
+@@
+ assert.match(mainSource, /mountTendUiToolbarFilterButton\(\)/);
++assert.match(mainSource, /mountTendUiColumnsButton\(\)/);
+@@
+ assert.doesNotMatch(filterAdapterSource, /activeFilters|applyFilters|filter-drawer|showToast/);
++assert.match(columnsAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(columnsAdapterSource, /@10d\/tend-ui-icons\/Settings\/Settings\.js/);
++assert.match(columnsAdapterSource, /id="js-columns-btn"/);
++assert.match(columnsAdapterSource, /data-testid="tend-ui-columns-button"/);
++assert.match(columnsAdapterSource, /js-btn-open-columns/);
++assert.doesNotMatch(columnsAdapterSource, /customColumnState|columnPresets|columns-drawer|renderColumnsDrawer/);
+@@
+ assert.match(tasksViewSource, /appendChild\(printControl\)/);
++assert.match(tasksViewSource, /getElementById\('tend-ui-columns-root'\)/);
++assert.match(tasksViewSource, /appendChild\(columnsControl\)/);
+@@
+ assert.match(filterDrawerSource, /resetPanelFiltersAndApply\(\)/);
++assert.match(basicControlsSource, /getElementById\('js-columns-btn'\)/);
++assert.match(basicControlsSource, /columnsButton\.style\.display = isTableView \? 'inline-flex' : 'none'/);
++assert.match(columnsDrawerSource, /querySelectorAll\('\.js-btn-open-columns'\)/);
++assert.match(columnsDrawerSource, /beginDraft\(window\.navigationContext\.id\)/);
++assert.match(columnsDrawerSource, /dr\.classList\.add\('is-active'\)/);
+@@
+ assert.match(builtJavaScript, /tend-ui-close-icon/);
++assert.match(builtJavaScript, /tend-ui-columns-button/);
++assert.match(builtJavaScript, /tend-ui-settings-icon/);
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-close-icon/);
++assert.match(bundle.toString('utf8'), /tend-ui-columns-button/);
++assert.match(bundle.toString('utf8'), /tend-ui-settings-icon/);
+*** End Patch

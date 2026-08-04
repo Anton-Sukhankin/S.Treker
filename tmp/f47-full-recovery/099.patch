@@ -1,0 +1,11 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\filters\multi-select.js
+@@
+ import { taskPassesFilters } from '../../domain/filters.js';
++import { getActiveQueueLabel } from '../../domain/queue-state.js';
+@@
+-  const activeTabEl = document.querySelector('.js-overview-tab.is-active');
+-  const activeStatusKey = activeTabEl?.getAttribute('data-status');
+-  const activeTabName = REVERSE_STATUS_MAP[activeStatusKey] || 'К исполнению';
++  const activeTabName = getActiveQueueLabel(REVERSE_STATUS_MAP);
+*** End Patch

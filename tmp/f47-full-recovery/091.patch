@@ -1,0 +1,33 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+-Интеграция шести controls выполнена и проверена. S-Tracker сохраняет основной vanilla/Vite lifecycle, а React используется только внутри отдельных точек монтирования для кнопки `Создать задачу`, поля `Поиск по задачам`, действий `Печать`, `Настройка колонок` и `Скачать`, а также toolbar-триггера `Фильтры`.
++Интеграция семи controls выполнена и проверена. S-Tracker сохраняет основной vanilla/Vite lifecycle, а React используется только внутри отдельных точек монтирования для кнопки `Создать задачу`, поля `Поиск по задачам`, действий `Печать`, `Настройка колонок` и `Скачать`, toolbar-триггера `Фильтры`, а также переключателя карточного и табличного вида.
+@@
+-| `index.html` | Содержит mount points `tend-ui-create-task-root`, `tend-ui-global-search-root`, `tend-ui-print-root`, `tend-ui-toolbar-filters-root`, `tend-ui-columns-root` и `tend-ui-download-root`. |
++| `index.html` | Содержит mount points `tend-ui-create-task-root`, `tend-ui-global-search-root`, `tend-ui-print-root`, `tend-ui-toolbar-filters-root`, `tend-ui-columns-root`, `tend-ui-download-root` и `tend-ui-view-switcher-root`. |
+@@
+ | `src/integrations/tend-ui/download-button.jsx` | Монтирует Tend UI `Button` и `Download`, сохраняя `#js-download-btn` и no-op contract. |
+-| `src/main.js` | Вызывает шесть адаптеров до общей инициализации обработчиков интерфейса и корректно обрабатывает уже наступивший `DOMContentLoaded`. |
++| `src/integrations/tend-ui/view-switcher.jsx` | Монтирует Tend UI `Segmented`, `CardView` и `TableView`; передает запросы vanilla-контроллеру и принимает подтвержденное состояние. |
++| `src/main.js` | Вызывает семь адаптеров до общей инициализации обработчиков интерфейса и корректно обрабатывает уже наступивший `DOMContentLoaded`. |
+@@
+ - `#tend-ui-download-root` проходит тот же custom-view transfer/return без добавления фиктивной download-механики;
++- Tend UI `Segmented` показывает два доступно названных режима, а `initViewSwitcher()` остается владельцем переключения экранов и видимости зависимых действий;
++- `#tend-ui-view-switcher-root` перемещается в custom header и возвращается в toolbar без потери выбранного режима;
+@@
+-- мигрированы пять кнопок и одно поле поиска;
++- мигрированы пять кнопок, одно поле поиска и один переключатель режима;
+@@
+-The next group is F-29: migrate the card/table switcher to a Tend UI segmented control while preserving vanilla view ownership, dependent-action visibility and custom-view movement.
++## F-29 View Switcher Result
++
++- Tend UI `Segmented`, `CardView` and `TableView` render through a seventh isolated mount;
++- a new narrow `@10d/tend-ui/primitives/Segmented` export preserves tree-shaking and package-boundary imports;
++- React emits view requests while vanilla code validates and applies cards/table state;
++- columns and download visibility remain coupled to the confirmed vanilla view state;
++- custom-header transfer and main-toolbar return preserve the selected mode;
++- all consumer security and bundle gates remain green.
++
++The next group is F-30: migrate the queue/status selector to Tend UI Tabs while preserving counts, filtering, rerendering and custom-view hiding.
+*** End Patch

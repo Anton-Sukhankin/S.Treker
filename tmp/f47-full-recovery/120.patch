@@ -1,0 +1,24 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+-| `index.html` | Содержит mount points `tend-ui-create-task-root`, `tend-ui-global-search-root`, `tend-ui-print-root`, `tend-ui-toolbar-filters-root`, `tend-ui-columns-root`, `tend-ui-download-root`, `tend-ui-view-switcher-root` и `tend-ui-queue-tabs-root`. |
++| `index.html` | Содержит mount points `tend-ui-create-task-root`, `tend-ui-global-search-root`, `tend-ui-print-root`, `tend-ui-toolbar-filters-root`, `tend-ui-columns-root`, `tend-ui-download-root`, `tend-ui-view-switcher-root`, `tend-ui-queue-tabs-root` и `tend-ui-pagination-root`. |
+@@
+ | `src/integrations/tend-ui/queue-tabs.jsx` | Монтирует Tend UI `Tabs`; отправляет запрос выбора очереди и принимает рассчитанные vanilla-кодом счетчики. |
++| `src/integrations/tend-ui/pagination.jsx` | Монтирует Tend UI `Pagination`; отправляет запрос страницы и принимает подтвержденные vanilla-кодом totals/current. |
+@@
+-| `src/main.js` | Вызывает восемь адаптеров до общей инициализации обработчиков интерфейса и корректно обрабатывает уже наступивший `DOMContentLoaded`. |
++| `src/main.js` | Вызывает девять адаптеров до общей инициализации обработчиков интерфейса и корректно обрабатывает уже наступивший `DOMContentLoaded`. |
+@@
+-The next group is F-31: migrate pagination to Tend UI Pagination while preserving current page, total calculations and card/table behavior.
++## F-31 Pagination Result
++
++- Tend UI `Pagination` renders through a ninth isolated mount;
++- the narrow package export preserves ESM/CJS/types package boundaries;
++- vanilla code owns page state, validation, task slicing and resets;
++- page numbers, arrows, search/queue resets and card/table persistence pass;
++- cross-page selection remains intact and the active bulk-action bar no longer covers pagination;
++- the reviewed incremental bundle budget and all aggregate gates pass.
++
++The next group is F-32: migrate task-selection checkboxes while preserving row selection, select-all, cross-page state and bulk actions.
+*** End Patch

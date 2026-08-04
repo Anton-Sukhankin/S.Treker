@@ -1,0 +1,16 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/src/features/columns/columns-drawer.js
+@@
+-        <div class="ds-preset-option-delete js-preset-delete" title="Удалить" data-preset="${pName}">
++        <button aria-label="Удалить пресет ${pName}" class="ds-preset-option-delete js-preset-delete" title="Удалить" type="button" data-preset="${pName}">
+           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+-        </div>
++        </button>
+*** Update File: ../S-Tracker/src/styles/features/task-workspace.css
+@@
+-.ds-preset-option-delete { color: var(--color-text-secondary); display: none; padding: 2px; margin: -2px; border-radius: 4px; }
+-.ds-preset-option:hover .ds-preset-option-delete { display: block; }
++.ds-preset-option-delete { color: var(--color-text-secondary); opacity: 0; padding: 2px; margin: -2px; border: 0; border-radius: 4px; background: transparent; cursor: pointer; line-height: 0; transition: opacity 0.15s ease; }
++.ds-preset-option:hover .ds-preset-option-delete,
++.ds-preset-option:focus-within .ds-preset-option-delete { opacity: 1; }
+*** End Patch

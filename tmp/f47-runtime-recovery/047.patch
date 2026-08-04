@@ -1,0 +1,104 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/scripts/verify-tend-ui-adapter.mjs
+@@
+ const columnsAdapterSource = readText('src/integrations/tend-ui/columns-button.jsx');
++const columnsFooterAdapterSource = readText('src/integrations/tend-ui/columns-footer-actions.jsx');
+@@
+ assert.match(indexHtml, /id="tend-ui-columns-root"/);
++assert.match(indexHtml, /id="tend-ui-columns-footer-root"/);
++assert.match(indexHtml, /id="columns-attribute-library"/);
+@@
+ assert.doesNotMatch(indexHtml, /<button[^>]+id="js-columns-btn"/);
++assert.doesNotMatch(indexHtml, /<button[^>]+class="[^"]*(?:js-open-library|js-library-reset|js-columns-reset|js-columns-apply)/);
+@@
+ assert.match(mainSource, /mountTendUiColumnsButton\(\)/);
++assert.match(mainSource, /mountTendUiColumnsFooterActions\(\)/);
+@@
+ assert.match(coreUiStyles, /\.ds-preset-toolbar__save-mount/);
+ assert.doesNotMatch(readText('src/styles/features/task-workspace.css'), /\.js-preset-save-btn:(?:disabled|not\(:disabled\))/);
++assert.match(columnsFooterAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(columnsFooterAdapterSource, /@10d\/tend-ui-icons\/Book\/Book\.js/);
++assert.match(columnsFooterAdapterSource, /@10d\/tend-ui-icons\/Refresh\/Refresh\.js/);
++assert.match(columnsFooterAdapterSource, /s-tracker:columns-footer-changed/);
++assert.match(columnsFooterAdapterSource, /aria-controls="columns-attribute-library"/);
++assert.match(columnsFooterAdapterSource, /aria-expanded=\{libraryOpen\}/);
++assert.match(columnsFooterAdapterSource, /disabled=\{libraryResetDisabled\}/);
++for (const testId of [
++  'tend-ui-columns-library-toggle',
++  'tend-ui-columns-library-reset',
++  'tend-ui-columns-default',
++  'tend-ui-columns-apply',
++]) {
++  assert.match(columnsFooterAdapterSource, new RegExp(testId));
++}
++for (const hook of [
++  'js-open-library',
++  'js-library-reset',
++  'js-columns-reset',
++  'js-columns-apply',
++]) {
++  assert.match(columnsFooterAdapterSource, new RegExp(hook));
++}
++assert.doesNotMatch(
++  columnsFooterAdapterSource,
++  /onClick|customColumnState|draftColumnState|setDraftState|renderColumnsDrawer|renderLibrary|renderTab|classList|is-expanded/,
++);
++assert.doesNotMatch(
++  columnsFooterAdapterSource,
++  /className="js-columns-apply"[\s\S]{0,180}disabled=/,
++);
++assert.match(columnsDrawerSource, /s-tracker:columns-footer-changed/);
++assert.match(columnsDrawerSource, /syncColumnsFooter\(\{ libraryOpen: true \}\)/);
++assert.match(columnsDrawerSource, /syncColumnsFooter\(\{ libraryOpen: false \}\)/);
++assert.match(columnsDrawerSource, /libraryResetDisabled: !hasAddedLibraryAttributes\(navId\)/);
++assert.match(columnsDrawerSource, /querySelector\('\.js-open-library'\)\?\.addEventListener\('click'/);
++assert.match(columnsDrawerSource, /querySelector\('\.js-library-reset'\)\?\.addEventListener\('click'/);
++assert.match(columnsDrawerSource, /querySelector\('\.js-columns-apply'\)\?\.addEventListener\('click'/);
++assert.match(columnsDrawerSource, /querySelectorAll\('\.js-columns-reset'\)/);
++assert.match(columnsDrawerSource, /window\.customColumnState\[navId\]/);
++assert.match(columnsDrawerSource, /window\.renderTab\(getActiveQueueLabel/);
++assert.match(coreUiStyles, /\.ds-columns-footer__mount/);
++assert.match(coreUiStyles, /\.ds-columns-footer__spacer/);
++assert.doesNotMatch(
++  readText('src/styles/features/task-workspace.css'),
++  /(?:\.js-columns-reset|\.js-columns-apply|\.js-open-library|#columns-drawer \.js-library-reset)\s*\{/,
++);
+@@
+ assert.match(builtJavaScript, /tend-ui-settings-icon/);
++assert.match(builtJavaScript, /tend-ui-columns-library-toggle/);
++assert.match(builtJavaScript, /tend-ui-columns-library-reset/);
++assert.match(builtJavaScript, /tend-ui-columns-default/);
++assert.match(builtJavaScript, /tend-ui-columns-apply/);
++assert.match(builtJavaScript, /tend-ui-book-icon/);
++assert.match(builtJavaScript, /tend-ui-refresh-icon/);
+*** Update File: ../S-Tracker/scripts/report-tend-ui-bundle.mjs
+@@
+-const f35Result = { raw: 939361, gzip: 289710 };
+-const f36PresetToolbarBudget = { raw: 16 * 1024, gzip: 5 * 1024 };
++const f36Result = { raw: 940702, gzip: 290034 };
++const f37ColumnsFooterBudget = { raw: 20 * 1024, gzip: 6 * 1024 };
+ 
+ assert.ok(
+-  rawBytes <= f35Result.raw + f36PresetToolbarBudget.raw,
+-  `JavaScript bundle exceeds the reviewed F-36 preset-toolbar budget: ${rawBytes} bytes`,
++  rawBytes <= f36Result.raw + f37ColumnsFooterBudget.raw,
++  `JavaScript bundle exceeds the reviewed F-37 columns-footer budget: ${rawBytes} bytes`,
+ );
+ assert.ok(
+-  gzipBytes <= f35Result.gzip + f36PresetToolbarBudget.gzip,
+-  `Gzipped JavaScript bundle exceeds the reviewed F-36 preset-toolbar budget: ${gzipBytes} bytes`,
++  gzipBytes <= f36Result.gzip + f37ColumnsFooterBudget.gzip,
++  `Gzipped JavaScript bundle exceeds the reviewed F-37 columns-footer budget: ${gzipBytes} bytes`,
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-columns-button/);
+ assert.match(bundle.toString('utf8'), /tend-ui-settings-icon/);
++assert.match(bundle.toString('utf8'), /tend-ui-columns-library-toggle/);
++assert.match(bundle.toString('utf8'), /tend-ui-columns-library-reset/);
++assert.match(bundle.toString('utf8'), /tend-ui-columns-default/);
++assert.match(bundle.toString('utf8'), /tend-ui-columns-apply/);
++assert.match(bundle.toString('utf8'), /tend-ui-book-icon/);
++assert.match(bundle.toString('utf8'), /tend-ui-refresh-icon/);
+@@
+-console.log('Budget: F-35 result plus 16 KiB raw / 5 KiB gzip for Tend UI preset toolbar controls');
++console.log('Budget: F-36 result plus 20 KiB raw / 6 KiB gzip for Tend UI column-settings footer controls');
+*** End Patch

@@ -1,0 +1,33 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+-Интеграция трёх controls выполнена и проверена. S-Tracker сохраняет основной vanilla/Vite lifecycle, а React используется только внутри отдельных точек монтирования для кнопки `Создать задачу`, поля `Поиск по задачам` и действия `Печать`.
++Интеграция четырёх controls выполнена и проверена. S-Tracker сохраняет основной vanilla/Vite lifecycle, а React используется только внутри отдельных точек монтирования для кнопки `Создать задачу`, поля `Поиск по задачам`, действия `Печать` и toolbar-триггера `Фильтры`.
+@@
+-| `index.html` | Содержит mount points `tend-ui-create-task-root`, `tend-ui-global-search-root` и `tend-ui-print-root`. |
++| `index.html` | Содержит mount points `tend-ui-create-task-root`, `tend-ui-global-search-root`, `tend-ui-print-root` и `tend-ui-toolbar-filters-root`. |
+@@
+ | `src/integrations/tend-ui/print-button.jsx` | Монтирует Tend UI `Button` и `Print`, сохраняя `#js-print-btn`. |
+-| `src/main.js` | Вызывает три адаптера до общей инициализации обработчиков интерфейса и корректно обрабатывает уже наступивший `DOMContentLoaded`. |
++| `src/integrations/tend-ui/toolbar-filter-button.jsx` | Монтирует Tend UI `Button`, `FilterAlt` и `Close`, сохраняя filter selectors/count DOM. |
++| `src/main.js` | Вызывает четыре адаптера до общей инициализации обработчиков интерфейса и корректно обрабатывает уже наступивший `DOMContentLoaded`. |
+@@
+ - в пользовательской группе перемещается `#tend-ui-print-root`, а не React-owned child;
++- toolbar-триггер фильтров сохраняет `#js-sidebar-filters-btn`, `.js-btn-open-filters`, счётчик и отдельный reset indicator;
++- активный фильтр переключает `0 -> 1 -> 0`, заменяет `FilterAlt` на reset indicator и не передаёт `activeFilters` в React;
++- drawer открывается из Tend UI-кнопки в карточном, табличном и пользовательском представлениях;
+@@
+-- мигрированы две кнопки и одно поле поиска;
++- мигрированы три кнопки и одно поле поиска;
+@@
+-The next group is F-26: migrate the `Фильтры` toolbar trigger to Tend UI `Button` while preserving drawer opening, active-count/reset indication and vanilla filter ownership.
++## F-26 Filter Trigger Result
++
++- Tend UI `Button`, `FilterAlt` and `Close` render through a fourth isolated mount;
++- vanilla `filter-drawer.js` still owns drawer state, active-filter counting, reset and rerender behavior;
++- the fixed `120 x 36` geometry prevents toolbar shift when the count replaces the icon;
++- card, table and custom-group routes open the same existing drawer;
++- all consumer security and bundle gates remain green.
++
++The next group is F-27: migrate the column-settings toolbar action to Tend UI `Button`/icon while preserving drawer behavior and custom-view placement.
+*** End Patch

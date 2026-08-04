@@ -1,0 +1,36 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ .ds-modal__footer {
+   display: flex;
+   gap: var(--space-3);
+   padding-top: 16px;
+ }
++
++.ds-move-dialog__close-mount {
++  width: 40px;
++  height: 40px;
++  display: inline-flex;
++  align-items: center;
++  justify-content: center;
++  flex-shrink: 0;
++}
++
++.ds-move-dialog__input-mount {
++  width: 100%;
++}
++
++.ds-move-dialog__actions {
++  align-items: center;
++}
++
++.ds-move-dialog__actions > .tend-ui-button {
++  flex: 1 1 0;
++  min-width: 0;
++}
++
++.ds-move-dialog__close-mount > .tend-ui-button {
++  min-width: 40px !important;
++  padding: 0 !important;
++}
+*** End Patch

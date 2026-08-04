@@ -1,0 +1,32 @@
+import React from 'react';
+import { Rule, RuleObject } from 'antd-core/es/form';
+export declare const useErrorMessagePrefix: (rules?: Rule[]) => ({
+    message: React.JSX.Element;
+    warningOnly?: boolean;
+    enum?: import("rc-field-form/lib/interface").StoreValue[];
+    len?: number;
+    max?: number;
+    min?: number;
+    pattern?: RegExp;
+    required?: boolean;
+    transform?: (value: import("rc-field-form/lib/interface").StoreValue) => import("rc-field-form/lib/interface").StoreValue;
+    type?: import("rc-field-form/lib/interface").RuleType;
+    whitespace?: boolean;
+    validateTrigger?: string | string[];
+    validator?: ((rule: RuleObject, value: import("rc-field-form/lib/interface").StoreValue, callback: (error?: string) => void) => Promise<void | any> | void) | undefined;
+} | {
+    message: React.JSX.Element;
+    type: "array";
+    defaultField?: RuleObject;
+    pattern?: RegExp;
+    max?: number;
+    min?: number;
+    transform?: (value: import("rc-field-form/lib/interface").StoreValue) => import("rc-field-form/lib/interface").StoreValue;
+    required?: boolean;
+    validateTrigger?: string | string[];
+    warningOnly?: boolean;
+    validator?: ((rule: RuleObject, value: import("rc-field-form/lib/interface").StoreValue, callback: (error?: string) => void) => Promise<void | any> | void) | undefined;
+    enum?: import("rc-field-form/lib/interface").StoreValue[];
+    len?: number;
+    whitespace?: boolean;
+})[] | undefined;

@@ -1,0 +1,98 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const paginationAdapterSource = readText('src/integrations/tend-ui/pagination.jsx');
+ const taskSelectionAdapterSource = readText('src/integrations/tend-ui/task-selection.jsx');
++const bulkActionsAdapterSource = readText('src/integrations/tend-ui/bulk-actions.jsx');
+@@
+ assert.match(indexHtml, /id="tend-ui-task-selection-root"/);
++assert.match(indexHtml, /id="tend-ui-bulk-actions-root"/);
++assert.match(indexHtml, /id="tend-ui-bulk-clear-root"/);
+@@
+ assert.doesNotMatch(indexHtml, /id="js-pagination-wrapper"/);
++assert.doesNotMatch(indexHtml, /<button[^>]+class="[^"]*js-fab-(?:status|to-group|assign|work|done|from-group|clear)/);
+@@
+ assert.match(mainSource, /mountTendUiTaskSelection\(\)/);
++assert.match(mainSource, /mountTendUiBulkActions\(\)/);
+@@
+ assert.doesNotMatch(selectionStyles, /\.ds-selection-checkbox/);
++assert.match(bulkActionsAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++for (const icon of ['AccountCircle', 'Close', 'Delete', 'Done', 'Edit', 'FolderAdd', 'Play']) {
++  assert.match(
++    bulkActionsAdapterSource,
++    new RegExp(`@10d/tend-ui-icons/${icon}/${icon}\\.js`),
++    `Bulk action ${icon} icon must use its narrow Tend UI export`,
++  );
++}
++for (const testId of [
++  'tend-ui-bulk-status',
++  'tend-ui-bulk-to-group',
++  'tend-ui-bulk-assign',
++  'tend-ui-bulk-work',
++  'tend-ui-bulk-done',
++  'tend-ui-bulk-from-group',
++  'tend-ui-bulk-clear',
++]) {
++  assert.match(bulkActionsAdapterSource, new RegExp(testId));
++}
++for (const className of [
++  'js-fab-status',
++  'js-fab-to-group',
++  'js-fab-assign',
++  'js-fab-work',
++  'js-fab-done',
++  'js-fab-from-group',
++  'js-fab-clear',
++]) {
++  assert.match(bulkActionsAdapterSource, new RegExp(className));
++}
++assert.match(bulkActionsAdapterSource, /ReactDOM\.createPortal/);
++assert.doesNotMatch(
++  bulkActionsAdapterSource,
++  /onClick|selectedTaskIds|renderTab|customGroups|showToast|navigationContext/,
++);
++assert.match(taskSelectionSource, /querySelector\('\.js-fab-to-group'\)\?\.addEventListener\('click'/);
++assert.match(taskSelectionSource, /querySelector\('\.js-fab-clear'\)\?\.addEventListener\('click'/);
++assert.match(taskSelectionSource, /querySelector\('\.js-fab-from-group'\)\?\.addEventListener\('click'/);
++assert.match(taskSelectionSource, /m\?\.showModal\(\)/);
++assert.match(taskSelectionSource, /window\.customGroups\.push/);
++assert.match(taskSelectionSource, /window\.selectedTaskIds\.clear\(\)/);
++assert.match(selectionStyles, /\.ds-fab \.tend-ui-button\.ds-fab-button/);
++assert.match(selectionStyles, /\.ds-fab__close-mount/);
++assert.match(selectionStyles, /\.ds-fab \.tend-ui-button\.ds-fab-clear-button/);
++assert.doesNotMatch(selectionStyles, /\.ds-button--fab-outline/);
++assert.doesNotMatch(selectionStyles, /\.ds-fab__close\s*\{/);
+@@
+ assert.match(builtJavaScript, /tend-ui-select-all-tasks/);
++assert.match(builtJavaScript, /tend-ui-bulk-status/);
++assert.match(builtJavaScript, /tend-ui-bulk-to-group/);
++assert.match(builtJavaScript, /tend-ui-bulk-assign/);
++assert.match(builtJavaScript, /tend-ui-bulk-work/);
++assert.match(builtJavaScript, /tend-ui-bulk-done/);
++assert.match(builtJavaScript, /tend-ui-bulk-from-group/);
++assert.match(builtJavaScript, /tend-ui-bulk-clear/);
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+-const f31Result = { raw: 913695, gzip: 282112 };
+-const f32CheckboxBudget = { raw: 32 * 1024, gzip: 12 * 1024 };
++const f32Result = { raw: 928233, gzip: 286643 };
++const f33BulkActionsBudget = { raw: 40 * 1024, gzip: 12 * 1024 };
+@@
+-  rawBytes <= f31Result.raw + f32CheckboxBudget.raw,
+-  `JavaScript bundle exceeds the reviewed F-32 Checkbox budget: ${rawBytes} bytes`,
++  rawBytes <= f32Result.raw + f33BulkActionsBudget.raw,
++  `JavaScript bundle exceeds the reviewed F-33 bulk-actions budget: ${rawBytes} bytes`,
+@@
+-  gzipBytes <= f31Result.gzip + f32CheckboxBudget.gzip,
+-  `Gzipped JavaScript bundle exceeds the reviewed F-32 Checkbox budget: ${gzipBytes} bytes`,
++  gzipBytes <= f32Result.gzip + f33BulkActionsBudget.gzip,
++  `Gzipped JavaScript bundle exceeds the reviewed F-33 bulk-actions budget: ${gzipBytes} bytes`,
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-select-all-tasks/);
++assert.match(bundle.toString('utf8'), /tend-ui-bulk-status/);
++assert.match(bundle.toString('utf8'), /tend-ui-bulk-to-group/);
++assert.match(bundle.toString('utf8'), /tend-ui-bulk-clear/);
+@@
+-console.log('Budget: F-31 result plus 32 KiB raw / 12 KiB gzip for Tend UI Checkbox');
++console.log('Budget: F-32 result plus 40 KiB raw / 12 KiB gzip for Tend UI bulk actions');
+*** End Patch

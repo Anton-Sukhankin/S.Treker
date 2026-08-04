@@ -1,0 +1,14 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/docs/tend-ui-integration.md
+@@
+-The next group is F-37: migrate the column-settings footer actions while preserving library expansion, default reset, draft commit and Apply disabled behavior.
++## F-37 Column-Settings Footer Result
++
++- four footer actions render through Tend UI `Button`, `Book` and `Refresh`;
++- React owns presentation and synchronized library-open/reset-disabled state only;
++- vanilla code owns expansion, library membership, draft reset, Apply commit and table rerender;
++- library toggle/reset, draft isolation, Apply and default-reset scenarios pass;
++- all build, security and bundle gates remain green.
++
++The next group is F-38: migrate the column-settings header close action and attribute-library search field while preserving discard-on-close, library collapse, filtering and query lifecycle.
+*** End Patch

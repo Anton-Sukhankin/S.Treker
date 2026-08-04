@@ -1,0 +1,9 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\package.json
+@@
+     "audit:tend-ui:remaining": "node scripts/audit-remaining-tend-ui-controls.mjs",
++    "audit:tend-ui:multi-select": "node scripts/audit-multi-select-migration.mjs",
+@@
+-    "verify:tend-ui:all": "npm run build && npm run verify:tend-ui && npm run verify:tend-ui:columns && npm run audit:tend-ui:remaining && npm run verify:tend-ui:security && npm run verify:tend-ui:bundle"
++    "verify:tend-ui:all": "npm run build && npm run verify:tend-ui && npm run verify:tend-ui:columns && npm run audit:tend-ui:remaining && npm run audit:tend-ui:multi-select && npm run verify:tend-ui:security && npm run verify:tend-ui:bundle"
+*** End Patch

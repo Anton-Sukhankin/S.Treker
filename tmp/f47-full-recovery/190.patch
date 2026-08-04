@@ -1,0 +1,32 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/scripts/report-tend-ui-bundle.mjs
+@@
+-const f35Result = { raw: 939361, gzip: 289710 };
+-const f36PresetToolbarBudget = { raw: 16 * 1024, gzip: 5 * 1024 };
++const f36Result = { raw: 940702, gzip: 290034 };
++const f37ColumnsFooterBudget = { raw: 20 * 1024, gzip: 6 * 1024 };
+ 
+ assert.ok(
+-  rawBytes <= f35Result.raw + f36PresetToolbarBudget.raw,
+-  `JavaScript bundle exceeds the reviewed F-36 preset-toolbar budget: ${rawBytes} bytes`,
++  rawBytes <= f36Result.raw + f37ColumnsFooterBudget.raw,
++  `JavaScript bundle exceeds the reviewed F-37 columns-footer budget: ${rawBytes} bytes`,
+ );
+ assert.ok(
+-  gzipBytes <= f35Result.gzip + f36PresetToolbarBudget.gzip,
+-  `Gzipped JavaScript bundle exceeds the reviewed F-36 preset-toolbar budget: ${gzipBytes} bytes`,
++  gzipBytes <= f36Result.gzip + f37ColumnsFooterBudget.gzip,
++  `Gzipped JavaScript bundle exceeds the reviewed F-37 columns-footer budget: ${gzipBytes} bytes`,
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-columns-button/);
+ assert.match(bundle.toString('utf8'), /tend-ui-settings-icon/);
++assert.match(bundle.toString('utf8'), /tend-ui-columns-library-toggle/);
++assert.match(bundle.toString('utf8'), /tend-ui-columns-library-reset/);
++assert.match(bundle.toString('utf8'), /tend-ui-columns-default/);
++assert.match(bundle.toString('utf8'), /tend-ui-columns-apply/);
++assert.match(bundle.toString('utf8'), /tend-ui-book-icon/);
++assert.match(bundle.toString('utf8'), /tend-ui-refresh-icon/);
+@@
+-console.log('Budget: F-35 result plus 16 KiB raw / 5 KiB gzip for Tend UI preset toolbar controls');
++console.log('Budget: F-36 result plus 20 KiB raw / 6 KiB gzip for Tend UI column-settings footer controls');
+*** End Patch

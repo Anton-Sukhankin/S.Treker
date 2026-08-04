@@ -1,0 +1,29 @@
+{
+  "mode": "edit",
+  "componentId": "434530344935493632",
+  "projectId": "433158690502225920",
+  "selectedRevisionId": "434530344935493633",
+  "jobId": "432825861566263296-external-agent-434531980256899072",
+  "generatedName": "steady-road-9802",
+  "name": "S Tracker Task Card Process",
+  "dimensions": {
+    "width": 760,
+    "height": 1180
+  },
+  "selectedImages": [],
+  "editableFiles": [
+    {
+      "path": "src/App.tsx",
+      "sha256": "cdde0d96c60578f77d2febe5413725035ca5a4e4ab58ceab8ee3738ab6ca690f"
+    },
+    {
+      "path": "src/components/generated/STrackerTaskCardProcess.tsx",
+      "sha256": "829477ecd45b57ef6580cbd1626159e5b53900fbb11ab17cc9497430f5123c1c"
+    },
+    {
+      "path": "src/index.css",
+      "sha256": "b1388883066853fc4b7b8bbc55ba83bd4e7536b4c9d5203f268892d4186ccaef"
+    }
+  ],
+  "baseRevisionId": "434530344935493633"
+}

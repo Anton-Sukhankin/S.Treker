@@ -1,0 +1,7 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-</body>
++  <div id="tend-ui-task-selection-root" class="tend-ui-portal-host"></div>
++</body>
+*** End Patch

@@ -1,0 +1,16 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+ The next group is F-43: audit remaining legacy controls outside column settings and define the next bounded Tend UI migration wave, starting with the filter drawer.
++
++## F-43 Remaining Controls Audit Result
++
++- an executable inventory now covers filter drawer, system overlay, dynamic task actions and bookmarks;
++- completed column settings remain at zero native controls and zero inline SVG;
++- filter drawer contains six buttons, four inputs, eight composite multi-selects and 18 inline SVG;
++- Close/Reset/Apply are selected as the low-risk F-44 boundary;
++- money range and multi-select mechanics remain separate waves;
++- the F-44 browser baseline for close, reset, apply, counts and rerendering is recorded.
++
++The next group is F-44: migrate filter-drawer Close, Reset All and Apply actions while preserving drawer lifecycle, draft values, counts, reset and apply behavior.
+*** End Patch

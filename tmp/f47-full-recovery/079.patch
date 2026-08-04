@@ -1,0 +1,52 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-download-action.md
++# F-28: Tend UI Download Action
++
++## Result
++
++The download toolbar action now renders through:
++
++```text
++src/integrations/tend-ui/download-button.jsx
++```
++
++The adapter uses Tend UI `Button` and `Download`. It intentionally contains no click handler because the current product specification defines the action as a visible no-op prototype control.
++
++## Preserved Product Contract
++
++- stable id: `#js-download-btn`;
++- hidden in card view;
++- visible as `40 x 40` in table view;
++- accessible name and title: `Скачать`;
++- click does not change URL, drawers, toast or view state;
++- hidden in custom-group card view;
++- visible in the custom-group header in table view;
++- returns to the main toolbar when navigation leaves the custom group.
++
++## Ownership Boundary
++
++Vanilla `initViewSwitcher()` remains the owner of card/table visibility. `tasks-view.js` moves `#tend-ui-download-root` and uses the shared direct-child mount anchor on return.
++
++The adapter verifier explicitly rejects `onClick`, `fetch`, `location`, download attributes and toast calls inside this adapter. Real export/download mechanics must be introduced as a separate product task with an explicit data/file contract.
++
++## Verification
++
++The consumer gate passed before documentation sync:
++
++```text
++Vite modules: 729
++JavaScript chunks: 1
++Bundle raw: 731,238 bytes
++Bundle gzip: 225,488 bytes
++```
++
++Browser checks passed for card/table visibility, exact geometry, no-op click, custom-header transfer and main-toolbar return.
++
++No corporate registry or closed corporate source was accessed.
++
++## Next Group
++
++```text
++F-29: migrate the S-Tracker card/table view switcher to a Tend UI segmented control while preserving vanilla view ownership, action visibility and custom-view movement.
++```
+*** End Patch

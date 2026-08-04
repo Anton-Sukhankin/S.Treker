@@ -1,0 +1,17 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+             <div id="columns-visibility-sections">
+               <!-- Columns injected here -->
+             </div>
++            <div id="tend-ui-column-row-controls-root" hidden></div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiColumnsDrawerControls } from './integrations/tend-ui/columns-drawer-controls.jsx';
+ import { mountTendUiColumnsFooterActions } from './integrations/tend-ui/columns-footer-actions.jsx';
++import { mountTendUiColumnRowControls } from './integrations/tend-ui/column-row-controls.jsx';
+@@
+ mountTendUiColumnsDrawerControls();
+ mountTendUiColumnsFooterActions();
++mountTendUiColumnRowControls();
+*** End Patch

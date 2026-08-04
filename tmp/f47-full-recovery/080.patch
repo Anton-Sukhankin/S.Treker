@@ -1,0 +1,32 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+-Интеграция пяти controls выполнена и проверена. S-Tracker сохраняет основной vanilla/Vite lifecycle, а React используется только внутри отдельных точек монтирования для кнопки `Создать задачу`, поля `Поиск по задачам`, действий `Печать` и `Настройка колонок`, а также toolbar-триггера `Фильтры`.
++Интеграция шести controls выполнена и проверена. S-Tracker сохраняет основной vanilla/Vite lifecycle, а React используется только внутри отдельных точек монтирования для кнопки `Создать задачу`, поля `Поиск по задачам`, действий `Печать`, `Настройка колонок` и `Скачать`, а также toolbar-триггера `Фильтры`.
+@@
+-| `index.html` | Содержит mount points `tend-ui-create-task-root`, `tend-ui-global-search-root`, `tend-ui-print-root`, `tend-ui-toolbar-filters-root` и `tend-ui-columns-root`. |
++| `index.html` | Содержит mount points `tend-ui-create-task-root`, `tend-ui-global-search-root`, `tend-ui-print-root`, `tend-ui-toolbar-filters-root`, `tend-ui-columns-root` и `tend-ui-download-root`. |
+@@
+ | `src/integrations/tend-ui/columns-button.jsx` | Монтирует Tend UI `Button` и `Settings`, сохраняя `#js-columns-btn` и drawer selector. |
+-| `src/main.js` | Вызывает пять адаптеров до общей инициализации обработчиков интерфейса и корректно обрабатывает уже наступивший `DOMContentLoaded`. |
++| `src/integrations/tend-ui/download-button.jsx` | Монтирует Tend UI `Button` и `Download`, сохраняя `#js-download-btn` и no-op contract. |
++| `src/main.js` | Вызывает шесть адаптеров до общей инициализации обработчиков интерфейса и корректно обрабатывает уже наступивший `DOMContentLoaded`. |
+@@
+ - в custom view перемещается `#tend-ui-columns-root`, а общий mount anchor возвращает его в toolbar без потери React ownership;
++- действие скачивания скрыто в карточках, видимо как `40 x 40` в таблице и не создаёт побочных эффектов при клике;
++- `#tend-ui-download-root` проходит тот же custom-view transfer/return без добавления фиктивной download-механики;
+@@
+-- мигрированы четыре кнопки и одно поле поиска;
++- мигрированы пять кнопок и одно поле поиска;
+@@
+-The next group is F-28: migrate the download toolbar action to Tend UI `Button`/icon while preserving visibility, custom-view placement and its current no-op contract.
++## F-28 Download Action Result
++
++- Tend UI `Button` and `Download` render through a sixth isolated mount;
++- vanilla view switching still owns card/table visibility;
++- the adapter has no click handler and preserves the specified no-op behavior;
++- custom-header transfer and toolbar return use mount nodes;
++- all consumer security and bundle gates remain green.
++
++The next group is F-29: migrate the card/table switcher to a Tend UI segmented control while preserving vanilla view ownership, dependent-action visibility and custom-view movement.
+*** End Patch

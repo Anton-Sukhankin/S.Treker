@@ -1,0 +1,8 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-            <button class="ds-button ds-button--primary js-btn-create-task">
+-              Создать задачу
+-            </button>
++            <div id="tend-ui-create-task-root" data-tend-ui-adapter="create-task" style="display: contents;"></div>
+*** End Patch

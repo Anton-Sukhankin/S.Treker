@@ -1,0 +1,29 @@
+{
+  "mode": "edit",
+  "componentId": "434986978161881088",
+  "projectId": "433158690502225920",
+  "selectedRevisionId": "434991671604826112",
+  "baseRevisionId": "434991671604826112",
+  "jobId": "432825861566263296-external-agent-434992194378670080",
+  "generatedName": "cozy-moon-2576",
+  "name": "S Tracker New Document Picker Managed Catalog",
+  "selectedImages": [],
+  "editableFiles": [
+    {
+      "path": "src/App.tsx",
+      "sha256": "eff02c845577645f9f333dae0437f43e8febc37efa504b9c81bf22a0beb970de"
+    },
+    {
+      "path": "src/components/generated/STrackerNewDocumentPickerManagedCatalog.tsx",
+      "sha256": "2af5d51a97e99042c7e596b5d1586eafc65f11ea7ca1aedf28c2d7e0bd1df2e5"
+    },
+    {
+      "path": "src/index.css",
+      "sha256": "39ba1d5619534ca8218a9f54b9d46738deb88adb93dbd37b5f87942fd9b750bd"
+    }
+  ],
+  "dimensions": {
+    "width": 1910,
+    "height": 926
+  }
+}

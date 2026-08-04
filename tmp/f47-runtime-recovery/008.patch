@@ -1,0 +1,13 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const searchAdapterSource = readText('src/integrations/tend-ui/global-search-input.jsx');
+ const runtimeSource = readText('src/integrations/tend-ui/runtime.jsx');
++const basicControlsSource = readText('src/ui/basic-controls.js');
+@@
+ assert.match(runtimeSource, /@10d\/tend-ui\/theme/);
+ assert.match(runtimeSource, /TendUI\.init\(\)/);
++assert.match(basicControlsSource, /getElementById\('js-global-search'\)/);
++assert.match(basicControlsSource, /window\.activeFilters\.search = input\.value\.trim\(\)/);
++assert.match(basicControlsSource, /window\.applyFilters\(\{ keepDrawerOpen: true \}\)/);
+*** End Patch

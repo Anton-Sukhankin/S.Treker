@@ -1,0 +1,17 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+ The next group is F-45: migrate filter money-range text fields and preset buttons to Tend UI while preserving native range thumbs, clamping, formatting, active preset, reset and Apply behavior.
++
++## F-45 Money Range Controls Result
++
++- `src/integrations/tend-ui/money-range-controls.jsx` renders the lower/upper fields through Tend UI `Input`;
++- the same adapter portals three preset actions through Tend UI `Button`;
++- vanilla hooks, formatting, `10,000` rounding, clamping, crossed-boundary resolution, active preset, track fill and counts remain unchanged;
++- two native range thumbs remain intentionally local because Tend UI `RangeInput` is a paired numeric-input component, not a dual-thumb slider;
++- browser regression confirms typed values, crossing, preset selection, thumb movement, Close, Reset and Apply;
++- the aggregate gate passes with `945` transformed modules and a `954,359` raw / `294,319` gzip bundle;
++- the static filter drawer now has zero native buttons and only the two intentional range inputs.
++
++The next group is F-46: audit filter multi-select triggers, option controls and inline icons, then define the first bounded Tend UI migration wave.
+*** End Patch

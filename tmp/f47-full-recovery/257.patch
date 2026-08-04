@@ -1,0 +1,86 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-filter-drawer-actions.md
++# Tend UI Filter Drawer Actions
++
++Status: F-44 `[x]`.
++
++## Result
++
++The filter drawer now renders its three stable actions through:
++
++```text
++src/integrations/tend-ui/filter-drawer-actions.jsx
++```
++
++The adapter provides:
++
++- a Tend UI `Button` with the `Close` icon for the drawer header;
++- a Tend UI ghost `Button` for `Сбросить всё`;
++- a Tend UI primary `Button` for `Применить`.
++
++The original selectors remain available to the vanilla feature:
++
++```text
++.js-filter-close
++.js-filter-reset
++.js-filter-apply
++```
++
++## Ownership Boundary
++
++React owns only the stable button markup, Tend UI presentation and accessible names.
++
++`src/features/filters/filter-drawer.js` remains the sole owner of:
++
++- opening and closing the drawer and overlay;
++- draft filter values and the draft settings count;
++- reset behavior;
++- committing filters on Apply;
++- task-list, queue-count and pagination refresh;
++- restoring an uncommitted draft when the drawer is reopened.
++
++The adapter contains no event handlers, filter state or direct rerender calls. Existing delegated vanilla listeners continue to receive all three actions.
++
++## Static Verification
++
++The executable gates confirm:
++
++- both F-44 mount points exist once;
++- the three Tend UI actions exist in the built bundle;
++- the three native action buttons are absent;
++- the adapter does not import or manipulate product filter state;
++- the remaining-control baseline is now three buttons, four inputs, eight composite multi-selects and 17 inline SVG elements in the filter drawer.
++
++## Browser Verification
++
++The local S-Tracker runtime at `http://127.0.0.1:5175/` passed:
++
++- all three Tend UI actions render exactly once;
++- Close dismisses the drawer without applying a draft;
++- reopening the drawer preserves that draft and its count;
++- Apply commits the money-range draft, closes the drawer and changes the visible queue from `134` to `27`;
++- Reset clears the draft count while the drawer remains open;
++- Reset followed by Apply restores the visible queue to `134`;
++- no direct legacy Close/Reset/Apply buttons remain.
++
++## Build Evidence
++
++```text
++Vite transformed modules: 944
++JavaScript bundle raw: 953,065 bytes
++JavaScript bundle gzip: 293,999 bytes
++```
++
++The F-44 bundle budget passes. No Tend UI package export or release tarball changed.
++
++## Constraints
++
++- No closed corporate registry, GitLab, Nexus, Figma or internal service was accessed.
++- Money-range fields, preset actions, native range thumbs and multi-select controls are outside F-44.
++
++## Next Group
++
++```text
++F-45: migrate filter money-range text fields and preset buttons to Tend UI while preserving native range thumbs, clamping, formatting, active preset, reset and Apply behavior.
++```
+*** End Patch

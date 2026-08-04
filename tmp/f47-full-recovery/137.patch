@@ -1,0 +1,26 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+-const f31Result = { raw: 913695, gzip: 282112 };
+-const f32CheckboxBudget = { raw: 32 * 1024, gzip: 12 * 1024 };
++const f32Result = { raw: 928233, gzip: 286643 };
++const f33BulkActionsBudget = { raw: 40 * 1024, gzip: 12 * 1024 };
+@@
+-  rawBytes <= f31Result.raw + f32CheckboxBudget.raw,
+-  `JavaScript bundle exceeds the reviewed F-32 Checkbox budget: ${rawBytes} bytes`,
++  rawBytes <= f32Result.raw + f33BulkActionsBudget.raw,
++  `JavaScript bundle exceeds the reviewed F-33 bulk-actions budget: ${rawBytes} bytes`,
+@@
+-  gzipBytes <= f31Result.gzip + f32CheckboxBudget.gzip,
+-  `Gzipped JavaScript bundle exceeds the reviewed F-32 Checkbox budget: ${gzipBytes} bytes`,
++  gzipBytes <= f32Result.gzip + f33BulkActionsBudget.gzip,
++  `Gzipped JavaScript bundle exceeds the reviewed F-33 bulk-actions budget: ${gzipBytes} bytes`,
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-select-all-tasks/);
++assert.match(bundle.toString('utf8'), /tend-ui-bulk-status/);
++assert.match(bundle.toString('utf8'), /tend-ui-bulk-to-group/);
++assert.match(bundle.toString('utf8'), /tend-ui-bulk-clear/);
+@@
+-console.log('Budget: F-31 result plus 32 KiB raw / 12 KiB gzip for Tend UI Checkbox');
++console.log('Budget: F-32 result plus 40 KiB raw / 12 KiB gzip for Tend UI bulk actions');
+*** End Patch

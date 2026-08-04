@@ -1,0 +1,35 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\domain\queue-state.js
++export const DEFAULT_QUEUE_STATUS = 'todo';
++
++const VALID_QUEUE_STATUSES = new Set([
++  'todo',
++  'in_progress',
++  'done',
++  'to_assign',
++  'review',
++  'initiated',
++]);
++
++export function getQueueTabsRoot() {
++  return document.getElementById('tend-ui-queue-tabs-root');
++}
++
++export function getActiveQueueStatus() {
++  const status = getQueueTabsRoot()?.dataset.activeStatus;
++  return VALID_QUEUE_STATUSES.has(status) ? status : DEFAULT_QUEUE_STATUS;
++}
++
++export function setActiveQueueStatus(status) {
++  const normalizedStatus = VALID_QUEUE_STATUSES.has(status) ? status : DEFAULT_QUEUE_STATUS;
++  const root = getQueueTabsRoot();
++
++  if (root) root.dataset.activeStatus = normalizedStatus;
++
++  return normalizedStatus;
++}
++
++export function getActiveQueueLabel(statusLabels) {
++  return statusLabels[getActiveQueueStatus()] || statusLabels[DEFAULT_QUEUE_STATUS];
++}
+*** End Patch

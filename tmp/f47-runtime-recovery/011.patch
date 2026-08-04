@@ -1,0 +1,117 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\toolbar-filter-button.jsx
++import React from 'react';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Close } from '@10d/tend-ui-icons/Close/Close.js';
++import { FilterAlt } from '@10d/tend-ui-icons/FilterAlt/FilterAlt.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++export function mountTendUiToolbarFilterButton() {
++  const mountNode = document.getElementById('tend-ui-toolbar-filters-root');
++
++  return renderTendUi(
++    <Button
++      before={<FilterAlt className="ds-button__icon" size={16} />}
++      className="ds-button js-btn-open-filters"
++      data-testid="tend-ui-toolbar-filter-button"
++      id="js-sidebar-filters-btn"
++      size="medium"
++      style={{ height: 36, whiteSpace: 'nowrap' }}
++      type="button"
++      variant="secondary"
++    >
++      <span className="ds-filter-reset-indicator js-filter-reset-indicator" aria-label="Сбросить все фильтры">
++        <span className="ds-filter-reset-indicator__count js-filter-reset-count">0</span>
++        <Close className="ds-filter-reset-indicator__clear" size={10} aria-hidden="true" />
++      </span>
++      <span>Фильтры</span>
++      <span className="ds-button__badge" />
++    </Button>,
++    mountNode,
++  );
++}
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-            <button class="ds-button ds-button--outlined js-btn-open-filters" id="js-sidebar-filters-btn" style="height: 36px; white-space: nowrap;">
+-              <svg class="ds-button__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+-              <span class="ds-filter-reset-indicator js-filter-reset-indicator" aria-label="Сбросить все фильтры">
+-                <span class="ds-filter-reset-indicator__count js-filter-reset-count">0</span>
+-                <svg class="ds-filter-reset-indicator__clear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true">
+-                  <line x1="18" y1="6" x2="6" y2="18"></line>
+-                  <line x1="6" y1="6" x2="18" y2="18"></line>
+-                </svg>
+-              </span>
+-              <span>Фильтры</span>
+-              <span class="ds-button__badge"></span>
+-            </button>
++            <div id="tend-ui-toolbar-filters-root" data-tend-ui-adapter="toolbar-filters"></div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiGlobalSearchInput } from './integrations/tend-ui/global-search-input.jsx';
+ import { mountTendUiPrintButton } from './integrations/tend-ui/print-button.jsx';
++import { mountTendUiToolbarFilterButton } from './integrations/tend-ui/toolbar-filter-button.jsx';
+@@
+ mountTendUiGlobalSearchInput();
+ mountTendUiPrintButton();
++mountTendUiToolbarFilterButton();
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ #tend-ui-print-root { display: contents; }
++#tend-ui-toolbar-filters-root { display: contents; }
+ #tend-ui-print-root .ds-button--icon-only {
+@@
+ }
++#tend-ui-toolbar-filters-root .js-btn-open-filters {
++  min-height: 36px;
++  padding: 8px 16px;
++  gap: var(--space-2);
++}
++#tend-ui-toolbar-filters-root .ds-filter-reset-indicator__clear { display: none; }
++#tend-ui-toolbar-filters-root .ds-filter-reset-indicator:hover .ds-filter-reset-indicator__clear { display: block; }
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const printAdapterSource = readText('src/integrations/tend-ui/print-button.jsx');
++const filterAdapterSource = readText('src/integrations/tend-ui/toolbar-filter-button.jsx');
+ const runtimeSource = readText('src/integrations/tend-ui/runtime.jsx');
+ const basicControlsSource = readText('src/ui/basic-controls.js');
+ const tasksViewSource = readText('src/features/tasks/tasks-view.js');
++const filterDrawerSource = readText('src/features/filters/filter-drawer.js');
+@@
+ assert.match(indexHtml, /id="tend-ui-print-root"/);
++assert.match(indexHtml, /id="tend-ui-toolbar-filters-root"/);
+ assert.doesNotMatch(indexHtml, /<input[^>]+id="js-global-search"/);
+ assert.doesNotMatch(indexHtml, /<button[^>]+id="js-print-btn"/);
++assert.doesNotMatch(indexHtml, /<button[^>]+id="js-sidebar-filters-btn"/);
+@@
+ assert.match(mainSource, /mountTendUiPrintButton\(\)/);
++assert.match(mainSource, /mountTendUiToolbarFilterButton\(\)/);
+@@
+ assert.doesNotMatch(printAdapterSource, /showToast|activeFilters|applyFilters/);
++assert.match(filterAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(filterAdapterSource, /@10d\/tend-ui-icons\/FilterAlt\/FilterAlt\.js/);
++assert.match(filterAdapterSource, /@10d\/tend-ui-icons\/Close\/Close\.js/);
++assert.match(filterAdapterSource, /id="js-sidebar-filters-btn"/);
++assert.match(filterAdapterSource, /data-testid="tend-ui-toolbar-filter-button"/);
++assert.match(filterAdapterSource, /js-filter-reset-indicator/);
++assert.match(filterAdapterSource, /js-filter-reset-count/);
++assert.doesNotMatch(filterAdapterSource, /activeFilters|applyFilters|filter-drawer|showToast/);
+@@
+ assert.match(tasksViewSource, /appendChild\(printControl\)/);
++assert.match(filterDrawerSource, /querySelectorAll\('\.js-btn-open-filters'\)/);
++assert.match(filterDrawerSource, /classList\.toggle\('is-active-filter', count > 0\)/);
++assert.match(filterDrawerSource, /classList\.toggle\('has-active-filters', count > 0\)/);
++assert.match(filterDrawerSource, /querySelectorAll\('\.js-filter-reset-indicator'\)/);
++assert.match(filterDrawerSource, /resetPanelFiltersAndApply\(\)/);
+@@
+ assert.match(builtJavaScript, /tend-ui-print-icon/);
++assert.match(builtJavaScript, /tend-ui-toolbar-filter-button/);
++assert.match(builtJavaScript, /tend-ui-filter-alt-icon/);
++assert.match(builtJavaScript, /tend-ui-close-icon/);
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-print-icon/);
++assert.match(bundle.toString('utf8'), /tend-ui-toolbar-filter-button/);
++assert.match(bundle.toString('utf8'), /tend-ui-filter-alt-icon/);
++assert.match(bundle.toString('utf8'), /tend-ui-close-icon/);
+*** End Patch

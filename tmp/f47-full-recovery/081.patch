@@ -1,0 +1,62 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\view-switcher.jsx
++import React from 'react';
++import { Segmented } from '@10d/tend-ui/primitives/Segmented';
++import { CardView } from '@10d/tend-ui-icons/CardView/CardView.js';
++import { TableView } from '@10d/tend-ui-icons/TableView/TableView.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++const VIEW_CHANGED_EVENT = 's-tracker:view-changed';
++const VIEW_REQUEST_EVENT = 's-tracker:view-request';
++
++const viewOptions = [
++  {
++    icon: <CardView aria-hidden="true" size={16} />,
++    label: <span className="ds-view-switcher__label">Оптимизированный вид</span>,
++    value: 'cards',
++  },
++  {
++    icon: <TableView aria-hidden="true" size={16} />,
++    label: <span className="ds-view-switcher__label">Табличный вид</span>,
++    value: 'table',
++  },
++];
++
++function ViewSwitcher({ mountNode }) {
++  const [view, setView] = React.useState(mountNode.dataset.currentView || 'cards');
++
++  React.useEffect(() => {
++    const syncView = event => setView(event.detail?.view || 'cards');
++    mountNode.addEventListener(VIEW_CHANGED_EVENT, syncView);
++
++    return () => mountNode.removeEventListener(VIEW_CHANGED_EVENT, syncView);
++  }, [mountNode]);
++
++  const requestView = nextView => {
++    mountNode.dispatchEvent(
++      new CustomEvent(VIEW_REQUEST_EVENT, {
++        bubbles: true,
++        detail: { view: nextView },
++      }),
++    );
++  };
++
++  return (
++    <Segmented
++      aria-label="Режим отображения задач"
++      className="ds-view-switcher"
++      data-testid="tend-ui-view-switcher"
++      onChange={requestView}
++      options={viewOptions}
++      value={view}
++    />
++  );
++}
++
++export function mountTendUiViewSwitcher() {
++  const mountNode = document.getElementById('tend-ui-view-switcher-root');
++
++  return renderTendUi(<ViewSwitcher mountNode={mountNode} />, mountNode);
++}
+*** End Patch

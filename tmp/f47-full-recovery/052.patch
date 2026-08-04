@@ -1,0 +1,17 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-            <button class="ds-button ds-button--outlined js-btn-open-filters" id="js-sidebar-filters-btn" style="height: 36px; white-space: nowrap;">
+-              <svg class="ds-button__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+-              <span class="ds-filter-reset-indicator js-filter-reset-indicator" aria-label="Сбросить все фильтры">
+-                <span class="ds-filter-reset-indicator__count js-filter-reset-count">0</span>
+-                <svg class="ds-filter-reset-indicator__clear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true">
+-                  <line x1="18" y1="6" x2="6" y2="18"></line>
+-                  <line x1="6" y1="6" x2="18" y2="18"></line>
+-                </svg>
+-              </span>
+-              <span>Фильтры</span>
+-              <span class="ds-button__badge"></span>
+-            </button>
++            <div id="tend-ui-toolbar-filters-root" data-tend-ui-adapter="toolbar-filters"></div>
+*** End Patch

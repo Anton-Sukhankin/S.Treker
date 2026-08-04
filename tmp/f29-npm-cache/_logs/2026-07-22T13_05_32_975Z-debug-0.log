@@ -1,0 +1,304 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.9.3
+2 info using node@v22.19.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\.npmrc
+5 silly config load:file:C:\Users\armad\.npmrc
+6 silly config load:file:C:\Users\armad\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm install
+8 verbose argv "install" "--offline" "--ignore-scripts" "--force" "--cache" ".\\tmp\\f29-npm-cache"
+9 verbose logfile logs-max:10 dir:C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\tmp\f29-npm-cache\_logs\2026-07-22T13_05_32_975Z-
+10 verbose logfile C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\tmp\f29-npm-cache\_logs\2026-07-22T13_05_32_975Z-debug-0.log
+11 warn using --force Recommended protections disabled.
+12 silly logfile done cleaning log files
+13 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+14 silly idealTree buildDeps
+15 verbose shrinkwrap failed to load node_modules/.package-lock.json missing from node_modules: node_modules/@emnapi/core
+16 silly reify moves {}
+17 silly audit report null
+18 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\lightningcss-win32-arm64-msvc
+19 silly reify mark deleted [
+19 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\lightningcss-win32-arm64-msvc'
+19 silly reify ]
+20 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\lightningcss-linux-x64-musl
+21 silly reify mark deleted [
+21 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\lightningcss-linux-x64-musl'
+21 silly reify ]
+22 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\lightningcss-linux-x64-gnu
+23 silly reify mark deleted [
+23 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\lightningcss-linux-x64-gnu'
+23 silly reify ]
+24 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\lightningcss-linux-arm64-musl
+25 silly reify mark deleted [
+25 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\lightningcss-linux-arm64-musl'
+25 silly reify ]
+26 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\lightningcss-linux-arm64-gnu
+27 silly reify mark deleted [
+27 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\lightningcss-linux-arm64-gnu'
+27 silly reify ]
+28 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\lightningcss-linux-arm-gnueabihf
+29 silly reify mark deleted [
+29 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\lightningcss-linux-arm-gnueabihf'
+29 silly reify ]
+30 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\lightningcss-freebsd-x64
+31 silly reify mark deleted [
+31 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\lightningcss-freebsd-x64'
+31 silly reify ]
+32 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\lightningcss-darwin-x64
+33 silly reify mark deleted [
+33 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\lightningcss-darwin-x64'
+33 silly reify ]
+34 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\lightningcss-darwin-arm64
+35 silly reify mark deleted [
+35 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\lightningcss-darwin-arm64'
+35 silly reify ]
+36 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\lightningcss-android-arm64
+37 silly reify mark deleted [
+37 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\lightningcss-android-arm64'
+37 silly reify ]
+38 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\fsevents
+39 silly reify mark deleted [
+39 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\fsevents'
+39 silly reify ]
+40 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-win32-arm64-msvc
+41 silly reify mark deleted [
+41 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-win32-arm64-msvc'
+41 silly reify ]
+42 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-wasm32-wasi
+43 silly reify mark deleted [
+43 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-wasm32-wasi'
+43 silly reify ]
+44 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@emnapi\core
+45 silly reify mark deleted [
+45 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@emnapi\\core'
+45 silly reify ]
+46 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@emnapi\runtime
+47 silly reify mark deleted [
+47 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@emnapi\\runtime'
+47 silly reify ]
+48 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@napi-rs\wasm-runtime
+49 silly reify mark deleted [
+49 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@napi-rs\\wasm-runtime'
+49 silly reify ]
+50 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@emnapi\wasi-threads
+51 silly reify mark deleted [
+51 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@emnapi\\wasi-threads'
+51 silly reify ]
+52 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@tybys\wasm-util
+53 silly reify mark deleted [
+53 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@tybys\\wasm-util'
+53 silly reify ]
+54 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-openharmony-arm64
+55 silly reify mark deleted [
+55 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-openharmony-arm64'
+55 silly reify ]
+56 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-linux-x64-musl
+57 silly reify mark deleted [
+57 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-linux-x64-musl'
+57 silly reify ]
+58 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-linux-x64-gnu
+59 silly reify mark deleted [
+59 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-linux-x64-gnu'
+59 silly reify ]
+60 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-linux-s390x-gnu
+61 silly reify mark deleted [
+61 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-linux-s390x-gnu'
+61 silly reify ]
+62 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-linux-ppc64-gnu
+63 silly reify mark deleted [
+63 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-linux-ppc64-gnu'
+63 silly reify ]
+64 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-linux-arm64-musl
+65 silly reify mark deleted [
+65 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-linux-arm64-musl'
+65 silly reify ]
+66 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-linux-arm64-gnu
+67 silly reify mark deleted [
+67 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-linux-arm64-gnu'
+67 silly reify ]
+68 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-linux-arm-gnueabihf
+69 silly reify mark deleted [
+69 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-linux-arm-gnueabihf'
+69 silly reify ]
+70 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-freebsd-x64
+71 silly reify mark deleted [
+71 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-freebsd-x64'
+71 silly reify ]
+72 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-darwin-x64
+73 silly reify mark deleted [
+73 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-darwin-x64'
+73 silly reify ]
+74 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-darwin-arm64
+75 silly reify mark deleted [
+75 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-darwin-arm64'
+75 silly reify ]
+76 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-android-arm64
+77 silly reify mark deleted [
+77 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-android-arm64'
+77 silly reify ]
+78 http cache @tybys/wasm-util@https://registry.npmjs.org/@tybys/wasm-util/-/wasm-util-0.10.2.tgz 1ms (cache hit)
+79 http cache @napi-rs/wasm-runtime@https://registry.npmjs.org/@napi-rs/wasm-runtime/-/wasm-runtime-1.1.4.tgz 0ms (cache hit)
+80 silly tarball no local data for @tybys/wasm-util@https://registry.npmjs.org/@tybys/wasm-util/-/wasm-util-0.10.2.tgz. Extracting by manifest.
+81 silly tarball no local data for @napi-rs/wasm-runtime@https://registry.npmjs.org/@napi-rs/wasm-runtime/-/wasm-runtime-1.1.4.tgz. Extracting by manifest.
+82 http cache @emnapi/core@https://registry.npmjs.org/@emnapi/core/-/core-1.10.0.tgz 1ms (cache hit)
+83 http cache @emnapi/wasi-threads@https://registry.npmjs.org/@emnapi/wasi-threads/-/wasi-threads-1.2.1.tgz 0ms (cache hit)
+84 http cache @emnapi/runtime@https://registry.npmjs.org/@emnapi/runtime/-/runtime-1.10.0.tgz 0ms (cache hit)
+85 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@tybys\wasm-util
+86 silly reify mark deleted [
+86 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@tybys\\wasm-util'
+86 silly reify ]
+87 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@napi-rs\wasm-runtime
+88 silly reify mark deleted [
+88 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@napi-rs\\wasm-runtime'
+88 silly reify ]
+89 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-wasm32-wasi
+90 silly reify mark deleted [
+90 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-wasm32-wasi'
+90 silly reify ]
+91 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@emnapi\core
+92 silly reify mark deleted [
+92 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@emnapi\\core'
+92 silly reify ]
+93 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@emnapi\runtime
+94 silly reify mark deleted [
+94 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@emnapi\\runtime'
+94 silly reify ]
+95 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@emnapi\wasi-threads
+96 silly reify mark deleted [
+96 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@emnapi\\wasi-threads'
+96 silly reify ]
+97 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@napi-rs\wasm-runtime
+98 silly reify mark deleted [
+98 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@napi-rs\\wasm-runtime'
+98 silly reify ]
+99 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-wasm32-wasi
+100 silly reify mark deleted [
+100 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-wasm32-wasi'
+100 silly reify ]
+101 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@emnapi\core
+102 silly reify mark deleted [
+102 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@emnapi\\core'
+102 silly reify ]
+103 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@emnapi\runtime
+104 silly reify mark deleted [
+104 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@emnapi\\runtime'
+104 silly reify ]
+105 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@tybys\wasm-util
+106 silly reify mark deleted [
+106 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@tybys\\wasm-util'
+106 silly reify ]
+107 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@emnapi\wasi-threads
+108 silly reify mark deleted [
+108 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@emnapi\\wasi-threads'
+108 silly reify ]
+109 silly tarball no local data for @emnapi/core@https://registry.npmjs.org/@emnapi/core/-/core-1.10.0.tgz. Extracting by manifest.
+110 silly tarball no local data for @emnapi/wasi-threads@https://registry.npmjs.org/@emnapi/wasi-threads/-/wasi-threads-1.2.1.tgz. Extracting by manifest.
+111 silly tarball no local data for @emnapi/runtime@https://registry.npmjs.org/@emnapi/runtime/-/runtime-1.10.0.tgz. Extracting by manifest.
+112 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@emnapi\core
+113 silly reify mark deleted [
+113 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@emnapi\\core'
+113 silly reify ]
+114 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@napi-rs\wasm-runtime
+115 silly reify mark deleted [
+115 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@napi-rs\\wasm-runtime'
+115 silly reify ]
+116 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-wasm32-wasi
+117 silly reify mark deleted [
+117 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-wasm32-wasi'
+117 silly reify ]
+118 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@emnapi\wasi-threads
+119 silly reify mark deleted [
+119 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@emnapi\\wasi-threads'
+119 silly reify ]
+120 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@emnapi\runtime
+121 silly reify mark deleted [
+121 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@emnapi\\runtime'
+121 silly reify ]
+122 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@tybys\wasm-util
+123 silly reify mark deleted [
+123 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@tybys\\wasm-util'
+123 silly reify ]
+124 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@emnapi\wasi-threads
+125 silly reify mark deleted [
+125 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@emnapi\\wasi-threads'
+125 silly reify ]
+126 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@emnapi\core
+127 silly reify mark deleted [
+127 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@emnapi\\core'
+127 silly reify ]
+128 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@napi-rs\wasm-runtime
+129 silly reify mark deleted [
+129 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@napi-rs\\wasm-runtime'
+129 silly reify ]
+130 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-wasm32-wasi
+131 silly reify mark deleted [
+131 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-wasm32-wasi'
+131 silly reify ]
+132 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@emnapi\runtime
+133 silly reify mark deleted [
+133 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@emnapi\\runtime'
+133 silly reify ]
+134 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@tybys\wasm-util
+135 silly reify mark deleted [
+135 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@tybys\\wasm-util'
+135 silly reify ]
+136 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@emnapi\runtime
+137 silly reify mark deleted [
+137 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@emnapi\\runtime'
+137 silly reify ]
+138 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@napi-rs\wasm-runtime
+139 silly reify mark deleted [
+139 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@napi-rs\\wasm-runtime'
+139 silly reify ]
+140 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@rolldown\binding-wasm32-wasi
+141 silly reify mark deleted [
+141 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@rolldown\\binding-wasm32-wasi'
+141 silly reify ]
+142 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@emnapi\core
+143 silly reify mark deleted [
+143 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@emnapi\\core'
+143 silly reify ]
+144 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@tybys\wasm-util
+145 silly reify mark deleted [
+145 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@tybys\\wasm-util'
+145 silly reify ]
+146 verbose reify failed optional dependency C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\node_modules\@emnapi\wasi-threads
+147 silly reify mark deleted [
+147 silly reify   'C:\\Users\\armad\\OneDrive\\Документы\\Проект в разработке\\S-Tracker\\node_modules\\@emnapi\\wasi-threads'
+147 silly reify ]
+148 silly ADD
+149 silly ADD
+150 silly ADD
+151 silly ADD
+152 silly ADD
+153 silly ADD
+154 silly ADD
+155 silly ADD
+156 silly ADD
+157 silly ADD
+158 silly ADD
+159 silly ADD
+160 silly ADD
+161 silly ADD
+162 silly ADD
+163 silly ADD
+164 silly ADD
+165 silly ADD
+166 silly ADD
+167 silly ADD
+168 silly ADD
+169 silly ADD
+170 silly ADD
+171 silly ADD
+172 silly ADD
+173 silly ADD
+174 silly ADD
+175 silly ADD
+176 silly ADD
+177 silly ADD
+178 verbose cwd C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker
+179 verbose os Windows_NT 10.0.26200
+180 verbose node v22.19.0
+181 verbose npm  v10.9.3
+182 verbose exit 0
+183 info ok

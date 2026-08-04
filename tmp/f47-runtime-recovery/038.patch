@@ -1,0 +1,144 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-  <dialog class="ds-modal" id="js-modal-preset">
++  <dialog class="ds-modal" id="js-modal-preset" aria-labelledby="js-preset-dialog-title">
+@@
+-        <h3 class="ds-modal__title">Сохранение пресета</h3>
++        <h3 class="ds-modal__title" id="js-preset-dialog-title">Сохранение пресета</h3>
+@@
+-      <button class="ds-icon-button js-modal-preset-close">
+-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+-      </button>
++      <div class="ds-preset-dialog__close-mount" id="tend-ui-preset-dialog-close-root"></div>
+@@
+-        <label class="ds-filter-label">Название пресета</label>
+-        <input type="text" class="ds-input" id="js-preset-name-input" placeholder="Введите название">
++        <label class="ds-filter-label" for="js-preset-name-input">Название пресета</label>
++        <div class="ds-preset-dialog__input-mount" id="tend-ui-preset-dialog-input-root"></div>
+@@
+-      <div class="ds-modal__footer" style="margin-top: 24px;">
+-        <button class="ds-button ds-button--outlined js-modal-preset-close" style="flex: 1;">Отмена</button>
+-        <button class="ds-button ds-button--primary js-btn-preset-submit" style="flex: 1;">Подтвердить</button>
+-      </div>
++      <div class="ds-modal__footer ds-preset-dialog__actions" id="tend-ui-preset-dialog-actions-root" style="margin-top: 24px;"></div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiPagination } from './integrations/tend-ui/pagination.jsx';
++import { mountTendUiPresetDialogControls } from './integrations/tend-ui/preset-dialog-controls.jsx';
+@@
+ mountTendUiPagination();
++mountTendUiPresetDialogControls();
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ .ds-move-dialog__close-mount > .tend-ui-button {
+   min-width: 40px !important;
+   padding: 0 !important;
+ }
++
++.ds-preset-dialog__close-mount {
++  width: 40px;
++  height: 40px;
++  display: inline-flex;
++  align-items: center;
++  justify-content: center;
++  flex-shrink: 0;
++}
++
++.ds-preset-dialog__input-mount {
++  width: 100%;
++}
++
++.ds-preset-dialog__actions {
++  align-items: center;
++}
++
++.ds-preset-dialog__actions > .tend-ui-button {
++  flex: 1 1 0;
++  min-width: 0;
++}
++
++.ds-preset-dialog__close-mount > .tend-ui-button {
++  min-width: 40px !important;
++  padding: 0 !important;
++}
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\preset-dialog-controls.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Input } from '@10d/tend-ui/primitives/Input';
++import { Close } from '@10d/tend-ui-icons/Close/Close.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++const actionStyle = { height: 40 };
++
++function PresetDialogControls({ actionsMount, closeMount }) {
++  return (
++    <>
++      <Input
++        aria-label="Название пресета"
++        data-testid="tend-ui-preset-name-input"
++        height={40}
++        id="js-preset-name-input"
++        placeholder="Введите название"
++        size="medium"
++        type="text"
++        width="100%"
++      />
++      {ReactDOM.createPortal(
++        <Button
++          aria-label="Закрыть"
++          before={<Close size={20} />}
++          className="js-modal-preset-close"
++          data-testid="tend-ui-preset-dialog-close"
++          size="medium"
++          style={{ height: 40, width: 40 }}
++          title="Закрыть"
++          type="button"
++          variant="ghost"
++        />,
++        closeMount,
++      )}
++      {ReactDOM.createPortal(
++        <>
++          <Button
++            className="js-modal-preset-close"
++            data-testid="tend-ui-preset-dialog-cancel"
++            size="medium"
++            style={actionStyle}
++            type="button"
++            variant="secondary"
++          >
++            Отмена
++          </Button>
++          <Button
++            className="js-btn-preset-submit"
++            data-testid="tend-ui-preset-dialog-confirm"
++            size="medium"
++            style={actionStyle}
++            type="button"
++            variant="primary"
++          >
++            Подтвердить
++          </Button>
++        </>,
++        actionsMount,
++      )}
++    </>
++  );
++}
++
++export function mountTendUiPresetDialogControls() {
++  const inputMount = document.getElementById('tend-ui-preset-dialog-input-root');
++  const closeMount = document.getElementById('tend-ui-preset-dialog-close-root');
++  const actionsMount = document.getElementById('tend-ui-preset-dialog-actions-root');
++
++  if (!inputMount || !closeMount || !actionsMount) return false;
++
++  return renderTendUi(
++    <PresetDialogControls actionsMount={actionsMount} closeMount={closeMount} />,
++    inputMount,
++  );
++}
+*** End Patch

@@ -1,0 +1,6 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-              <input type="text" class="ds-search-input__control" id="js-global-search" placeholder="Поиск по задачам">
++              <div id="tend-ui-global-search-root" data-tend-ui-adapter="global-search"></div>
+*** End Patch

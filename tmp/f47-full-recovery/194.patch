@@ -1,0 +1,52 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\columns-drawer-controls.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Input } from '@10d/tend-ui/primitives/Input';
++import { Close } from '@10d/tend-ui-icons/Close/Close.js';
++import { Search } from '@10d/tend-ui-icons/Search/Search.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++function ColumnsDrawerControls({ closeMount }) {
++  return (
++    <>
++      <Input
++        aria-label="Поиск атрибута"
++        classNames={{ input: 'js-library-search' }}
++        data-testid="tend-ui-library-search"
++        height={36}
++        placeholder="Поиск атрибута..."
++        prefix={<Search aria-hidden="true" size={16} />}
++        size="medium"
++        type="text"
++        width="100%"
++      />
++      {ReactDOM.createPortal(
++        <Button
++          aria-label="Закрыть настройки колонок"
++          before={<Close aria-hidden="true" size={20} />}
++          className="js-columns-close"
++          data-testid="tend-ui-columns-close"
++          size="medium"
++          style={{ height: 40, width: 40 }}
++          title="Закрыть"
++          type="button"
++          variant="ghost"
++        />,
++        closeMount,
++      )}
++    </>
++  );
++}
++
++export function mountTendUiColumnsDrawerControls() {
++  const searchMount = document.getElementById('tend-ui-library-search-root');
++  const closeMount = document.getElementById('tend-ui-columns-close-root');
++
++  if (!searchMount || !closeMount) return false;
++
++  return renderTendUi(<ColumnsDrawerControls closeMount={closeMount} />, searchMount);
++}
+*** End Patch

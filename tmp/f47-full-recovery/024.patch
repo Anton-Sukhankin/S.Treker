@@ -1,0 +1,24 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { initOverviewTabs } from './features/tasks/tasks-view.js';
+ import { mountTendUiCreateTaskButton } from './integrations/tend-ui/create-task-button.jsx';
++import { mountTendUiGlobalSearchInput } from './integrations/tend-ui/global-search-input.jsx';
+ 
+ initializeAppState();
+ mountTendUiCreateTaskButton();
++mountTendUiGlobalSearchInput();
+ 
+-document.addEventListener('DOMContentLoaded', () => {
++function initializeInterface() {
+@@
+   updateSidebarCounts();
+-});
++}
++
++if (document.readyState === 'loading') {
++  document.addEventListener('DOMContentLoaded', initializeInterface, { once: true });
++} else {
++  initializeInterface();
++}
+*** End Patch

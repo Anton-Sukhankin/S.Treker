@@ -1,0 +1,54 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const columnsDrawerAdapterSource = readText('src/integrations/tend-ui/columns-drawer-controls.jsx');
+ const columnsFooterAdapterSource = readText('src/integrations/tend-ui/columns-footer-actions.jsx');
++const libraryActionsAdapterSource = readText('src/integrations/tend-ui/library-item-actions.jsx');
+@@
+ const coreUiStyles = readText('src/styles/components/core-ui.css');
+ const selectionStyles = readText('src/styles/patterns/drawers-filters-actions.css');
++const taskWorkspaceStyles = readText('src/styles/features/task-workspace.css');
+@@
+ assert.match(indexHtml, /id="tend-ui-library-search-root"/);
++assert.match(indexHtml, /id="tend-ui-library-actions-root"/);
+@@
+ assert.match(mainSource, /mountTendUiColumnsFooterActions\(\)/);
++assert.match(mainSource, /mountTendUiLibraryItemActions\(\)/);
+@@
+ assert.doesNotMatch(
+   columnsDrawerAdapterSource,
+   /onClick|onChange|draftColumnState|customColumnState|renderColumnsDrawer|renderLibrary|renderTab|classList|is-expanded/,
+ );
++assert.match(libraryActionsAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(libraryActionsAdapterSource, /@10d\/tend-ui-icons\/Add\/Add\.js/);
++assert.match(libraryActionsAdapterSource, /@10d\/tend-ui-icons\/ArrowBack\/ArrowBack\.js/);
++assert.match(libraryActionsAdapterSource, /ReactDOM\.createPortal/);
++assert.match(libraryActionsAdapterSource, /s-tracker:library-actions-changed/);
++assert.match(libraryActionsAdapterSource, /className="js-library-item-action"/);
++assert.match(libraryActionsAdapterSource, /data-testid=\{testId\}/);
++assert.match(libraryActionsAdapterSource, /tend-ui-library-item-return/);
++assert.match(libraryActionsAdapterSource, /tend-ui-library-item-add/);
++assert.doesNotMatch(
++  libraryActionsAdapterSource,
++  /onClick|onChange|setDraftState|draftColumnState|customColumnState|renderColumnsDrawer|renderLibrary|renderTab/,
++);
+@@
+ assert.match(columnsDrawerSource, /querySelector\('\.js-library-search'\)\?\.addEventListener\('input', renderLibrary\)/);
++assert.match(columnsDrawerSource, /data-tend-ui-library-action/);
++assert.match(columnsDrawerSource, /s-tracker:library-actions-changed/);
++assert.match(columnsDrawerSource, /getElementById\('js-library-list'\)\?\.addEventListener\('click'/);
++assert.match(columnsDrawerSource, /e\.target\.closest\('\.js-library-item-action'\)/);
++assert.match(columnsDrawerSource, /setDraftState\(navId, getDraftState\(navId\)\.filter/);
++assert.match(columnsDrawerSource, /setDraftState\(navId, \[\.\.\.getDraftState\(navId\), \{ key, visible: true \}\]\)/);
++assert.doesNotMatch(columnsDrawerSource, /<button class="js-library-item-action"/);
++assert.doesNotMatch(columnsDrawerSource, /const actionIcon =/);
+@@
+ assert.match(coreUiStyles, /\.ds-library-search__mount/);
++assert.match(taskWorkspaceStyles, /\.ds-library-item__action-mount/);
+@@
+ assert.match(builtJavaScript, /tend-ui-refresh-icon/);
++assert.match(builtJavaScript, /tend-ui-library-item-add/);
++assert.match(builtJavaScript, /tend-ui-library-item-return/);
++assert.match(builtJavaScript, /tend-ui-add-icon/);
++assert.match(builtJavaScript, /tend-ui-arrow-back-icon/);
+*** End Patch

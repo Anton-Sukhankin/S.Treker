@@ -1,0 +1,162 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-    <div class="ds-fab__actions">
+-      <!-- Universal actions -->
+-      <button class="ds-button ds-button--fab-outline js-fab-action js-fab-status" data-action="status">
+-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+-        Изменить статус
+-      </button>
+-
+-      <button class="ds-button ds-button--fab-outline js-fab-to-group">
+-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="12" y1="11" x2="12" y2="17"></line><line x1="9" y1="14" x2="15" y2="14"></line></svg>
+-        Переместить в группу
+-      </button>
+-
+-      <!-- Context-dependent (Additive) -->
+-      <button class="ds-button ds-button--fab-outline js-fab-action js-fab-assign" data-action="assign" style="display: none;">
+-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M1 21v-2a4 4 0 0 1 4-4h5a4 4 0 0 1 4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+-        Назначить
+-      </button>
+-
+-      <button class="ds-button ds-button--fab-outline js-fab-action js-fab-work" data-action="work" style="display: none;">
+-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 2v4"></path><path d="M12 18v4"></path><path d="M4.93 4.93l2.83 2.83"></path><path d="M16.24 16.24l2.83 2.83"></path><path d="M2 12h4"></path><path d="M18 12h4"></path><path d="M4.93 19.07l2.83-2.83"></path><path d="M16.24 7.76l2.83-2.83"></path></svg>
+-        Взять в работу
+-      </button>
+-
+-      <button class="ds-button ds-button--fab-outline js-fab-action js-fab-done" data-action="done" style="display: none;">
+-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="20 6 9 17 4 12"></polyline></svg>
+-        Завершить
+-      </button>
+-
+-      <button class="ds-button ds-button--fab-outline js-fab-from-group" style="display: none;">
+-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+-        Удалить из группы
+-      </button>
+-    </div>
+-
+-    <button class="ds-fab__close js-fab-clear" title="Снять выделение">
+-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+-    </button>
++    <div class="ds-fab__actions" id="tend-ui-bulk-actions-root"></div>
++    <div class="ds-fab__close-mount" id="tend-ui-bulk-clear-root"></div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiColumnsButton } from './integrations/tend-ui/columns-button.jsx';
++import { mountTendUiBulkActions } from './integrations/tend-ui/bulk-actions.jsx';
+@@
+ mountTendUiCreateTaskButton();
++mountTendUiBulkActions();
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\bulk-actions.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { AccountCircle } from '@10d/tend-ui-icons/AccountCircle/AccountCircle.js';
++import { Close } from '@10d/tend-ui-icons/Close/Close.js';
++import { Delete } from '@10d/tend-ui-icons/Delete/Delete.js';
++import { Done } from '@10d/tend-ui-icons/Done/Done.js';
++import { Edit } from '@10d/tend-ui-icons/Edit/Edit.js';
++import { FolderAdd } from '@10d/tend-ui-icons/FolderAdd/FolderAdd.js';
++import { Play } from '@10d/tend-ui-icons/Play/Play.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++const buttonStyle = { height: 38, whiteSpace: 'nowrap' };
++
++function ActionButton({ before, children, className, testId, ...props }) {
++  return (
++    <Button
++      before={before}
++      className={`ds-fab-button ${className}`}
++      data-testid={testId}
++      size="medium"
++      style={buttonStyle}
++      type="button"
++      variant="ghost"
++      {...props}
++    >
++      {children}
++    </Button>
++  );
++}
++
++function BulkActionControls({ clearMount }) {
++  return (
++    <>
++      <ActionButton
++        before={<Edit size={16} />}
++        className="js-fab-action js-fab-status"
++        data-action="status"
++        testId="tend-ui-bulk-status"
++      >
++        Изменить статус
++      </ActionButton>
++      <ActionButton
++        before={<FolderAdd size={16} />}
++        className="js-fab-to-group"
++        testId="tend-ui-bulk-to-group"
++      >
++        Переместить в группу
++      </ActionButton>
++      <ActionButton
++        before={<AccountCircle size={16} />}
++        className="js-fab-action js-fab-assign"
++        data-action="assign"
++        style={{ ...buttonStyle, display: 'none' }}
++        testId="tend-ui-bulk-assign"
++      >
++        Назначить
++      </ActionButton>
++      <ActionButton
++        before={<Play size={16} />}
++        className="js-fab-action js-fab-work"
++        data-action="work"
++        style={{ ...buttonStyle, display: 'none' }}
++        testId="tend-ui-bulk-work"
++      >
++        Взять в работу
++      </ActionButton>
++      <ActionButton
++        before={<Done size={16} />}
++        className="js-fab-action js-fab-done"
++        data-action="done"
++        style={{ ...buttonStyle, display: 'none' }}
++        testId="tend-ui-bulk-done"
++      >
++        Завершить
++      </ActionButton>
++      <ActionButton
++        before={<Delete size={16} />}
++        className="js-fab-from-group"
++        preset="danger"
++        style={{ ...buttonStyle, display: 'none' }}
++        testId="tend-ui-bulk-from-group"
++      >
++        Удалить из группы
++      </ActionButton>
++      {ReactDOM.createPortal(
++        <Button
++          aria-label="Снять выделение"
++          before={<Close size={20} />}
++          className="ds-fab-clear-button js-fab-clear"
++          data-testid="tend-ui-bulk-clear"
++          size="medium"
++          style={{ height: 38, width: 38 }}
++          title="Снять выделение"
++          type="button"
++          variant="ghost"
++        />,
++        clearMount,
++      )}
++    </>
++  );
++}
++
++export function mountTendUiBulkActions() {
++  const mountNode = document.getElementById('tend-ui-bulk-actions-root');
++  const clearMount = document.getElementById('tend-ui-bulk-clear-root');
++
++  if (!mountNode || !clearMount) return false;
++  return renderTendUi(<BulkActionControls clearMount={clearMount} />, mountNode);
++}
+*** End Patch

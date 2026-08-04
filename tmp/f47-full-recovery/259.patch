@@ -1,0 +1,75 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\money-range-controls.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Input } from '@10d/tend-ui/primitives/Input';
++
++import { renderTendUi } from './runtime.jsx';
++
++const presets = [
++  { from: '', label: 'до 500 тыс.', to: '500000' },
++  { from: '1000000', label: '1 млн - 5 млн', to: '5000000' },
++  { from: '10000000', label: 'свыше 10 млн', to: '' },
++];
++
++function MoneyRangeControls({ presetsMount }) {
++  return (
++    <>
++      <Input
++        aria-label="Сумма от"
++        className="ds-money-range__input js-money-range-input"
++        data-testid="tend-ui-money-range-from"
++        data-type="from"
++        height={36}
++        id="js-money-range-from"
++        inputMode="numeric"
++        placeholder="От"
++        type="text"
++        width="100%"
++      />
++      <span className="ds-money-range__separator" aria-hidden="true">
++        -
++      </span>
++      <Input
++        aria-label="Сумма до"
++        className="ds-money-range__input js-money-range-input"
++        data-testid="tend-ui-money-range-to"
++        data-type="to"
++        height={36}
++        id="js-money-range-to"
++        inputMode="numeric"
++        placeholder="До"
++        type="text"
++        width="100%"
++      />
++      {ReactDOM.createPortal(
++        presets.map(preset => (
++          <Button
++            className="ds-money-range__preset js-money-range-preset"
++            data-from={preset.from}
++            data-testid="tend-ui-money-range-preset"
++            data-to={preset.to}
++            key={preset.label}
++            size="small"
++            type="button"
++            variant="ghost"
++          >
++            {preset.label}
++          </Button>
++        )),
++        presetsMount,
++      )}
++    </>
++  );
++}
++
++export function mountTendUiMoneyRangeControls() {
++  const inputsMount = document.getElementById('tend-ui-money-range-inputs-root');
++  const presetsMount = document.getElementById('tend-ui-money-range-presets-root');
++
++  if (!inputsMount || !presetsMount) return false;
++
++  return renderTendUi(<MoneyRangeControls presetsMount={presetsMount} />, inputsMount);
++}
+*** End Patch

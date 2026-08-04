@@ -1,0 +1,56 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-column-row-controls.md
++# Tend UI Main Column-Row Controls
++
++Date: 2026-07-26
++
++Status: F-40 `[x]`.
++
++## Result
++
++Main column-settings rows now render their visibility and library-return controls through Tend UI `Checkbox`, `Button` and `ArrowBack`.
++
++The portal adapter is implemented in:
++
++```text
++src/integrations/tend-ui/column-row-controls.jsx
++```
++
++## Ownership
++
++React owns checkbox/button presentation, accessible labels and dynamic portal refresh. It does not own column state, ordering or Apply behavior.
++
++Vanilla S-Tracker code continues to own:
++
++- collecting checkbox values in current DOM order;
++- draft visibility and change detection;
++- `dragstart`, `dragover` and `dragend` ordering mechanics;
++- returning library attributes from the main list;
++- Apply commit and table rerender.
++
++The existing `.js-col-cb` and `.js-return-to-library` hooks remain available. Their dynamic events are handled by the vanilla list boundary.
++
++## Verification
++
++- all `18` main rows render Tend UI Checkbox controls;
++- legacy checkbox markup in the generated rows is absent;
++- each Checkbox has an accessible `Показывать колонку ...` name;
++- hiding `Система` plus Apply removes its table column;
++- reopening, enabling and applying restores the column;
++- adding a library attribute creates one Tend UI return control in the main list;
++- that return action removes the draft row and restores the library add action;
++- the table remains unchanged before Apply;
++- source gates retain DOM-order collection and all three drag listeners;
++- `npm.cmd run verify:tend-ui:all` passes;
++- Vite transforms `941` modules;
++- the reviewed bundle is `950,466` raw / `293,468` gzip bytes;
++- no closed corporate source was accessed.
++
++The in-app browser driver does not expose a pointer drag API. Drag integrity is therefore covered by the executable source contract and unchanged DOM-order ownership; visibility, return and Apply are browser-verified.
++
++## Next Group
++
++```text
++F-41: migrate remaining column-row drag-handle and preset-delete icons/actions to Tend UI while preserving native drag ordering, preset deletion and active-preset fallback.
++```
+*** End Patch

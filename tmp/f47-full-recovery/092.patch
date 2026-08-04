@@ -1,0 +1,31 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-          <!-- Segmented Control for Statuses -->
+-          <div class="ds-segmented-control js-status-tabs">
+-            <button class="ds-segmented-control__item is-active js-overview-tab" data-status="todo">
+-              К исполнению <span class="ds-tab__badge">0</span>
+-            </button>
+-            <button class="ds-segmented-control__item js-overview-tab" data-status="in_progress">
+-              В работе <span class="ds-tab__badge">0</span>
+-            </button>
+-            <button class="ds-segmented-control__item js-overview-tab" data-status="done">
+-              Обработаны мной
+-            </button>
+-            <button class="ds-segmented-control__item js-overview-tab" data-status="to_assign">
+-              К назначению <span class="ds-tab__badge">0</span>
+-            </button>
+-            <button class="ds-segmented-control__item js-overview-tab" data-status="review">
+-              Наблюдаю
+-            </button>
+-            <button class="ds-segmented-control__item js-overview-tab" data-status="initiated">
+-              Инициированы мной
+-            </button>
+-          </div>
++          <div
++            id="tend-ui-queue-tabs-root"
++            class="js-status-tabs"
++            data-active-status="todo"
++            data-tend-ui-adapter="queue-tabs"
++          ></div>
+*** End Patch

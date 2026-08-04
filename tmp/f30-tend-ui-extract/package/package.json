@@ -1,0 +1,257 @@
+{
+  "name": "@10d/tend-ui",
+  "description": "Дизайн система",
+  "version": "4.82.0",
+  "license": "ISC",
+  "main": "cjs/index.js",
+  "module": "index.js",
+  "types": "index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js",
+      "require": "./cjs/index.js"
+    },
+    "./grid": {
+      "types": "./grid/index.d.ts",
+      "import": "./grid/index.js",
+      "require": "./cjs/grid/index.js"
+    },
+    "./grid/Box": {
+      "types": "./grid/Box/index.d.ts",
+      "import": "./grid/Box/index.js",
+      "require": "./cjs/grid/Box/index.js"
+    },
+    "./grid/Divider": {
+      "types": "./grid/Divider/index.d.ts",
+      "import": "./grid/Divider/index.js",
+      "require": "./cjs/grid/Divider/index.js"
+    },
+    "./icons": {
+      "types": "./icons/index.d.ts",
+      "import": "./icons/index.js",
+      "require": "./cjs/icons/index.js"
+    },
+    "./typography": {
+      "types": "./typography/index.d.ts",
+      "import": "./typography/index.js",
+      "require": "./cjs/typography/index.js"
+    },
+    "./ui": {
+      "types": "./ui/index.d.ts",
+      "import": "./ui/index.js",
+      "require": "./cjs/ui/index.js"
+    },
+    "./ui/Dot": {
+      "types": "./ui/Dot/index.d.ts",
+      "import": "./ui/Dot/index.js",
+      "require": "./cjs/ui/Dot/index.js"
+    },
+    "./ui/Divider": {
+      "types": "./ui/Divider/index.d.ts",
+      "import": "./ui/Divider/index.js",
+      "require": "./cjs/ui/Divider/index.js"
+    },
+    "./ui/Skeleton": {
+      "types": "./ui/Skeleton/index.d.ts",
+      "import": "./ui/Skeleton/index.js",
+      "require": "./cjs/ui/Skeleton/index.js"
+    },
+    "./ui/EmptyOverlay": {
+      "types": "./ui/EmptyOverlay/index.d.ts",
+      "import": "./ui/EmptyOverlay/index.js",
+      "require": "./cjs/ui/EmptyOverlay/index.js"
+    },
+    "./ui/Image": {
+      "types": "./ui/Image/index.d.ts",
+      "import": "./ui/Image/index.js",
+      "require": "./cjs/ui/Image/index.js"
+    },
+    "./primitives": {
+      "types": "./primitives/index.d.ts",
+      "import": "./primitives/index.js",
+      "require": "./cjs/primitives/index.js"
+    },
+    "./primitives/Table": {
+      "types": "./primitives/Table/index.d.ts",
+      "import": "./primitives/Table/index.js",
+      "require": "./cjs/primitives/Table/index.js"
+    },
+    "./primitives/Avatar": {
+      "types": "./primitives/Avatar/index.d.ts",
+      "import": "./primitives/Avatar/index.js",
+      "require": "./cjs/primitives/Avatar/index.js"
+    },
+    "./primitives/Alert": {
+      "types": "./primitives/Alert/index.d.ts",
+      "import": "./primitives/Alert/index.js",
+      "require": "./cjs/primitives/Alert/index.js"
+    },
+    "./primitives/Select": {
+      "types": "./primitives/Select/index.d.ts",
+      "import": "./primitives/Select/index.js",
+      "require": "./cjs/primitives/Select/index.js"
+    },
+    "./primitives/TextArea": {
+      "types": "./primitives/TextArea/index.d.ts",
+      "import": "./primitives/TextArea/index.js",
+      "require": "./cjs/primitives/TextArea/index.js"
+    },
+    "./primitives/Toast": {
+      "types": "./primitives/Toast/index.d.ts",
+      "import": "./primitives/Toast/index.js",
+      "require": "./cjs/primitives/Toast/index.js"
+    },
+    "./primitives/Dropdown": {
+      "types": "./primitives/Dropdown/index.d.ts",
+      "import": "./primitives/Dropdown/index.js",
+      "require": "./cjs/primitives/Dropdown/index.js"
+    },
+    "./primitives/Counter": {
+      "types": "./primitives/Counter/index.d.ts",
+      "import": "./primitives/Counter/index.js",
+      "require": "./cjs/primitives/Counter/index.js"
+    },
+    "./primitives/Input": {
+      "types": "./primitives/Input/index.d.ts",
+      "import": "./primitives/Input/index.js",
+      "require": "./cjs/primitives/Input/index.js"
+    },
+    "./primitives/Tooltip": {
+      "types": "./primitives/Tooltip/index.d.ts",
+      "import": "./primitives/Tooltip/index.js",
+      "require": "./cjs/primitives/Tooltip/index.js"
+    },
+    "./primitives/Button": {
+      "types": "./primitives/Button/index.d.ts",
+      "import": "./primitives/Button/index.js",
+      "require": "./cjs/primitives/Button/index.js"
+    },
+    "./primitives/Radio": {
+      "types": "./primitives/Radio/index.d.ts",
+      "import": "./primitives/Radio/index.js",
+      "require": "./cjs/primitives/Radio/index.js"
+    },
+    "./primitives/Segmented": {
+      "types": "./primitives/Segmented/index.d.ts",
+      "import": "./primitives/Segmented/index.js",
+      "require": "./cjs/primitives/Segmented/index.js"
+    },
+    "./primitives/Tabs": {
+      "types": "./primitives/Tabs/index.d.ts",
+      "import": "./primitives/Tabs/index.js",
+      "require": "./cjs/primitives/Tabs/index.js"
+    },
+    "./components": {
+      "types": "./components/index.d.ts",
+      "import": "./components/index.js",
+      "require": "./cjs/components/index.js"
+    },
+    "./components/ColumnsSettings": {
+      "types": "./components/ColumnsSettings/index.d.ts",
+      "import": "./components/ColumnsSettings/index.js",
+      "require": "./cjs/components/ColumnsSettings/index.js"
+    },
+    "./components/ColumnsSettings/types": {
+      "types": "./components/ColumnsSettings/types.d.ts",
+      "import": "./components/ColumnsSettings/types.js",
+      "require": "./cjs/components/ColumnsSettings/types.js"
+    },
+    "./components/Form": {
+      "types": "./components/Form/index.d.ts",
+      "import": "./components/Form/index.js",
+      "require": "./cjs/components/Form/index.js"
+    },
+    "./components/Profile": {
+      "types": "./components/Profile/index.d.ts",
+      "import": "./components/Profile/index.js",
+      "require": "./cjs/components/Profile/index.js"
+    },
+    "./components/Filters": {
+      "types": "./components/Filters/Filters.d.ts",
+      "import": "./components/Filters/Filters.js",
+      "require": "./cjs/components/Filters/Filters.js"
+    },
+    "./components/Filters/hooks": {
+      "types": "./components/Filters/hooks/index.d.ts",
+      "import": "./components/Filters/hooks/index.js",
+      "require": "./cjs/components/Filters/hooks/index.js"
+    },
+    "./features": {
+      "types": "./features/index.d.ts",
+      "import": "./features/index.js",
+      "require": "./cjs/features/index.js"
+    },
+    "./widgets": {
+      "types": "./widgets/index.d.ts",
+      "import": "./widgets/index.js",
+      "require": "./cjs/widgets/index.js"
+    },
+    "./tokens": {
+      "types": "./tokens/index.d.ts",
+      "import": "./tokens/index.js",
+      "require": "./cjs/tokens/index.js"
+    },
+    "./styling": {
+      "types": "./styling/index.d.ts",
+      "import": "./styling/index.js",
+      "require": "./cjs/styling/index.js"
+    },
+    "./hooks": {
+      "types": "./hooks/index.d.ts",
+      "import": "./hooks/index.js",
+      "require": "./cjs/hooks/index.js"
+    },
+    "./types": {
+      "types": "./types/index.d.ts",
+      "import": "./types/index.js",
+      "require": "./cjs/types/index.js"
+    },
+    "./theme": {
+      "types": "./theme/index.d.ts",
+      "import": "./theme/index.js",
+      "require": "./cjs/theme/index.js"
+    },
+    "./factories": {
+      "types": "./factories/index.d.ts",
+      "import": "./factories/index.js",
+      "require": "./cjs/factories/index.js"
+    }
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "dependencies": {
+    "@10d/tend-ui-api": "^2.0.0",
+    "@10d/tend-ui-factories": "^1.2.0",
+    "@10d/tend-ui-grid": "^0.1.1",
+    "@10d/tend-ui-hooks": "^0.11.1",
+    "@10d/tend-ui-icons": "^0.7.0",
+    "@10d/tend-ui-locale": "^1.4.3",
+    "@10d/tend-ui-logos": "^1.8.1",
+    "@10d/tend-ui-primitives": "^0.23.0",
+    "@10d/tend-ui-styling": "^2.7.1",
+    "@10d/tend-ui-theme": "^0.2.5",
+    "@10d/tend-ui-tokens": "^1.1.0",
+    "@10d/tend-ui-types": "^1.0.0",
+    "@10d/tend-ui-typography": "^0.0.5",
+    "@10d/tend-ui-utils": "^1.16.2",
+    "@dnd-kit/core": "^6",
+    "@dnd-kit/sortable": "^8",
+    "@dnd-kit/utilities": "^3",
+    "@tanstack/react-virtual": "^3",
+    "antd-core": "npm:antd@5.12.5",
+    "axios": "^1.13.1",
+    "classnames": "^2",
+    "dayjs": "^1.11.1",
+    "js-sha1": "^0.7.0",
+    "lodash": "^4",
+    "react-is": "^17.0.2",
+    "styled-components": "^5",
+    "uuid": "^10.0.0"
+  }
+}

@@ -1,0 +1,21 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+-import { REVERSE_STATUS_MAP } from './data/statuses.js';
++import { REVERSE_STATUS_MAP } from './data/statuses.js';
++import { getActiveQueueLabel } from './domain/queue-state.js';
+@@
+ import { mountTendUiPrintButton } from './integrations/tend-ui/print-button.jsx';
++import { mountTendUiQueueTabs } from './integrations/tend-ui/queue-tabs.jsx';
+@@
+ mountTendUiPrintButton();
++mountTendUiQueueTabs();
+@@
+-  const activeTab = document.querySelector('.js-status-tabs .js-overview-tab.is-active');
+-  if (activeTab && typeof window.renderTab === 'function') {
+-    const statusKey = activeTab.getAttribute('data-status') || 'todo';
+-    const statusLabel = REVERSE_STATUS_MAP[statusKey] || REVERSE_STATUS_MAP.todo;
+-    window.renderTab(statusLabel);
+-  }
++  if (typeof window.renderTab === 'function') window.renderTab(getActiveQueueLabel(REVERSE_STATUS_MAP));
+*** End Patch

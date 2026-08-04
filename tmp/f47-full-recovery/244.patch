@@ -1,0 +1,92 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\audit-remaining-tend-ui-controls.mjs
++import assert from 'node:assert/strict';
++import { readFileSync } from 'node:fs';
++import { resolve } from 'node:path';
++
++const root = resolve(import.meta.dirname, '..');
++const readText = relativePath => readFileSync(resolve(root, relativePath), 'utf8');
++const countMatches = (text, pattern) => (text.match(pattern) || []).length;
++
++const indexHtml = readText('index.html');
++const tasksSource = readText('src/features/tasks/tasks-view.js');
++const sidebarSource = readText('src/features/sidebar/sidebar.js');
++const multiSelectSource = readText('src/features/filters/multi-select.js');
++
++function getFragment(startMarker, endMarker) {
++  const start = indexHtml.indexOf(startMarker);
++  const end = indexHtml.indexOf(endMarker, start);
++  assert.ok(start >= 0 && end > start, `Missing inventory boundary: ${startMarker}`);
++  return indexHtml.slice(start, end + endMarker.length);
++}
++
++const filterDrawer = getFragment(
++  '<aside class="ds-drawer ds-drawer--right" id="filter-drawer">',
++  '</aside>',
++);
++const systemOverlay = getFragment(
++  '<section class="ds-system-overlay" id="system-overlay">',
++  '</section>',
++);
++const columnDrawer = getFragment(
++  '<aside class="ds-drawer ds-drawer--right" id="columns-drawer">',
++  '</aside>',
++);
++
++const inventory = {
++  filterDrawer: {
++    buttons: countMatches(filterDrawer, /<button\b/gi),
++    inputs: countMatches(filterDrawer, /<input\b/gi),
++    inlineSvg: countMatches(filterDrawer, /<svg\b/gi),
++    multiSelects: countMatches(filterDrawer, /class="ds-multi-select js-multi-select"/g),
++  },
++  systemOverlay: {
++    buttons: countMatches(systemOverlay, /<button\b/gi),
++    inputs: countMatches(systemOverlay, /<input\b/gi),
++    inlineSvg: countMatches(systemOverlay, /<svg\b/gi),
++  },
++  dynamicTemplates: {
++    bookmarkButtons: countMatches(sidebarSource, /<button\b/gi),
++    taskButtons: countMatches(tasksSource, /<button\b/gi),
++    multiSelectInlineSvg: countMatches(multiSelectSource, /<svg\b/gi),
++  },
++  completedColumnSettings: {
++    nativeControls: countMatches(columnDrawer, /<(?:button|input|select|textarea)\b/gi),
++    inlineSvg: countMatches(columnDrawer, /<svg\b/gi),
++  },
++};
++
++assert.deepEqual(inventory.filterDrawer, {
++  buttons: 6,
++  inputs: 4,
++  inlineSvg: 18,
++  multiSelects: 8,
++});
++assert.deepEqual(inventory.systemOverlay, {
++  buttons: 3,
++  inputs: 1,
++  inlineSvg: 5,
++});
++assert.deepEqual(inventory.dynamicTemplates, {
++  bookmarkButtons: 1,
++  taskButtons: 2,
++  multiSelectInlineSvg: 1,
++});
++assert.deepEqual(inventory.completedColumnSettings, {
++  nativeControls: 0,
++  inlineSvg: 0,
++});
++
++assert.match(filterDrawer, /class="ds-icon-button js-filter-close"/);
++assert.match(filterDrawer, /class="ds-button ds-button--text js-filter-reset"/);
++assert.match(filterDrawer, /class="ds-button ds-button--primary js-filter-apply"/);
++assert.match(filterDrawer, /class="ds-money-range__preset js-money-range-preset"/);
++assert.match(filterDrawer, /class="ds-money-range__thumb js-money-range-thumb"/);
++assert.match(multiSelectSource, /getActiveOptions/);
++assert.match(multiSelectSource, /window\.updateFilterIndicators/);
++
++console.log('Remaining Tend UI control audit passed.');
++console.log(JSON.stringify(inventory, null, 2));
++console.log('Priority F-44: filter drawer Close, Reset and Apply actions');
++console.log('Deferred boundaries: money range, multi-select, system overlay, row actions and bookmarks');
+*** End Patch

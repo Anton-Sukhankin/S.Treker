@@ -1,0 +1,87 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\package.json
+@@
+   "scripts": {
+     "dev": "vite --host 127.0.0.1",
+     "build": "vite build",
+     "preview": "vite preview --host 127.0.0.1"
+   },
++  "dependencies": {
++    "@10d/tend-ui": "file:vendor/tend-ui/10d-tend-ui-4.82.0.tgz",
++    "@10d/tend-ui-api": "file:vendor/tend-ui/10d-tend-ui-api-2.0.0.tgz",
++    "@10d/tend-ui-factories": "file:vendor/tend-ui/10d-tend-ui-factories-1.2.0.tgz",
++    "@10d/tend-ui-grid": "file:vendor/tend-ui/10d-tend-ui-grid-0.1.1.tgz",
++    "@10d/tend-ui-hooks": "file:vendor/tend-ui/10d-tend-ui-hooks-0.11.1.tgz",
++    "@10d/tend-ui-icons": "file:vendor/tend-ui/10d-tend-ui-icons-0.7.0.tgz",
++    "@10d/tend-ui-locale": "file:vendor/tend-ui/10d-tend-ui-locale-1.4.6.tgz",
++    "@10d/tend-ui-logos": "file:vendor/tend-ui/10d-tend-ui-logos-1.17.3.tgz",
++    "@10d/tend-ui-primitives": "file:vendor/tend-ui/10d-tend-ui-primitives-0.23.7.tgz",
++    "@10d/tend-ui-styling": "file:vendor/tend-ui/10d-tend-ui-styling-2.9.0.tgz",
++    "@10d/tend-ui-theme": "file:vendor/tend-ui/10d-tend-ui-theme-0.2.5.tgz",
++    "@10d/tend-ui-tokens": "file:vendor/tend-ui/10d-tend-ui-tokens-1.1.0.tgz",
++    "@10d/tend-ui-types": "file:vendor/tend-ui/10d-tend-ui-types-1.0.0.tgz",
++    "@10d/tend-ui-typography": "file:vendor/tend-ui/10d-tend-ui-typography-0.0.5.tgz",
++    "@10d/tend-ui-utils": "file:vendor/tend-ui/10d-tend-ui-utils-1.16.2.tgz",
++    "classnames": "file:vendor/tend-ui/classnames-2.5.1.tgz",
++    "lodash": "file:vendor/tend-ui/lodash-4.17.21.tgz",
++    "react": "17.0.2",
++    "react-dom": "17.0.2",
++    "react-is": "17.0.2",
++    "styled-components": "5.3.11",
++    "uuid": "file:vendor/tend-ui/uuid-10.0.0.tgz"
++  },
+   "devDependencies": {
+     "vite": "latest"
+   }
+ }
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-            <button class="ds-button ds-button--primary js-btn-create-task">
+-              Создать задачу
+-            </button>
++            <div id="tend-ui-create-task-root" data-tend-ui-adapter="create-task" style="display: contents;"></div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { initOverviewTabs } from './features/tasks/tasks-view.js';
++import { mountTendUiCreateTaskButton } from './integrations/tend-ui/create-task-button.jsx';
+ 
+ initializeAppState();
++mountTendUiCreateTaskButton();
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\create-task-button.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { TendUI } from '@10d/tend-ui/theme';
++
++let themeInitialized = false;
++
++export function mountTendUiCreateTaskButton() {
++  const mountNode = document.getElementById('tend-ui-create-task-root');
++
++  if (!mountNode) {
++    return false;
++  }
++
++  if (!themeInitialized) {
++    TendUI.init();
++    themeInitialized = true;
++  }
++
++  ReactDOM.render(
++    <TendUI lang="ru" theme="samolet">
++      <Button
++        className="js-btn-create-task"
++        data-testid="tend-ui-create-task-button"
++        size="medium"
++        type="button"
++        variant="primary"
++      >
++        Создать задачу
++      </Button>
++    </TendUI>,
++    mountNode,
++  );
++
++  return true;
++}
+*** End Patch

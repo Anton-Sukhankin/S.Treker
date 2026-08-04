@@ -1,0 +1,113 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-          <!-- Segmented Control for Statuses -->
+-          <div class="ds-segmented-control js-status-tabs">
+-            <button class="ds-segmented-control__item is-active js-overview-tab" data-status="todo">
+-              К исполнению <span class="ds-tab__badge">0</span>
+-            </button>
+-            <button class="ds-segmented-control__item js-overview-tab" data-status="in_progress">
+-              В работе <span class="ds-tab__badge">0</span>
+-            </button>
+-            <button class="ds-segmented-control__item js-overview-tab" data-status="done">
+-              Обработаны мной
+-            </button>
+-            <button class="ds-segmented-control__item js-overview-tab" data-status="to_assign">
+-              К назначению <span class="ds-tab__badge">0</span>
+-            </button>
+-            <button class="ds-segmented-control__item js-overview-tab" data-status="review">
+-              Наблюдаю
+-            </button>
+-            <button class="ds-segmented-control__item js-overview-tab" data-status="initiated">
+-              Инициированы мной
+-            </button>
+-          </div>
++          <div
++            id="tend-ui-queue-tabs-root"
++            class="js-status-tabs"
++            data-active-status="todo"
++            data-tend-ui-adapter="queue-tabs"
++          ></div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+-import { REVERSE_STATUS_MAP } from './data/statuses.js';
++import { REVERSE_STATUS_MAP } from './data/statuses.js';
++import { getActiveQueueLabel } from './domain/queue-state.js';
+@@
+ import { mountTendUiPrintButton } from './integrations/tend-ui/print-button.jsx';
++import { mountTendUiQueueTabs } from './integrations/tend-ui/queue-tabs.jsx';
+@@
+ mountTendUiPrintButton();
++mountTendUiQueueTabs();
+@@
+-  const activeTab = document.querySelector('.js-status-tabs .js-overview-tab.is-active');
+-  if (activeTab && typeof window.renderTab === 'function') {
+-    const statusKey = activeTab.getAttribute('data-status') || 'todo';
+-    const statusLabel = REVERSE_STATUS_MAP[statusKey] || REVERSE_STATUS_MAP.todo;
+-    window.renderTab(statusLabel);
+-  }
++  if (typeof window.renderTab === 'function') window.renderTab(getActiveQueueLabel(REVERSE_STATUS_MAP));
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\tasks\tasks-view.js
+@@
+ import { paginateItems } from '../../domain/pagination.js';
++import { getActiveQueueStatus, setActiveQueueStatus } from '../../domain/queue-state.js';
+@@
+ export function initOverviewTabs() {
+   initPersonEmailCopy();
+-  const tabs = document.querySelectorAll('.js-overview-tab');
++  const tabsRoot = document.getElementById('tend-ui-queue-tabs-root');
+   const cardList = document.getElementById('js-main-task-list');
+@@
+-  tabs.forEach(tab => tab.addEventListener('click', () => {
+-    tabs.forEach(t => t.classList.remove('is-active'));
+-    tab.classList.add('is-active');
+-
+-    const statusKey = tab.getAttribute('data-status');
+-    window.renderTab(REVERSE_STATUS_MAP[statusKey] || DEFAULT_QUEUE_LABEL);
++  tabsRoot?.addEventListener('s-tracker:queue-request', event => {
++    const statusKey = setActiveQueueStatus(event.detail?.status);
++    window.renderTab(REVERSE_STATUS_MAP[statusKey] || DEFAULT_QUEUE_LABEL);
+     updateSidebarCounts();
+-  }));
++  });
+ }
+@@
+ export function updateTabsFilterBadges() {
+   const nav = window.navigationContext || { type: 'all', id: 'all' };
++  const tabsRoot = document.getElementById('tend-ui-queue-tabs-root');
++  const queues = [];
+ 
+-  document.querySelectorAll('.js-status-tabs .js-overview-tab').forEach(tab => {
+-    const statusKey = tab.getAttribute('data-status');
++  Object.keys(REVERSE_STATUS_MAP).forEach(statusKey => {
+     const queueLabel = REVERSE_STATUS_MAP[statusKey];
+     const layout = MOCK_LAYOUTS[queueLabel];
+     if (!layout) return;
+@@
+-    const badge = tab.querySelector('.ds-tab__badge');
+-    if (!badge) return;
+-
+-    if (STATUS_BADGE_EXCLUDED_KEYS.includes(statusKey)) {
+-      badge.style.display = 'none';
+-      return;
+-    }
+-
+-    badge.style.display = 'inline-flex';
+-    badge.textContent = count;
+-    badge.style.opacity = count === 0 ? '0.5' : '1';
+-    badge.classList.toggle('is-overdue', count > 0 && hasOverdue);
++    queues.push({
++      count,
++      hasOverdue: !STATUS_BADGE_EXCLUDED_KEYS.includes(statusKey) && hasOverdue,
++      label: queueLabel,
++      status: statusKey,
++    });
+   });
++
++  tabsRoot?.dispatchEvent(
++    new CustomEvent('s-tracker:queues-changed', {
++      detail: { activeStatus: getActiveQueueStatus(), queues },
++    }),
++  );
+ }
+*** End Patch

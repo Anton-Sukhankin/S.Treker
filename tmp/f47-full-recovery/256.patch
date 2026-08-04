@@ -1,0 +1,17 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+ The next group is F-44: migrate filter-drawer Close, Reset All and Apply actions while preserving drawer lifecycle, draft values, counts, reset and apply behavior.
++
++## F-44 Filter Drawer Actions Result
++
++- `src/integrations/tend-ui/filter-drawer-actions.jsx` renders Close, Reset All and Apply through Tend UI `Button`;
++- the Close action uses the Tend UI `Close` icon and retains `.js-filter-close`;
++- Reset and Apply retain `.js-filter-reset` and `.js-filter-apply`;
++- delegated vanilla handlers continue to own drawer lifecycle, draft state, counts, reset, commit and task rerendering;
++- browser regression confirms draft preservation on Close, `134 -> 27` on Apply and `27 -> 134` after Reset plus Apply;
++- the aggregate gate passes with `944` transformed modules and a `953,065` raw / `293,999` gzip bundle;
++- no package export, tarball or closed corporate source is involved.
++
++The next group is F-45: migrate filter money-range text fields and preset buttons to Tend UI while preserving native range thumbs, clamping, formatting, active preset, reset and Apply behavior.
+*** End Patch

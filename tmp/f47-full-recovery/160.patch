@@ -1,0 +1,20 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\move-dialog-controls.jsx
+@@
+ function MoveDialogControls({ actionsMount, closeMount }) {
++  const [value, setValue] = React.useState('');
++
++  React.useEffect(() => {
++    const resetValue = () => setValue('');
++    window.addEventListener('s-tracker:move-group-name-reset', resetValue);
++    return () => window.removeEventListener('s-tracker:move-group-name-reset', resetValue);
++  }, []);
++
+   return (
+@@
+         id="js-move-group-name"
++        onChange={event => setValue(event.target.value)}
+@@
+         type="text"
++        value={value}
+*** End Patch

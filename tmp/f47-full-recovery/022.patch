@@ -1,0 +1,25 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\global-search-input.jsx
++import React from 'react';
++import { Input } from '@10d/tend-ui/primitives/Input';
++
++import { renderTendUi } from './runtime.jsx';
++
++export function mountTendUiGlobalSearchInput() {
++  const mountNode = document.getElementById('tend-ui-global-search-root');
++
++  return renderTendUi(
++    <Input
++      aria-label="Поиск по задачам"
++      className="ds-search-input__control"
++      data-testid="tend-ui-global-search-input"
++      height={36}
++      id="js-global-search"
++      placeholder="Поиск по задачам"
++      type="text"
++      width="100%"
++    />,
++    mountNode,
++  );
++}
+*** End Patch

@@ -1,0 +1,22 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ .ds-search-input-wrapper .ds-search-input__control.tend-ui-input {
+   width: 100%; height: 36px; padding: 8px 12px 8px 36px; font-family: inherit;
+ }
++
++.ds-columns-close__mount {
++  display: flex;
++  width: 40px;
++  height: 40px;
++}
++
++.ds-library-search__mount {
++  width: 100%;
++  min-width: 0;
++}
++
++.ds-library-search__mount .tend-ui-input-affix-wrapper {
++  width: 100%;
++}
+*** End Patch

@@ -1,0 +1,70 @@
+*** Begin Patch
+*** Add File: ../S-Tracker/src/integrations/tend-ui/preset-toolbar.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { ChevronDown } from '@10d/tend-ui-icons/ChevronDown/ChevronDown.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++const PRESET_TOOLBAR_CHANGED_EVENT = 's-tracker:preset-toolbar-changed';
++
++function PresetToolbar({ mountNode, saveMount }) {
++  const [currentLabel, setCurrentLabel] = React.useState('Базовое отображение');
++  const [expanded, setExpanded] = React.useState(false);
++  const [saveDisabled, setSaveDisabled] = React.useState(true);
++
++  React.useEffect(() => {
++    const syncToolbar = event => {
++      const detail = event.detail || {};
++      if (typeof detail.currentLabel === 'string') setCurrentLabel(detail.currentLabel);
++      if (typeof detail.expanded === 'boolean') setExpanded(detail.expanded);
++      if (typeof detail.saveDisabled === 'boolean') setSaveDisabled(detail.saveDisabled);
++    };
++
++    mountNode.addEventListener(PRESET_TOOLBAR_CHANGED_EVENT, syncToolbar);
++    return () => mountNode.removeEventListener(PRESET_TOOLBAR_CHANGED_EVENT, syncToolbar);
++  }, [mountNode]);
++
++  return (
++    <>
++      <Button
++        after={<ChevronDown aria-hidden="true" size={16} />}
++        aria-expanded={expanded}
++        aria-haspopup="listbox"
++        className="js-preset-current"
++        data-testid="tend-ui-preset-trigger"
++        fullWidth
++        size="medium"
++        style={{ height: 36 }}
++        type="button"
++        variant="secondary"
++      >
++        <span>{currentLabel}</span>
++      </Button>
++      {ReactDOM.createPortal(
++        <Button
++          className="js-preset-save-btn"
++          data-testid="tend-ui-preset-save"
++          disabled={saveDisabled}
++          size="medium"
++          style={{ height: 36 }}
++          type="button"
++          variant="primary"
++        >
++          Сохранить
++        </Button>,
++        saveMount,
++      )}
++    </>
++  );
++}
++
++export function mountTendUiPresetToolbar() {
++  const mountNode = document.getElementById('tend-ui-preset-trigger-root');
++  const saveMount = document.getElementById('tend-ui-preset-save-root');
++
++  if (!mountNode || !saveMount) return false;
++  return renderTendUi(<PresetToolbar mountNode={mountNode} saveMount={saveMount} />, mountNode);
++}
+*** End Patch

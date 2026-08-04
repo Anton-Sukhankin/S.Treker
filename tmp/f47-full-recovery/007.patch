@@ -1,0 +1,62 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
++# Интеграция Tend UI
++
++## Текущий статус
++
++Минимальная интеграция выполнена и проверена. S-Tracker сохраняет основной vanilla/Vite lifecycle, а React используется только внутри отдельной точки монтирования для кнопки `Создать задачу`.
++
++## Граница интеграции
++
++| Область | Назначение |
++|---|---|
++| `vendor/tend-ui/` | 15 локальных пакетов `@10d/*` и 3 локальные runtime-компенсации в формате tarball. |
++| `package.json` | Закрепляет все `@10d/*`, `classnames`, `lodash` и `uuid` на `file:vendor/tend-ui/*.tgz`. |
++| `index.html` | Содержит только mount point `tend-ui-create-task-root`. |
++| `src/integrations/tend-ui/create-task-button.jsx` | Инициализирует `TendUI`, provider и один `Button`. |
++| `src/main.js` | Вызывает адаптер до общей инициализации обработчиков интерфейса. |
++| `scripts/verify-tend-ui-adapter.mjs` | Проверяет tarball boundary, lockfile, импорты и собранный bundle. |
++
++React не управляет списком задач, навигацией, фильтрами, данными или состоянием приложения.
++
++## Источники зависимостей
++
++- пакеты `@10d/*` не загружаются из registry;
++- Tend UI берётся только из локальных tarball-файлов;
++- `classnames`, `lodash` и `uuid` используют локальные проверенные компенсации;
++- остальные открытые зависимости разрешаются только через `https://registry.npmjs.org`;
++- корпоративные registry, GitLab, Nexus и другие закрытые источники не используются.
++
++## Команды проверки
++
++```powershell
++npm.cmd install --ignore-scripts --registry=https://registry.npmjs.org --cache=.npm-cache
++npm.cmd run build
++npm.cmd run verify:tend-ui
++npm.cmd run dev -- --port 5173
++```
++
++После запуска приложение доступно по адресу `http://127.0.0.1:5173/`.
++
++## Подтверждённый контракт
++
++- в DOM присутствует ровно один элемент с `data-testid="tend-ui-create-task-button"`;
++- элемент является `BUTTON` из `@10d/tend-ui/primitives/Button`;
++- компонент обёрнут в `TendUI` с языком `ru` и темой `samolet`;
++- текст и положение `Создать задачу` сохранены;
++- существующий селектор `.js-btn-create-task` сохранён;
++- клик по кнопке, как и до миграции, не изменяет видимое состояние прототипа;
++- сборка проходит без ошибок;
++- runtime-консоль не содержит ошибок.
++
++## Ограничения текущего шага
++
++- мигрирована только одна кнопка;
++- общий bundle стал крупнее и пока собирается одним chunk;
++- подключение не означает, что остальные vanilla-компоненты уже мигрированы;
++- обновление версии Tend UI требует замены локальных tarball-файлов и повторного запуска проверок.
++
++## Откат
++
++Адаптер обратим: вернуть исходную HTML-кнопку, удалить вызов из `src/main.js`, затем удалить Tend UI dependencies и `vendor/tend-ui/`. Остальные модули S-Tracker от React не зависят.
+*** End Patch

@@ -1,0 +1,29 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\audit-remaining-tend-ui-controls.mjs
+@@
+ assert.deepEqual(inventory.filterDrawer, {
+-  buttons: 3,
+-  inputs: 4,
++  buttons: 0,
++  inputs: 2,
+   inlineSvg: 17,
+   multiSelects: 8,
+ });
+@@
+ assert.match(filterDrawer, /id="tend-ui-filter-drawer-close-root"/);
+ assert.match(filterDrawer, /id="tend-ui-filter-drawer-actions-root"/);
++assert.match(filterDrawer, /id="tend-ui-money-range-inputs-root"/);
++assert.match(filterDrawer, /id="tend-ui-money-range-presets-root"/);
+ assert.doesNotMatch(filterDrawer, /<button[^>]+js-filter-(?:close|reset|apply)/);
+-assert.match(filterDrawer, /class="ds-money-range__preset js-money-range-preset"/);
++assert.doesNotMatch(filterDrawer, /<input[^>]+type="text"[^>]+js-money-range-input/);
++assert.doesNotMatch(filterDrawer, /<button[^>]+js-money-range-preset/);
+ assert.match(filterDrawer, /class="ds-money-range__thumb js-money-range-thumb"/);
+@@
+-console.log('Completed F-44: filter drawer Close, Reset and Apply actions');
+-console.log('Priority F-45: filter money-range text fields and preset actions');
+-console.log('Deferred boundaries: range thumbs, multi-select, system overlay, row actions and bookmarks');
++console.log('Completed F-45: filter money-range text fields and preset actions');
++console.log('Priority F-46: audit native range thumbs against Tend UI RangeInput and preserve slider behavior');
++console.log('Deferred boundaries: multi-select, system overlay, row actions and bookmarks');
+*** End Patch

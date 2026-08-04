@@ -1,0 +1,28 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/src/styles/components/core-ui.css
+@@
+ .ds-preset-toolbar__save-mount {
+   flex: 0 0 auto;
+ }
++
++.ds-columns-footer__mount {
++  width: 100%;
++}
++
++.ds-columns-footer__mount > div {
++  display: flex;
++  align-items: center;
++  gap: 12px;
++  width: 100%;
++}
++
++.ds-columns-footer__mount .js-open-library {
++  min-width: 36px;
++  padding: 0;
++}
++
++.ds-columns-footer__spacer {
++  flex: 1 1 auto;
++  min-width: 0;
++}
+*** End Patch

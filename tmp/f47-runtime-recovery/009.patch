@@ -1,0 +1,103 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\print-button.jsx
++import React from 'react';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Print } from '@10d/tend-ui-icons/Print/Print.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++export function mountTendUiPrintButton() {
++  const mountNode = document.getElementById('tend-ui-print-root');
++
++  return renderTendUi(
++    <Button
++      aria-label="Печать"
++      before={<Print size={16} />}
++      className="ds-button--icon-only"
++      data-testid="tend-ui-print-button"
++      id="js-print-btn"
++      size="medium"
++      title="Печать"
++      type="button"
++      variant="secondary"
++    />,
++    mountNode,
++  );
++}
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-            <button class="ds-button ds-button--outlined ds-button--icon-only" id="js-print-btn" title="Печать">
+-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+-                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+-                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+-                <rect x="6" y="14" width="12" height="8"></rect>
+-              </svg>
+-            </button>
++            <div id="tend-ui-print-root" data-tend-ui-adapter="print-action"></div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiCreateTaskButton } from './integrations/tend-ui/create-task-button.jsx';
+ import { mountTendUiGlobalSearchInput } from './integrations/tend-ui/global-search-input.jsx';
++import { mountTendUiPrintButton } from './integrations/tend-ui/print-button.jsx';
+@@
+ mountTendUiCreateTaskButton();
+ mountTendUiGlobalSearchInput();
++mountTendUiPrintButton();
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\tasks\tasks-view.js
+@@
+-  const printButton = document.getElementById('js-print-btn');
++  const printControl = document.getElementById('tend-ui-print-root') ?? document.getElementById('js-print-btn');
+@@
+-      if (printButton && printButton.parentNode !== headerActions) headerActions.appendChild(printButton);
++      if (printControl && printControl.parentNode !== headerActions) headerActions.appendChild(printControl);
+@@
+-    if (printButton && printButton.parentNode === headerActions) toolbarRight.insertBefore(printButton, createButton);
++    if (printControl && printControl.parentNode === headerActions) toolbarRight.insertBefore(printControl, createButton);
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ #tend-ui-global-search-root { display: contents; }
++#tend-ui-print-root { display: contents; }
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const buttonAdapterSource = readText('src/integrations/tend-ui/create-task-button.jsx');
+ const searchAdapterSource = readText('src/integrations/tend-ui/global-search-input.jsx');
++const printAdapterSource = readText('src/integrations/tend-ui/print-button.jsx');
+ const runtimeSource = readText('src/integrations/tend-ui/runtime.jsx');
+ const basicControlsSource = readText('src/ui/basic-controls.js');
++const tasksViewSource = readText('src/features/tasks/tasks-view.js');
+@@
+ assert.match(indexHtml, /id="tend-ui-create-task-root"/);
+ assert.match(indexHtml, /id="tend-ui-global-search-root"/);
++assert.match(indexHtml, /id="tend-ui-print-root"/);
+ assert.doesNotMatch(indexHtml, /<input[^>]+id="js-global-search"/);
++assert.doesNotMatch(indexHtml, /<button[^>]+id="js-print-btn"/);
+ assert.match(mainSource, /mountTendUiCreateTaskButton\(\)/);
+ assert.match(mainSource, /mountTendUiGlobalSearchInput\(\)/);
++assert.match(mainSource, /mountTendUiPrintButton\(\)/);
+@@
+ assert.match(searchAdapterSource, /data-testid="tend-ui-global-search-input"/);
+ assert.doesNotMatch(searchAdapterSource, /activeFilters|applyFilters/);
++assert.match(printAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(printAdapterSource, /@10d\/tend-ui-icons\/Print\/Print\.js/);
++assert.match(printAdapterSource, /id="js-print-btn"/);
++assert.match(printAdapterSource, /data-testid="tend-ui-print-button"/);
++assert.match(printAdapterSource, /before=\{<Print size=\{16\} \/>\}/);
++assert.doesNotMatch(printAdapterSource, /showToast|activeFilters|applyFilters/);
+@@
+ assert.match(basicControlsSource, /window\.applyFilters\(\{ keepDrawerOpen: true \}\)/);
++assert.match(basicControlsSource, /getElementById\('js-print-btn'\)/);
++assert.match(basicControlsSource, /showToast\('/);
++assert.match(tasksViewSource, /getElementById\('tend-ui-print-root'\)/);
++assert.match(tasksViewSource, /appendChild\(printControl\)/);
+@@
+ assert.match(builtJavaScript, /tend-ui-create-task-button/);
+ assert.match(builtJavaScript, /tend-ui-global-search-input/);
++assert.match(builtJavaScript, /tend-ui-print-button/);
++assert.match(builtJavaScript, /tend-ui-print-icon/);
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-create-task-button/);
+ assert.match(bundle.toString('utf8'), /tend-ui-global-search-input/);
++assert.match(bundle.toString('utf8'), /tend-ui-print-button/);
++assert.match(bundle.toString('utf8'), /tend-ui-print-icon/);
+*** End Patch

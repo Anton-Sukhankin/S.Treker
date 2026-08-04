@@ -1,0 +1,43 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-move-dialog.md
++# F-34: Tend UI Move Dialog Controls
++
++## Result
++
++Status: `[x] complete`
++
++The native move-to-group dialog now presents its field and three actions through Tend UI `Input`, `Button` and `Close`.
++
++## Ownership Boundary
++
++`move-dialog-controls.jsx` owns only the four controls and stable DOM hooks. `floating-action-bar.js` still owns input reset, native dialog lifecycle, fallback naming, custom groups, toasts, selection clearing and rerendering.
++
++## Preserved Hooks
++
++```text
++#js-move-group-name
++#js-btn-move-submit
++.js-modal-move-close
++.js-btn-confirm-move
++```
++
++## Verification
++
++- four Tend UI controls and zero legacy move controls;
++- header close and cancel preserve the current selection;
++- each open resets the input;
++- empty confirmation creates `Группа`;
++- custom confirmation creates the exact entered name;
++- confirmation closes the dialog, clears selection, hides the bulk panel and emits the expected toast;
++- input and footer actions are `40 px` high; close is `40 x 40`;
++- `npm.cmd run verify:tend-ui:all` passes with `931` modules;
++- bundle: `937,481` raw / `289,178` gzip bytes;
++- browser application errors: `0`;
++- no closed corporate source access.
++
++## Next Group
++
++```text
++F-35: migrate the preset-save dialog controls to Tend UI Input and Button while preserving its validation and column-preset mechanics.
++```
+*** End Patch

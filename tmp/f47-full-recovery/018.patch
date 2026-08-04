@@ -1,0 +1,23 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+ npm.cmd run build
+ npm.cmd run verify:tend-ui
++npm.cmd run verify:tend-ui:security
++npm.cmd run verify:tend-ui:bundle
++npm.cmd run verify:tend-ui:all
+ npm.cmd run dev -- --port 5173
+@@
+ Адаптер обратим: вернуть исходную HTML-кнопку, удалить вызов из `src/main.js`, затем удалить Tend UI dependencies и `vendor/tend-ui/`. Остальные модули S-Tracker от React не зависят.
++
++## F-23 Consumer Boundary
++
++- `vendor/tend-ui/compensation-policy.json` pins checksums, exports and advisory dispositions for all three local compensations;
++- `npm run verify:tend-ui:security` checks integrity, local lock sources, private metadata and security-relevant behavior;
++- `npm run verify:tend-ui:bundle` enforces the current direct-file build boundary and size limits;
++- `npm run verify:tend-ui:all` rebuilds the application and runs every Tend UI integration gate.
++
++Bundle splitting was evaluated and deliberately deferred. The production plugin emits a classic deferred script so `dist/index.html` remains directly openable through `file://`; ordinary Vite dynamic chunks would reintroduce an ES-module loading requirement. The current single bundle is accepted while it stays below `800 KiB` raw and `250 KiB` gzip.
++
++The next migration candidate is documented in `docs/tend-ui-next-migration.md`: global task search through Tend UI `Input` in F-24.
+*** End Patch

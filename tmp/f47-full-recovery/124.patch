@@ -1,0 +1,9 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiQueueTabs } from './integrations/tend-ui/queue-tabs.jsx';
++import { mountTendUiTaskSelection } from './integrations/tend-ui/task-selection.jsx';
+@@
+ mountTendUiQueueTabs();
++mountTendUiTaskSelection();
+*** End Patch

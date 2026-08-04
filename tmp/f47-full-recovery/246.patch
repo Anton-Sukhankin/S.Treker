@@ -1,0 +1,87 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-remaining-controls-audit.md
++# Tend UI Remaining Controls Audit
++
++Date: 2026-07-26
++
++Status: F-43 `[x]`.
++
++## Purpose
++
++Inventory user-facing legacy controls outside the completed column-settings area and divide the remaining work into bounded Tend UI migration waves.
++
++The executable inventory is implemented in:
++
++```text
++scripts/audit-remaining-tend-ui-controls.mjs
++```
++
++It runs inside `npm run verify:tend-ui:all`.
++
++## Inventory
++
++| Area | Remaining controls | Risk | Decision |
++| --- | --- | --- | --- |
++| Filter drawer actions | Close, Reset, Apply | Low | F-44 first wave |
++| Filter money range | 2 text inputs, 2 range inputs, 3 preset buttons | Medium | Separate wave after actions |
++| Filter multi-select | 8 composite widgets, dynamic options/tags/clear | High | Separate adapter/state design |
++| Filter drawer icons | 18 static inline SVG | Mixed | Remove with owning control waves |
++| System overlay | 3 buttons, 1 input, 5 inline SVG | Medium | Migrate after filter drawer |
++| Task/table dynamic actions | 2 button templates | Medium | Separate row-action wave |
++| Bookmark action | 1 dynamic delete button | Low but conditional | Verify bookmark lifecycle first |
++| Column settings | 0 native controls, 0 inline SVG | Complete | Protected by F-42 gate |
++
++## F-44 Boundary
++
++F-44 will migrate only:
++
++- header Close;
++- footer Reset All;
++- footer Apply.
++
++Tend UI owns `Button`/`Close` presentation and accessible names. Vanilla filter code continues to own:
++
++- drawer and overlay visibility;
++- current filter values and active count;
++- reset behavior while the drawer remains open;
++- Apply, task rerendering, queue/sidebar counts and pagination reset.
++
++Money-range inputs/presets and all multi-select mechanics are explicitly outside F-44.
++
++## Browser Baseline
++
++- all three native F-44 controls are present once;
++- a money preset changes the drawer count to `1` without changing the task list before Apply;
++- Close hides the drawer and preserves the draft value;
++- reopening restores `Выполнено настроек: 1`;
++- Apply closes the drawer and changes the selected queue count `134 -> 27`;
++- Reset changes the drawer count to `0` and keeps the drawer open;
++- the filtered list remains until Reset is followed by Apply;
++- Reset plus Apply restores the queue count `27 -> 134`;
++- visual layout has no overlap;
++- browser application errors are `0`.
++
++## Planned Order
++
++1. F-44: filter drawer Close/Reset/Apply actions.
++2. F-45: money-range text fields and preset actions; range-thumb strategy must be decided explicitly.
++3. F-46: multi-select trigger/options/tags/clear controls.
++4. F-47: system-overlay local controls.
++5. F-48: dynamic task/table actions.
++6. F-49: bookmark delete action after lifecycle verification.
++
++The order after F-44 is provisional and must be revalidated after each completed group.
++
++## Build
++
++- Vite modules: `943`;
++- bundle: `952,144` raw / `293,900` gzip bytes;
++- package release artifacts: unchanged;
++- closed corporate sources: not used.
++
++## Next Group
++
++```text
++F-44: migrate filter-drawer Close, Reset All and Apply actions to Tend UI while preserving drawer lifecycle, draft values, counts, reset and apply behavior.
++```
+*** End Patch

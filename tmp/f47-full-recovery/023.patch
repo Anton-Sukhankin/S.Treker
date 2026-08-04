@@ -1,0 +1,48 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\create-task-button.jsx
+@@
+ import React from 'react';
+-import ReactDOM from 'react-dom';
+ import { Button } from '@10d/tend-ui/primitives/Button';
+-import { TendUI } from '@10d/tend-ui/theme';
+ 
+-let themeInitialized = false;
++import { renderTendUi } from './runtime.jsx';
+@@
+-  if (!mountNode) {
+-    return false;
+-  }
+-
+-  if (!themeInitialized) {
+-    TendUI.init();
+-    themeInitialized = true;
+-  }
+-
+-  ReactDOM.render(
+-    <TendUI lang="ru" theme="samolet">
+-      <Button
+-        className="js-btn-create-task"
+-        data-testid="tend-ui-create-task-button"
+-        size="medium"
+-        type="button"
+-        variant="primary"
+-      >
+-        РЎРѕР·РґР°С‚СЊ Р·Р°РґР°С‡Сѓ
+-      </Button>
+-    </TendUI>,
++  return renderTendUi(
++    <Button
++      className="js-btn-create-task"
++      data-testid="tend-ui-create-task-button"
++      size="medium"
++      type="button"
++      variant="primary"
++    >
++      Создать задачу
++    </Button>,
+     mountNode,
+   );
+-
+-  return true;
+ }
+*** End Patch

@@ -1,0 +1,21 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+-| `index.html` | Содержит mount points `tend-ui-create-task-root`, `tend-ui-global-search-root`, `tend-ui-print-root`, `tend-ui-toolbar-filters-root`, `tend-ui-columns-root`, `tend-ui-download-root`, `tend-ui-view-switcher-root`, `tend-ui-queue-tabs-root` и `tend-ui-pagination-root`. |
++| `index.html` | Содержит mount points `tend-ui-create-task-root`, `tend-ui-global-search-root`, `tend-ui-print-root`, `tend-ui-toolbar-filters-root`, `tend-ui-columns-root`, `tend-ui-download-root`, `tend-ui-view-switcher-root`, `tend-ui-queue-tabs-root`, `tend-ui-pagination-root` и portal host `tend-ui-task-selection-root`. |
+@@
+ | `src/integrations/tend-ui/pagination.jsx` | Монтирует Tend UI `Pagination`; отправляет запрос страницы и принимает подтвержденные vanilla-кодом totals/current. |
++| `src/integrations/tend-ui/task-selection.jsx` | Рендерит Tend UI `Checkbox` через порталы в динамические карточки, строки и table header; отправляет запросы выбора и принимает подтвержденное vanilla-состояние. |
+@@
+-The next group is F-32: migrate task-selection checkboxes while preserving row selection, select-all, cross-page state and bulk actions.
++## F-32 Task Selection Result
++
++- Tend UI `Checkbox` renders card, table and select-all controls through one portal adapter;
++- `window.selectedTaskIds`, visible-page selection and bulk actions remain vanilla-owned;
++- request/confirmation events synchronize checked and indeterminate state;
++- single, select-all, cross-page and clear-selection scenarios pass;
++- `41/41` dynamic mounts contain Checkbox inputs and no legacy controls remain;
++- the aggregate build, security and incremental bundle gates pass.
++
++The next group is F-33: migrate bulk-action bar controls while preserving queue-dependent visibility, status actions, group movement and selection clearing.
+*** End Patch

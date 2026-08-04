@@ -1,0 +1,15 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+-The next group is F-40: migrate main column-row visibility and return controls while preserving drag order, draft visibility, library membership and Apply behavior.
++## F-40 Main Column-Row Controls Result
++
++- all main rows render Tend UI `Checkbox` portals and library rows also receive Tend UI `Button`/`ArrowBack`;
++- React owns presentation and accessible naming only;
++- vanilla code owns DOM-order collection, drag events, draft visibility, return and Apply;
++- visibility hide/restore, return-to-library and draft-isolation scenarios pass;
++- source gates preserve dragstart/dragover/dragend and DOM-order contracts;
++- all build, security and bundle gates remain green.
++
++The next group is F-41: migrate remaining drag-handle and preset-delete icons/actions while preserving native drag ordering, preset deletion and active-preset fallback.
+*** End Patch

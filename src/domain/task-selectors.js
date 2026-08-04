@@ -247,6 +247,11 @@ export function getTaskRowByPosition(queueLabel, domainId, index) {
   return getTaskRows({ queueLabel, domainId })[index] || null;
 }
 
+export function getTaskRowById(taskId) {
+  const task = TASKS.find(item => item.id === taskId);
+  return task ? toTaskRow(task) : null;
+}
+
 export function getRowsForNavigation(queueLabel, navigationContext = window.navigationContext) {
   let rows = getTaskRows({ queueLabel });
   const nav = navigationContext || { type: 'all', id: 'all' };

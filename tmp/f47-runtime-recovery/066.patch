@@ -1,0 +1,146 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\filter-drawer-actions.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Close } from '@10d/tend-ui-icons/Close/Close.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++const actionStyle = { height: 36 };
++
++function FilterDrawerActions({ closeMount }) {
++  return (
++    <>
++      {ReactDOM.createPortal(
++        <Button
++          aria-label="Закрыть"
++          before={<Close aria-hidden="true" size={20} />}
++          className="js-filter-close"
++          data-testid="tend-ui-filter-drawer-close"
++          size="medium"
++          style={{ height: 40, width: 40 }}
++          title="Закрыть"
++          type="button"
++          variant="ghost"
++        />,
++        closeMount,
++      )}
++      <Button
++        className="js-filter-reset"
++        data-testid="tend-ui-filter-drawer-reset"
++        size="medium"
++        style={actionStyle}
++        type="button"
++        variant="ghost"
++      >
++        Сбросить всё
++      </Button>
++      <Button
++        className="js-filter-apply"
++        data-testid="tend-ui-filter-drawer-apply"
++        size="medium"
++        style={actionStyle}
++        type="button"
++        variant="primary"
++      >
++        Применить
++      </Button>
++    </>
++  );
++}
++
++export function mountTendUiFilterDrawerActions() {
++  const closeMount = document.getElementById('tend-ui-filter-drawer-close-root');
++  const actionsMount = document.getElementById('tend-ui-filter-drawer-actions-root');
++
++  if (!closeMount || !actionsMount) return false;
++
++  return renderTendUi(<FilterDrawerActions closeMount={closeMount} />, actionsMount);
++}
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-      <button class="ds-icon-button js-filter-close" aria-label="Закрыть">
+-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+-      </button>
++      <div class="ds-filter-drawer-close__mount" id="tend-ui-filter-drawer-close-root"></div>
+@@
+     <!-- Sticky Footer -->
+     <div class="ds-drawer__footer">
+-      <button class="ds-button ds-button--text js-filter-reset">Сбросить всё</button>
+-      <button class="ds-button ds-button--primary js-filter-apply">Применить</button>
++      <div class="ds-filter-drawer-actions__mount" id="tend-ui-filter-drawer-actions-root"></div>
+     </div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiDownloadButton } from './integrations/tend-ui/download-button.jsx';
++import { mountTendUiFilterDrawerActions } from './integrations/tend-ui/filter-drawer-actions.jsx';
+ import { mountTendUiGlobalSearchInput } from './integrations/tend-ui/global-search-input.jsx';
+@@
+ mountTendUiDownloadButton();
++mountTendUiFilterDrawerActions();
+ mountTendUiGlobalSearchInput();
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\features\task-workspace.css
+@@
+ #filter-drawer .ds-drawer__footer {
+@@
+   align-items: center !important;
+ }
++
++.ds-filter-drawer-close__mount,
++.ds-filter-drawer-actions__mount {
++  display: flex;
++  align-items: center;
++}
++
++.ds-filter-drawer-actions__mount {
++  gap: 12px;
++}
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\audit-remaining-tend-ui-controls.mjs
+@@
+ assert.deepEqual(inventory.filterDrawer, {
+-  buttons: 6,
++  buttons: 3,
+   inputs: 4,
+-  inlineSvg: 18,
++  inlineSvg: 17,
+   multiSelects: 8,
+ });
+@@
+-assert.match(filterDrawer, /class="ds-icon-button js-filter-close"/);
+-assert.match(filterDrawer, /class="ds-button ds-button--text js-filter-reset"/);
+-assert.match(filterDrawer, /class="ds-button ds-button--primary js-filter-apply"/);
++assert.match(filterDrawer, /id="tend-ui-filter-drawer-close-root"/);
++assert.match(filterDrawer, /id="tend-ui-filter-drawer-actions-root"/);
++assert.doesNotMatch(filterDrawer, /<button[^>]+js-filter-(?:close|reset|apply)/);
+@@
+-console.log('Priority F-44: filter drawer Close, Reset and Apply actions');
+-console.log('Deferred boundaries: money range, multi-select, system overlay, row actions and bookmarks');
++console.log('Completed F-44: filter drawer Close, Reset and Apply actions');
++console.log('Priority F-45: filter money-range text fields and preset actions');
++console.log('Deferred boundaries: range thumbs, multi-select, system overlay, row actions and bookmarks');
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+-const f40Result = { raw: 950466, gzip: 293468 };
+-const f41ColumnChromeBudget = { raw: 28 * 1024, gzip: 9 * 1024 };
++const f43Result = { raw: 952144, gzip: 293900 };
++const f44FilterActionsBudget = { raw: 24 * 1024, gzip: 8 * 1024 };
+@@
+-  rawBytes <= f40Result.raw + f41ColumnChromeBudget.raw,
+-  `JavaScript bundle exceeds the reviewed F-41 column-chrome budget: ${rawBytes} bytes`,
++  rawBytes <= f43Result.raw + f44FilterActionsBudget.raw,
++  `JavaScript bundle exceeds the reviewed F-44 filter-actions budget: ${rawBytes} bytes`,
+@@
+-  gzipBytes <= f40Result.gzip + f41ColumnChromeBudget.gzip,
+-  `Gzipped JavaScript bundle exceeds the reviewed F-41 column-chrome budget: ${gzipBytes} bytes`,
++  gzipBytes <= f43Result.gzip + f44FilterActionsBudget.gzip,
++  `Gzipped JavaScript bundle exceeds the reviewed F-44 filter-actions budget: ${gzipBytes} bytes`,
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-toolbar-filter-button/);
++assert.match(bundle.toString('utf8'), /tend-ui-filter-drawer-close/);
++assert.match(bundle.toString('utf8'), /tend-ui-filter-drawer-reset/);
++assert.match(bundle.toString('utf8'), /tend-ui-filter-drawer-apply/);
+@@
+-console.log('Budget: F-40 result plus 28 KiB raw / 9 KiB gzip for Tend UI column chrome controls');
++console.log('Budget: F-43 result plus 24 KiB raw / 8 KiB gzip for Tend UI filter drawer actions');
+*** End Patch

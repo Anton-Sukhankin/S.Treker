@@ -1,0 +1,41 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/src/features/columns/columns-drawer.js
+@@
+   const draftColumnState = {};
+   const draftActiveColumnPreset = {};
+   const presetToolbarMount = document.getElementById('tend-ui-preset-trigger-root');
++  const columnsFooterMount = document.getElementById('tend-ui-columns-footer-root');
+@@
+   function setPresetDropdownOpen(isOpen) {
+@@
+   }
++
++  function syncColumnsFooter(detail) {
++    columnsFooterMount?.dispatchEvent(
++      new CustomEvent('s-tracker:columns-footer-changed', { detail }),
++    );
++  }
+@@
+   function openLibrary() {
+     dr.classList.add('is-expanded');
+-    dr.querySelector('.js-open-library')?.classList.add('is-active');
++    syncColumnsFooter({ libraryOpen: true });
+     renderLibrary();
+     updateLibraryResetButton();
+   }
+ 
+   function closeLibrary() {
+     dr.classList.remove('is-expanded');
+-    dr.querySelector('.js-open-library')?.classList.remove('is-active');
++    syncColumnsFooter({ libraryOpen: false });
+     updateLibraryResetButton();
+@@
+   function updateLibraryResetButton() {
+     const navId = window.navigationContext.id;
+-    const resetBtn = dr.querySelector('.js-library-reset');
+-    if (!resetBtn) return;
+-    resetBtn.disabled = !hasAddedLibraryAttributes(navId);
++    syncColumnsFooter({
++      libraryResetDisabled: !hasAddedLibraryAttributes(navId),
++    });
+*** End Patch

@@ -1,0 +1,11 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiDownloadButton } from './integrations/tend-ui/download-button.jsx';
++import { mountTendUiFilterDrawerActions } from './integrations/tend-ui/filter-drawer-actions.jsx';
+ import { mountTendUiGlobalSearchInput } from './integrations/tend-ui/global-search-input.jsx';
+@@
+ mountTendUiDownloadButton();
++mountTendUiFilterDrawerActions();
+ mountTendUiGlobalSearchInput();
+*** End Patch

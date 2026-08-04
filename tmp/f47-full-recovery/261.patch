@@ -1,0 +1,9 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiMoveDialogControls } from './integrations/tend-ui/move-dialog-controls.jsx';
++import { mountTendUiMoneyRangeControls } from './integrations/tend-ui/money-range-controls.jsx';
+@@
+ mountTendUiMoveDialogControls();
++mountTendUiMoneyRangeControls();
+*** End Patch

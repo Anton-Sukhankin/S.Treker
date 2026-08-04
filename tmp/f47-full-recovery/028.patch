@@ -1,0 +1,6 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-create-task-button/);
++assert.match(bundle.toString('utf8'), /tend-ui-global-search-input/);
+*** End Patch

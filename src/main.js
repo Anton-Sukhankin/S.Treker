@@ -8,13 +8,16 @@ import { initColumnsDrawer } from './features/columns/columns-drawer.js';
 import { initFilterDrawer } from './features/filters/filter-drawer.js';
 import { initMultiSelect } from './features/filters/multi-select.js';
 import { initGroupingControls } from './features/grouping/grouping-controls.js';
-import { initFloatingActionBar, initTaskSelection } from './features/task-selection/floating-action-bar.js';
+import { clearTaskSelection, initFloatingActionBar, initTaskSelection } from './features/task-selection/floating-action-bar.js';
 import { initSidebarNavigation, updateSidebarCounts } from './features/sidebar/sidebar.js';
 import { initOverviewTabs } from './features/tasks/tasks-view.js';
+import { initSearchSectionNavigation } from './features/search/search-section.js';
+import { initTaskCardDrawer } from './features/task-card/task-card-drawer.js';
 
 initializeAppState();
 
 document.addEventListener('DOMContentLoaded', () => {
+  const taskCard = initTaskCardDrawer();
   initOverviewTabs();
   initSidebarNavigation();
   initViewSwitcher();
@@ -27,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFloatingTableHeader();
   initPrintAction({ showToast });
   initTableScrollShadow();
+  initSearchSectionNavigation({ clearTaskSelection, closeTaskCard: () => taskCard.close() });
 
   initSystemOverlay();
   initMultiSelect();

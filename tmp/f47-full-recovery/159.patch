@@ -1,0 +1,20 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\preset-dialog-controls.jsx
+@@
+ function PresetDialogControls({ actionsMount, closeMount }) {
++  const [value, setValue] = React.useState('');
++
++  React.useEffect(() => {
++    const resetValue = () => setValue('');
++    window.addEventListener('s-tracker:preset-name-reset', resetValue);
++    return () => window.removeEventListener('s-tracker:preset-name-reset', resetValue);
++  }, []);
++
+   return (
+@@
+         id="js-preset-name-input"
++        onChange={event => setValue(event.target.value)}
+@@
+         type="text"
++        value={value}
+*** End Patch

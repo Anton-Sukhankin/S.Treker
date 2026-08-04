@@ -1,0 +1,14 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+-The next group is F-39: migrate attribute-library row actions while preserving add/return semantics, current filtering, draft isolation and library reset behavior.
++## F-39 Attribute-Library Row Actions Result
++
++- dynamic library rows render Tend UI `Button`, `Add` and `ArrowBack` through portals;
++- React owns presentation, icon and accessible naming only;
++- vanilla code owns search, draft membership, reset, Apply and table rerender;
++- add, return, reset, draft isolation and Apply scenarios pass;
++- all build, security and bundle gates remain green.
++
++The next group is F-40: migrate main column-row visibility and return controls while preserving drag order, draft visibility, library membership and Apply behavior.
+*** End Patch

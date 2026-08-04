@@ -1,0 +1,70 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+             <div class="ds-filter-options" id="js-library-list">
+               <!-- Library attributes injected here -->
+             </div>
++            <div id="tend-ui-library-actions-root" hidden></div>
+           </div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiGlobalSearchInput } from './integrations/tend-ui/global-search-input.jsx';
++import { mountTendUiLibraryItemActions } from './integrations/tend-ui/library-item-actions.jsx';
+ import { mountTendUiMoveDialogControls } from './integrations/tend-ui/move-dialog-controls.jsx';
+@@
+ mountTendUiGlobalSearchInput();
++mountTendUiLibraryItemActions();
+ mountTendUiMoveDialogControls();
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\columns\columns-drawer.js
+@@
+   const draftActiveColumnPreset = {};
+   const presetToolbarMount = document.getElementById('tend-ui-preset-trigger-root');
+   const columnsFooterMount = document.getElementById('tend-ui-columns-footer-root');
++  const libraryActionsMount = document.getElementById('tend-ui-library-actions-root');
+@@
+     let html = '';
+     filtered.forEach(attr => {
+       const isAdded = draftKeys.has(attr.key);
+-      const actionTitle = isAdded ? 'Вернуть в библиотеку' : 'Добавить в колонки';
+-      const actionIcon = isAdded
+-        ? '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#6B7280" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>'
+-        : '<svg viewBox="0 0 24 24" fill="none" stroke="#007BFF" stroke-width="2.2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>';
+ 
+       html += `
+         <div class="ds-library-item">
+           <div class="ds-library-item__label">${attr.label}</div>
+-          <button class="js-library-item-action" data-key="${attr.key}" data-added="${isAdded ? 'true' : 'false'}" title="${actionTitle}">
+-            ${actionIcon}
+-          </button>
++          <span
++            class="ds-library-item__action-mount"
++            data-added="${isAdded ? 'true' : 'false'}"
++            data-key="${attr.key}"
++            data-tend-ui-library-action
++          ></span>
+         </div>
+       `;
+@@
+ 
+     list.innerHTML = html;
++    libraryActionsMount?.dispatchEvent(new CustomEvent('s-tracker:library-actions-changed'));
+     updateLibraryResetButton();
+   }
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\features\task-workspace.css
+@@
+ .ds-library-item__label {
+@@
+   padding-right: 12px;
+ }
+ 
++.ds-library-item__action-mount {
++  align-items: center;
++  display: flex;
++  flex: 0 0 24px;
++  height: 24px;
++  justify-content: center;
++  width: 24px;
++}
++
+ .js-library-item-action {
+*** End Patch

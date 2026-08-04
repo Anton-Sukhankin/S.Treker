@@ -1,0 +1,44 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\ui\basic-controls.js
+@@
+ export function initViewSwitcher() {
+-  const switcherItems = document.querySelectorAll('.js-view-switcher .ds-segmented-control__item');
++  const switcher = document.querySelector('.js-view-switcher');
+   const cardsView = document.getElementById('view-mode-cards');
+   const tableView = document.getElementById('view-mode-table');
+   const downloadButton = document.getElementById('js-download-btn');
+   const columnsButton = document.getElementById('js-columns-btn');
+ 
+-  switcherItems.forEach(item => {
+-    item.onclick = () => {
+-      const view = item.getAttribute('data-view');
+-      const isTableView = view === 'table';
+-
+-      switcherItems.forEach(current => current.classList.remove('is-active'));
+-      item.classList.add('is-active');
+-
+-      if (cardsView) cardsView.style.display = isTableView ? 'none' : 'flex';
+-      if (tableView) tableView.style.display = isTableView ? 'flex' : 'none';
+-      if (downloadButton) downloadButton.style.display = isTableView ? 'inline-flex' : 'none';
+-      if (columnsButton) columnsButton.style.display = isTableView ? 'inline-flex' : 'none';
+-    };
+-  });
++  if (!switcher) return;
++
++  const applyView = view => {
++    if (view !== 'cards' && view !== 'table') return;
++
++    const isTableView = view === 'table';
++    if (cardsView) cardsView.style.display = isTableView ? 'none' : 'flex';
++    if (tableView) tableView.style.display = isTableView ? 'flex' : 'none';
++    if (downloadButton) downloadButton.style.display = isTableView ? 'inline-flex' : 'none';
++    if (columnsButton) columnsButton.style.display = isTableView ? 'inline-flex' : 'none';
++
++    switcher.dataset.currentView = view;
++    switcher.dispatchEvent(new CustomEvent('s-tracker:view-changed', { detail: { view } }));
++  };
++
++  switcher.addEventListener('s-tracker:view-request', event => applyView(event.detail?.view));
++  applyView(switcher.dataset.currentView || 'cards');
+ }
+*** End Patch

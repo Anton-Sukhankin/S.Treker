@@ -1,0 +1,190 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/index.html
+@@
+-      <div class="ds-drawer__pane ds-drawer__pane--library">
++      <div class="ds-drawer__pane ds-drawer__pane--library" id="columns-attribute-library">
+@@
+       <div class="ds-drawer__footer-pane ds-drawer__footer-pane--library">
+       </div>
+       <div class="ds-drawer__footer-pane ds-drawer__footer-pane--main">
+-        <button class="js-open-library" title="Библиотека атрибутов">
+-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+-          </svg>
+-        </button>
+-        <button class="ds-button ds-button--outlined js-library-reset" disabled title="Сбросить добавленные атрибуты">
+-          <svg class="ds-button__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+-            <polyline points="1 4 1 10 7 10"></polyline>
+-            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+-          </svg>
+-          Сбросить
+-        </button>
+-        <div style="flex: 1;"></div>
+-        <button class="ds-button ds-button--text js-columns-reset">По умолчанию</button>
+-        <button class="ds-button ds-button--primary js-columns-apply">Применить</button>
++        <div class="ds-columns-footer__mount" id="tend-ui-columns-footer-root"></div>
+       </div>
+*** Update File: ../S-Tracker/src/main.js
+@@
+ import { mountTendUiColumnsButton } from './integrations/tend-ui/columns-button.jsx';
++import { mountTendUiColumnsFooterActions } from './integrations/tend-ui/columns-footer-actions.jsx';
+@@
+ mountTendUiColumnsButton();
++mountTendUiColumnsFooterActions();
+*** Update File: ../S-Tracker/src/features/columns/columns-drawer.js
+@@
+   const draftColumnState = {};
+   const draftActiveColumnPreset = {};
+   const presetToolbarMount = document.getElementById('tend-ui-preset-trigger-root');
++  const columnsFooterMount = document.getElementById('tend-ui-columns-footer-root');
+@@
+   function setPresetDropdownOpen(isOpen) {
+@@
+   }
++
++  function syncColumnsFooter(detail) {
++    columnsFooterMount?.dispatchEvent(
++      new CustomEvent('s-tracker:columns-footer-changed', { detail }),
++    );
++  }
+@@
+   function openLibrary() {
+     dr.classList.add('is-expanded');
+-    dr.querySelector('.js-open-library')?.classList.add('is-active');
++    syncColumnsFooter({ libraryOpen: true });
+     renderLibrary();
+     updateLibraryResetButton();
+   }
+ 
+   function closeLibrary() {
+     dr.classList.remove('is-expanded');
+-    dr.querySelector('.js-open-library')?.classList.remove('is-active');
++    syncColumnsFooter({ libraryOpen: false });
+     updateLibraryResetButton();
+@@
+   function updateLibraryResetButton() {
+     const navId = window.navigationContext.id;
+-    const resetBtn = dr.querySelector('.js-library-reset');
+-    if (!resetBtn) return;
+-    resetBtn.disabled = !hasAddedLibraryAttributes(navId);
++    syncColumnsFooter({
++      libraryResetDisabled: !hasAddedLibraryAttributes(navId),
++    });
+*** Update File: ../S-Tracker/src/styles/components/core-ui.css
+@@
+ .ds-preset-toolbar__save-mount {
+   flex: 0 0 auto;
+ }
++
++.ds-columns-footer__mount {
++  width: 100%;
++}
++
++.ds-columns-footer__mount > div {
++  display: flex;
++  align-items: center;
++  gap: 12px;
++  width: 100%;
++}
++
++.ds-columns-footer__mount .js-open-library {
++  min-width: 36px;
++  padding: 0;
++}
++
++.ds-columns-footer__spacer {
++  flex: 1 1 auto;
++  min-width: 0;
++}
+*** Update File: ../S-Tracker/src/styles/features/task-workspace.css
+@@
+-.js-columns-reset {
+-  color: #007BFF !important;
+-  background: transparent !important;
+-  border: none !important;
+-  font-weight: 500 !important;
+-  font-size: 14px !important;
+-  padding: 8px 12px !important;
+-  cursor: pointer !important;
+-  transition: opacity 0.2s !important;
+-}
+-
+-.js-columns-reset:hover {
+-  opacity: 0.8 !important;
+-}
+-
+-.js-columns-apply {
+-  background: #007BFF !important;
+-  color: #fff !important;
+-  border: none !important;
+-  border-radius: 8px !important;
+-  padding: 10px 24px !important;
+-  font-weight: 600 !important;
+-  font-size: 14px !important;
+-  cursor: pointer !important;
+-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+-}
+-
+-.js-columns-apply:hover {
+-  background: #0069d9 !important;
+-}
+-
+-.js-open-library {
+-  width: 36px;
+-  height: 36px;
+-  background: #F3F4F6 !important;
+-  border: 1px solid #D1D5DB !important;
+-  border-radius: 8px !important;
+-  color: #111827 !important;
+-  display: flex !important;
+-  align-items: center;
+-  justify-content: center;
+-  cursor: pointer;
+-  transition: all 0.2s ease !important;
+-  padding: 0 !important;
+-}
+-
+-.js-open-library:hover {
+-  background-color: #E5E7EB !important;
+-  border-color: #BEC3CC !important;
+-}
+-
+-.js-open-library.is-active {
+-  background-color: var(--color-primary) !important;
+-  border-color: var(--color-primary) !important;
+-  color: #FFFFFF !important;
+-}
+-
+-#columns-drawer .js-library-reset {
+-  display: none !important;
+-  height: 36px !important;
+-  padding: 0 14px !important;
+-  border: 1px solid #D1D5DB !important;
+-  border-radius: 8px !important;
+-  background: #FFFFFF !important;
+-  color: #374151 !important;
+-  font-size: 14px !important;
+-  font-weight: 500 !important;
+-  gap: 8px !important;
+-}
+-
+-#columns-drawer.is-expanded .js-library-reset {
+-  display: inline-flex !important;
+-}
+-
+-#columns-drawer .js-library-reset:disabled {
+-  background: #F9FAFB !important;
+-  border-color: #E5E7EB !important;
+-  color: #9CA3AF !important;
+-  cursor: not-allowed !important;
+-  opacity: 1 !important;
+-}
+-
+-#columns-drawer .js-library-reset:not(:disabled):hover {
+-  background: #F3F4F6 !important;
+-  border-color: #BEC3CC !important;
+-}
+-
+ /* Section Title in Column Settings */
+*** End Patch

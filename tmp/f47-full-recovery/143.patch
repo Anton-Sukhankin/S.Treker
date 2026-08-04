@@ -1,0 +1,8 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-bulk-actions.md
+@@
+ - contextual visibility, clearing, move and remove-from-group: passed;
++- action height `38 px`, clear control `38 x 38`, no viewport overflow;
++- browser application errors: `0`;
+ - no closed corporate source access.
+*** End Patch

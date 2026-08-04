@@ -1,0 +1,107 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\column-row-controls.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Checkbox } from '@10d/tend-ui/primitives/Checkbox';
++import { ArrowBack } from '@10d/tend-ui-icons/ArrowBack/ArrowBack.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++const COLUMN_ROWS_CHANGED_EVENT = 's-tracker:column-rows-changed';
++const returnStyle = {
++  height: 24,
++  minWidth: 24,
++  padding: 0,
++  width: 24,
++};
++
++function collectRows() {
++  return Array.from(document.querySelectorAll('[data-tend-ui-column-checkbox]')).map(node => {
++    const row = node.closest('.ds-column-row');
++    return {
++      checked: node.dataset.checked === 'true',
++      key: node.dataset.key,
++      label: node.dataset.label,
++      node,
++      returnNode: row?.querySelector('[data-tend-ui-column-return]') || null,
++    };
++  });
++}
++
++function ColumnVisibilityCheckbox({ row }) {
++  return (
++    <Checkbox
++      aria-label={`Показывать колонку ${row.label}`}
++      className="js-col-cb"
++      data-key={row.key}
++      data-testid="tend-ui-column-visibility"
++      defaultChecked={row.checked}
++    >
++      {row.label}
++    </Checkbox>
++  );
++}
++
++function ColumnReturnButton({ row }) {
++  return (
++    <Button
++      aria-label={`Вернуть в библиотеку: ${row.label}`}
++      before={
++        <ArrowBack
++          aria-hidden="true"
++          data-testid="tend-ui-column-return-icon"
++          size={14}
++        />
++      }
++      className="js-return-to-library"
++      data-key={row.key}
++      data-testid="tend-ui-column-return"
++      size="medium"
++      style={returnStyle}
++      title="Вернуть в библиотеку"
++      type="button"
++      variant="ghost"
++    />
++  );
++}
++
++function ColumnRowControlPortals({ mountNode }) {
++  const [rows, setRows] = React.useState(collectRows);
++
++  React.useLayoutEffect(() => {
++    const refresh = () => setRows(collectRows());
++    mountNode.addEventListener(COLUMN_ROWS_CHANGED_EVENT, refresh);
++    refresh();
++
++    return () => mountNode.removeEventListener(COLUMN_ROWS_CHANGED_EVENT, refresh);
++  }, [mountNode]);
++
++  return rows.flatMap(row => {
++    const portals = [
++      ReactDOM.createPortal(
++        <ColumnVisibilityCheckbox row={row} />,
++        row.node,
++        `visibility:${row.key}:${row.checked ? 'checked' : 'unchecked'}`,
++      ),
++    ];
++
++    if (row.returnNode) {
++      portals.push(
++        ReactDOM.createPortal(
++          <ColumnReturnButton row={row} />,
++          row.returnNode,
++          `return:${row.key}`,
++        ),
++      );
++    }
++
++    return portals;
++  });
++}
++
++export function mountTendUiColumnRowControls() {
++  const mountNode = document.getElementById('tend-ui-column-row-controls-root');
++  return renderTendUi(<ColumnRowControlPortals mountNode={mountNode} />, mountNode);
++}
+*** End Patch

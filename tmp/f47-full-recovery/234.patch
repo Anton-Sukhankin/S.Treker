@@ -1,0 +1,7 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\features\task-workspace.css
+@@
+ .ds-preset-option.is-active { background-color: rgba(0, 123, 251, 0.1); color: var(--color-primary); font-weight: 500; }
++.ds-preset-option-delete-mount { display: flex; flex: 0 0 24px; height: 24px; }
+ .ds-preset-option-delete { color: var(--color-text-secondary); opacity: 0; padding: 2px; margin: -2px; border: 0; border-radius: 4px; background: transparent; cursor: pointer; line-height: 0; transition: opacity 0.15s ease; }
+*** End Patch

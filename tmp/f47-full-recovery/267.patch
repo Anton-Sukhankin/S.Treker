@@ -1,0 +1,103 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-money-range-controls.md
++# Tend UI Money Range Controls
++
++Status: F-45 `[x]`.
++
++## Result
++
++The filter money range now renders its two text fields and three preset actions through:
++
++```text
++src/integrations/tend-ui/money-range-controls.jsx
++```
++
++The adapter provides:
++
++- Tend UI `Input` for the lower boundary;
++- Tend UI `Input` for the upper boundary;
++- three Tend UI `Button` preset actions.
++
++The stable vanilla hooks remain unchanged:
++
++```text
++.js-money-range-input
++.js-money-range-preset
++data-type
++data-from
++data-to
++```
++
++## Ownership Boundary
++
++React owns only the stable Input/Button markup, Tend UI presentation and accessible names.
++
++`src/features/filters/filter-drawer.js` remains the sole owner of:
++
++- parsing and Russian currency formatting;
++- rounding by the `10,000` step;
++- clamping to `0..20,000,000`;
++- resolving crossed lower and upper boundaries;
++- active preset state;
++- track fill and range-thumb synchronization;
++- draft settings count;
++- Close, Reset and Apply side effects.
++
++The adapter has no `onChange`, `onClick`, filter state or direct product rerender.
++
++## Native Thumb Decision
++
++The two native `input[type="range"]` controls remain intentionally local.
++
++Tend UI contains `RangeInput`, but its local source contract describes two numeric input fields. It is not a dual-thumb slider and cannot replace the current drag interaction without removing behavior or adding a new local slider implementation.
++
++F-45 therefore treats the native thumbs as preserved product mechanics rather than unresolved legacy fields.
++
++## Static Verification
++
++The executable gates confirm:
++
++- both money-range mount points exist;
++- two Tend UI Input markers and three Tend UI preset Button markers exist in the built bundle;
++- native text inputs and native preset buttons are absent from `index.html`;
++- exactly two native range thumbs remain;
++- the adapter contains no filter state or event handlers;
++- the filter drawer static baseline is now zero buttons, two inputs, eight composite multi-selects and 17 inline SVG elements.
++
++## Browser Verification
++
++The local S-Tracker runtime at `http://127.0.0.1:5175/` passed:
++
++- both Tend UI fields and all three Tend UI presets render once;
++- `1,234,567` and `4,321,000` round to `1,230,000` and `4,320,000`;
++- moving the lower boundary above the upper boundary aligns both to `8,000,000`;
++- the `1 млн - 5 млн` preset formats both fields, activates itself and moves both thumbs;
++- moving a native thumb updates Tend UI fields and clears the active preset;
++- Close preserves an uncommitted range draft and leaves the queue at `134`;
++- `до 500 тыс.` plus Apply changes the selected queue `134 -> 27`;
++- Reset clears fields, preset and count while preserving the applied list until Apply;
++- Reset plus Apply restores `27 -> 134`;
++- visual alignment, text fit and active-state styling pass;
++- browser application errors are zero.
++
++## Build Evidence
++
++```text
++Vite transformed modules: 945
++JavaScript bundle raw: 954,359 bytes
++JavaScript bundle gzip: 294,319 bytes
++```
++
++The F-45 incremental bundle budget passes. No Tend UI package export or release tarball changed.
++
++## Constraints
++
++- No closed corporate registry, GitLab, Nexus, Figma or internal service was accessed.
++- Multi-select mechanics are outside F-45.
++
++## Next Group
++
++```text
++F-46: audit filter multi-select triggers, option controls and inline icons, then define the first bounded Tend UI migration wave.
++```
+*** End Patch

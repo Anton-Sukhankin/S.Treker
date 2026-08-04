@@ -1,0 +1,12 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\tasks\tasks-view.js
+@@
+-  const printButton = document.getElementById('js-print-btn');
++  const printControl = document.getElementById('tend-ui-print-root') ?? document.getElementById('js-print-btn');
+@@
+-      if (printButton && printButton.parentNode !== headerActions) headerActions.appendChild(printButton);
++      if (printControl && printControl.parentNode !== headerActions) headerActions.appendChild(printControl);
+@@
+-    if (printButton && printButton.parentNode === headerActions) toolbarRight.insertBefore(printButton, createButton);
++    if (printControl && printControl.parentNode === headerActions) toolbarRight.insertBefore(printControl, createButton);
+*** End Patch

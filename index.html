@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  
+
 <header class="app-header-unified">
     <div class="app-header-top">
       <div class="app-header-left">
@@ -48,12 +48,12 @@
       </div>
     </div>
     <nav class="app-header-nav">
-      <a href="#" class="nav-link is-active">Задачи</a>
+      <a href="#" class="nav-link is-active" data-section="tasks">Задачи</a>
       <a href="#" class="nav-link">Документы</a>
       <a href="#" class="nav-link">Архив</a>
-      <a href="#" class="nav-link">Поиск</a>
+      <a href="#" class="nav-link" data-section="search">Поиск</a>
       <a href="#" class="nav-link">
-        Отчеты 
+        Отчеты
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="6 9 12 15 18 9"></polyline>
         </svg>
@@ -64,7 +64,7 @@
   </header>
 
   <div class="app-layout">
-    
+
     <!-- App Sidebar -->
     <aside class="app-sidebar">
       <nav class="app-sidebar__nav">
@@ -143,7 +143,7 @@
         </div>
         <div class="app-main__actions" id="js-header-actions" style="display: flex; align-items: center; gap: 12px;"></div>
       </header>
-      
+
       <!-- 2. Панель управления списком -->
       <section class="ds-control-panel app-toolbar app-toolbar--task">
         <div class="app-toolbar__primary">
@@ -269,14 +269,671 @@
         </div>
 
       </section>
-      
+
     </main>
   </div>
+
+  <section class="esm-search-section" id="js-esm-search-section" hidden data-esm-integration="deep">
+    <div class="esm-search-section__root" id="js-esm-integrated-root">
+      <div class="app-container">
+              <aside class="app-sidebar">
+                  <div class="sidebar-scroll-area">
+                      <div class="sidebar-tabs-wrapper">
+                          <div class="sidebar-tab active" data-target="filters-view">Фильтры</div>
+                          <div class="sidebar-tab" data-target="templates-view">Сохраненные шаблоны</div>
+                      </div>
+
+                      <div id="filters-view" class="sidebar-view active-view">
+                          <!-- Блок 1: Базовый поиск -->
+                      <div id="esm-main-search-block" class="search-block">
+                          <label class="block-label">Полнотекстовый поиск</label>
+                          <div class="input-with-icon">
+                              <i data-lucide="search"></i>
+                              <input type="text" id="full-text-search" class="form-control" placeholder="Введите название или номер...">
+                          </div>
+                      </div>
+
+                      <div id="tag-select-block" class="search-block">
+                          <label class="block-label">Тип документа</label>
+                          <div class="tag-select-container">
+                              <i data-lucide="file-text" class="type-icon"></i>
+                              <div id="tags-wrapper" class="tags-wrapper"></div>
+                              <input type="text" id="tag-filter-input" class="tag-hidden-input" placeholder="Выберите типы...">
+                              <div class="select-icons">
+                                  <i data-lucide="chevron-down" class="icon-chevron"></i>
+                                  <i data-lucide="search" class="icon-search"></i>
+                              </div>
+
+                              <div id="tag-dropdown" class="tag-dropdown">
+                                  <!-- Пункты списка с чекбоксами -->
+                              </div>
+                          </div>
+                      </div>
+
+                      <!-- Блок 2: Контекстный поиск -->
+                      <div id="package-select-block" class="search-block">
+                          <label class="block-label">Поиск в пакете</label>
+                          <div class="tree-select-container">
+                              <div class="tree-select-header">
+                                  <i data-lucide="folder" class="folder-icon"></i>
+                                  <div id="tree-tags-wrapper" class="tags-wrapper"></div>
+                                  <input type="text" id="package-search-input" class="tree-search-input" placeholder="Корень системы / Документы" readonly>
+                                  <div class="select-icons">
+                                      <i data-lucide="chevron-down" class="icon-chevron"></i>
+                                      <i data-lucide="search" class="icon-search"></i>
+                                  </div>
+                              </div>
+                              <div id="tree-dropdown" class="tree-dropdown">
+                                  <!-- Дерево пакетов будет здесь -->
+                              </div>
+                          </div>
+                          <div id="package-options-container" style="display: none; flex-direction: column; gap: 8px; margin-top: 0px;">
+                              <label class="recursive-checkbox-label" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                  <input type="checkbox" id="search-related-toggle" class="esm-checkbox">
+                                  <span>Искать связанные</span>
+                              </label>
+                          </div>
+                      </div>
+
+                      <!-- Блок 2.1: Выбор периода (Уникальный компонент) -->
+                      <div id="esm-date-picker-component" class="search-block">
+                          <label class="block-label">Период документа</label>
+                          <div class="date-period-container">
+                              <div class="input-with-icon">
+                                  <i data-lucide="calendar"></i>
+                                  <input type="text" id="date-period-input" class="form-control" placeholder="Поиск по дате (поиск по периоду)" readonly>
+                                  <button type="button" id="date-period-clear" class="date-period-clear" aria-label="Очистить период документа" hidden>
+                                      <i data-lucide="x"></i>
+                                  </button>
+                              </div>
+
+                              <!-- Выпадающий календарь -->
+                              <div id="esm-calendar-dropdown" class="calendar-dropdown" role="dialog" aria-label="Выбор даты" aria-hidden="true">
+                                  <div class="calendar-main-content">
+                                      <!-- Сетка календаря будет здесь (генерируется JS) -->
+                                  </div>
+                                  <div class="calendar-footer">
+                                      <span class="footer-label">Диапазон дат</span>
+                                      <label class="esm-switch">
+                                          <input type="checkbox" id="range-mode-toggle">
+                                          <span class="slider"></span>
+                                      </label>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <!-- Блок 3: Гибкость (Конструктор) -->
+                      <div id="esm-dynamic-filters-block" class="search-block">
+                          <label class="block-label">Дополнительные атрибуты</label>
+                          <div id="dynamic-attributes-container">
+                              <!-- Сюда будут добавляться поля -->
+                          </div>
+                          <div class="add-filter-container">
+                              <button id="add-filter-btn" class="btn-text-icon">
+                                  <i data-lucide="plus-circle"></i>
+                                  Добавить фильтр
+                              </button>
+                              <!-- Меню выбора атрибутов -->
+                              <div id="attribute-selection-menu" class="attribute-menu">
+                                  <div class="menu-item" data-attr="contractor">Контрагент</div>
+                                  <div class="menu-item" data-attr="amount">Сумма</div>
+                                  <div class="menu-item" data-attr="status">Статус</div>
+                                  <div class="menu-item" data-attr="specialist">Специалист</div>
+                                  <div class="menu-item" data-attr="endDate">Дата окончания</div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <!-- Кнопки управления -->
+                      <div class="sidebar-footer">
+                          <div id="default-footer-actions" style="display: flex; gap: 8px; width: 100%;">
+                              <button id="clear-btn-sidebar" class="btn-secondary" title="Сбросить">
+                                  <i data-lucide="rotate-ccw"></i>
+                                  Сбросить
+                              </button>
+                              <button id="save-btn-sidebar" class="btn-secondary" title="Сохранить">
+                                  <i data-lucide="save"></i>
+                                  Сохранить
+                              </button>
+                          </div>
+
+                          <div id="save-template-block" class="save-template-block" style="display: none;">
+                              <div class="template-input-group">
+                                  <label class="template-label">Наименование шаблона</label>
+                                  <input type="text" id="template-name-input" class="form-control" placeholder="Введите наименование" maxlength="100">
+                              </div>
+                              <div class="template-actions">
+                                  <button id="cancel-template-btn" class="btn-secondary">Отмена</button>
+                                  <button id="confirm-template-btn" class="btn-secondary">Сохранить</button>
+                              </div>
+                          </div>
+                      </div>
+                      </div>
+
+                      <div id="templates-view" class="sidebar-view">
+                          <div id="saved-templates-list" class="saved-templates-list"></div>
+                          <div id="empty-templates-state" class="empty-templates">
+                              <div class="empty-icon-circle">
+                                  <i data-lucide="inbox"></i>
+                              </div>
+                              <div class="empty-text">Отсутствуют сохраненные шаблоны</div>
+                          </div>
+                      </div>
+                  </div>
+              </aside>
+
+              <main class="main-content">
+                  <div class="content-header">
+
+                      <div class="main-title-row">
+                          <h1 class="page-title">Поиск по документам <span class="total-count-header">(всего документов: <span id="count-total">50</span>)</span></h1>
+                          <div class="header-action-buttons">
+                              <div class="my-docs-toggle-container">
+                                  <span class="toggle-label">Доступные мне</span>
+                                  <label class="esm-switch">
+                                      <input type="checkbox" id="my-docs-toggle">
+                                      <span class="slider"></span>
+                                  </label>
+                              </div>
+                              <button class="btn-secondary btn-icon-only" id="reset-filters-top" title="Сбросить">
+                                  <i data-lucide="rotate-ccw"></i>
+                              </button>
+                              <button class="btn-secondary btn-icon-only" id="save-filters-top" title="Скачать">
+                                  <i data-lucide="download"></i>
+                              </button>
+                              <button class="btn-secondary btn-icon-only" id="open-settings-btn" title="Настройки таблицы">
+                                  <i data-lucide="settings"></i>
+                              </button>
+                              <button class="btn-primary" id="create-doc-btn">
+                                  <i data-lucide="plus"></i>
+                                  Новый документ
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="table-container main-grid-container">
+                      <table id="esm-table">
+                          <thead>
+                              <tr>
+                                  <th class="col-checkbox"><input type="checkbox" id="select-all" class="esm-checkbox"></th>
+
+                                  <th class="sortable col-date" data-sort="date">
+                                      <div class="th-content">
+                                          <span>ДАТА ДОКУМЕНТА</span>
+                                          <i class="sort-icon" data-lucide="arrow-down"></i>
+                                      </div>
+                                  </th>
+                                  <th class="sortable col-number" data-sort="number">
+                                      <div class="th-content">
+                                          <span>НОМЕР</span>
+                                          <i class="sort-icon" data-lucide="arrow-down"></i>
+                                      </div>
+                                  </th>
+                                  <th class="sortable col-name" data-sort="name">
+                                      <div class="th-content">
+                                          <span>НАИМЕНОВАНИЕ</span>
+                                          <i class="sort-icon" data-lucide="arrow-down-a-z"></i>
+                                      </div>
+                                  </th>
+                                  <th class="sortable col-changed" data-sort="changed">
+                                      <div class="th-content">
+                                          <span>ИЗМЕНЕНИЕ</span>
+                                          <i class="sort-icon" data-lucide="arrow-down"></i>
+                                      </div>
+                                  </th>
+                                  <th class="sortable col-type" data-sort="type">
+                                      <div class="th-content">
+                                          <span>ТИП</span>
+                                          <i class="sort-icon" data-lucide="arrow-down"></i>
+                                      </div>
+                                  </th>
+                                  <!-- Дополнительные колонки (по умолчанию скрыты) -->
+                                  <th class="sortable col-additional" data-sort="doCode" style="display:none"><div class="th-content"><span>КОД ДО</span></div></th>
+                                  <th class="sortable col-additional" data-sort="docKind" style="display:none"><div class="th-content"><span>ВИД ДОКУМЕНТА</span></div></th>
+                                  <th class="sortable col-additional" data-sort="isTerminated" style="display:none"><div class="th-content"><span>РАСТОРГНУТ</span></div></th>
+                                  <th class="sortable col-additional" data-sort="prepaymentAmount" style="display:none"><div class="th-content"><span>РАЗМЕР АВАНСА</span></div></th>
+                                  <th class="sortable col-additional" data-sort="mainContractNotFound" style="display:none"><div class="th-content"><span>ОСНОВНОЙ ДОГОВОР НЕ НАЙДЕН</span></div></th>
+                                  <th class="sortable col-additional" data-sort="fileName" style="display:none"><div class="th-content"><span>НАЗВАНИЕ ФАЙЛА</span></div></th>
+                                  <th class="sortable col-additional" data-sort="sectionNumber" style="display:none"><div class="th-content"><span>НОМЕР РАЗДЕЛА</span></div></th>
+                                  <th class="sortable col-additional" data-sort="sectionName" style="display:none"><div class="th-content"><span>НАЗВАНИЕ РАЗДЕЛА</span></div></th>
+                                  <th class="sortable col-additional" data-sort="itemNumber" style="display:none"><div class="th-content"><span>НОМЕР ПУНКТА</span></div></th>
+                                  <th class="sortable col-additional" data-sort="itemText" style="display:none"><div class="th-content"><span>ТЕКСТ ПУНКТА</span></div></th>
+                                  <th class="sortable col-additional" data-sort="bank" style="display:none"><div class="th-content"><span>БАНК</span></div></th>
+                                  <th class="sortable col-additional" data-sort="traceability" style="display:none"><div class="th-content"><span>ОТСЛЕЖИВАЕМОСТЬ</span></div></th>
+                                  <th class="sortable col-additional" data-sort="covenantGroup" style="display:none"><div class="th-content"><span>ГРУППА КОВЕНАНТОВ</span></div></th>
+                                  <th class="sortable col-additional" data-sort="covenantGroupCode" style="display:none"><div class="th-content"><span>КОД ГРУППЫ КОВЕНАНТОВ</span></div></th>
+                                  <th class="sortable col-additional" data-sort="covenant" style="display:none"><div class="th-content"><span>КОВЕНАНТ</span></div></th>
+                                  <th class="sortable col-additional" data-sort="covenantCode" style="display:none"><div class="th-content"><span>КОД КОВЕНАНТА</span></div></th>
+                                  <th class="sortable col-additional" data-sort="tagCode" style="display:none"><div class="th-content"><span>КОД ТЕГА</span></div></th>
+                                  <th class="sortable col-additional" data-sort="trigger" style="display:none"><div class="th-content"><span>ТРИГГЕР</span></div></th>
+                                  <th class="sortable col-additional" data-sort="bankInn" style="display:none"><div class="th-content"><span>ИНН БАНКА</span></div></th>
+                                  <th class="sortable col-additional" data-sort="orgInn" style="display:none"><div class="th-content"><span>ИНН ОРГАНИЗАЦИИ</span></div></th>
+
+                                  <th class="col-menu"></th>
+                              </tr>
+                          </thead>
+                          <tbody id="table-body">
+                              <tr>
+                                  <td colspan="8" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                                      Загрузка данных...
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+
+                  <!-- Плавающая панель действий -->
+                  <div id="floating-actions" class="floating-actions">
+                      <div class="floating-inner">
+                          <div class="floating-stats">
+                              <div class="stats-label">Результат:</div>
+                              <div class="stats-badge" id="floating-count">0</div>
+                          </div>
+                          <div class="floating-divider"></div>
+                          <div class="floating-btns">
+                              <button class="btn-floating" id="bulk-collect-relations">
+                                  <i data-lucide="layers"></i>
+                                  <span>Связи документа</span>
+                              </button>
+                              <button class="btn-floating" id="bulk-move-to-package">
+                                  <i data-lucide="folder-plus"></i>
+                                  <span>Добавить в пакет</span>
+                              </button>
+                              <button class="btn-floating">
+                                  <i data-lucide="download"></i>
+                                  <span>Скачать</span>
+                              </button>
+                              <button class="btn-floating" id="bulk-unmark" style="display: none;" title="Снять пометку на удаление">
+                                  <i data-lucide="file-check"></i>
+                                  <span>Снять пометку</span>
+                              </button>
+                              <button class="btn-floating btn-floating-delete" id="bulk-delete" title="Пометка на удаление">
+                                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path fill-rule="evenodd" clip-rule="evenodd" d="M6 5C6 4.44772 6.44772 4 7 4H13V8.00003C13 8.55231 13.4477 9.00003 14 9.00003H18V14C18 14.5523 18.4477 15 19 15C19.5523 15 20 14.5523 20 14V8.00793V8C20 7.73478 19.8946 7.48043 19.7071 7.29289L14.7071 2.29289C14.6114 2.1972 14.4983 2.1229 14.3753 2.07308C14.2572 2.02527 14.1299 2 14 2H7C5.34315 2 4 3.34315 4 5V19C4 20.6569 5.34315 22 7 22H12C12.5523 22 13 21.5523 13 21C13 20.4477 12.5523 20 12 20H7C6.44772 20 6 19.5523 6 19V5ZM16.2929 18.2929C16.6834 17.9024 17.3166 17.9024 17.7071 18.2929L19 19.5858L20.2929 18.2929C20.6834 17.9024 21.3166 17.9024 21.7071 18.2929C22.0976 18.6834 22.0976 19.3166 21.7071 19.7071L20.4142 21L21.7071 22.2929C22.0976 22.6834 22.0976 23.3166 21.7071 23.7071C21.3165 24.0976 20.6834 24.0976 20.2929 23.7071L19 22.4142L17.7071 23.7071C17.3166 24.0976 16.6834 24.0976 16.2929 23.7071C15.9024 23.3165 15.9024 22.6834 16.2929 22.2929L17.5858 21L16.2929 19.7071C15.9024 19.3166 15.9024 18.6834 16.2929 18.2929Z" fill="white"/>
+                                  </svg>
+                              </button>
+                          </div>
+                          <button class="btn-floating-close" id="bulk-reset" title="Сбросить выбор">
+                              <i data-lucide="x"></i>
+                          </button>
+                      </div>
+                  </div>
+
+                  <footer class="pagination-bar">
+                      <div class="pagination-controls">
+                          <div class="pagination-item arrow-item"><i data-lucide="chevron-left"></i></div>
+                          <div class="pagination-item active">1</div>
+                          <div class="pagination-item">2</div>
+                          <div class="pagination-item">3</div>
+                          <div class="pagination-item">4</div>
+                          <div class="pagination-item">5</div>
+                          <div class="pagination-item arrow-item"><i data-lucide="chevron-right"></i></div>
+                      </div>
+                  </footer>
+              </main>
+          </div>
+
+          <div id="drawer-overlay" class="drawer-overlay" aria-hidden="true"></div>
+          <div id="related-drawer" class="related-drawer" role="dialog" aria-modal="true" aria-labelledby="related-drawer-title" aria-hidden="true" inert>
+              <header class="drawer-header">
+                  <div class="drawer-header-left">
+                      <div class="drawer-type-icon" id="drawer-type-icon"></div>
+                      <div class="drawer-header-text">
+                          <h2 class="drawer-title" id="related-drawer-title">Связи документа</h2>
+                          <div class="drawer-subtitle" id="drawer-subtitle"></div>
+                      </div>
+                  </div>
+                  <button class="btn-close-drawer" id="close-drawer" title="Закрыть" aria-label="Закрыть связи документа">
+                      <i data-lucide="x"></i>
+                  </button>
+              </header>
+              <div class="drawer-body">
+                  <div class="table-container">
+                      <table id="related-table">
+                          <thead>
+                              <tr>
+                                  <th class="col-checkbox"><input type="checkbox" class="esm-checkbox drawer-select-all"></th>
+                                  <th class="drawer-sortable" data-sort="date">
+                                      <div class="th-content">
+                                          <span>ДАТА ДОКУМЕНТА</span>
+                                          <i data-lucide="arrow-down" class="sort-icon"></i>
+                                      </div>
+                                  </th>
+                                  <th class="drawer-sortable" data-sort="number">
+                                      <div class="th-content">
+                                          <span>НОМЕР</span>
+                                          <i data-lucide="arrow-down" class="sort-icon"></i>
+                                      </div>
+                                  </th>
+                                  <th class="drawer-sortable" data-sort="name">
+                                      <div class="th-content">
+                                          <span>НАИМЕНОВАНИЕ</span>
+                                          <i data-lucide="arrow-down-a-z" class="sort-icon"></i>
+                                      </div>
+                                  </th>
+                                  <th class="drawer-sortable" data-sort="changed">
+                                      <div class="th-content">
+                                          <span>ИЗМЕНЕНИЕ</span>
+                                          <i data-lucide="arrow-down" class="sort-icon"></i>
+                                      </div>
+                                  </th>
+                                  <th>ТИП</th>
+                                  <th class="col-menu"></th>
+                              </tr>
+                          </thead>
+                          <tbody id="related-table-body">
+                              <!-- Будет заполнено через JS -->
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+
+          <div id="settings-drawer" class="settings-drawer" role="dialog" aria-modal="true" aria-labelledby="settings-drawer-title" aria-hidden="true" inert>
+              <header class="drawer-header">
+                  <div class="drawer-header-left">
+                      <div class="drawer-header-text">
+                          <h2 class="drawer-title" id="settings-drawer-title">Настройки</h2>
+                      </div>
+                  </div>
+                  <button class="btn-close-drawer" id="close-settings-drawer" title="Закрыть" aria-label="Закрыть настройки колонок">
+                      <i data-lucide="x"></i>
+                  </button>
+              </header>
+              <div class="drawer-body settings-body">
+                  <div class="settings-panes-container">
+                      <div class="settings-pane settings-pane-library">
+                          <div class="library-header">
+                              <h3 class="library-title">Библиотека атрибутов</h3>
+                          </div>
+                          <div class="settings-search-container">
+                              <i data-lucide="search" class="settings-search-icon"></i>
+                              <input type="text" class="settings-search-input" placeholder="Введите значение">
+                          </div>
+                          <div class="additional-attributes-list">
+                              <div class="settings-item library-item" data-col="doCode">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">Код ДО</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="docKind">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">Вид документа (справочник)</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="isTerminated">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">Расторгнут</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="prepaymentAmount">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">Размер аванса (строка)</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="mainContractNotFound">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">Основной договор не найден</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="fileName">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">Название файла</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="sectionNumber">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">Номер раздела</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="sectionName">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">Название раздела</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="itemNumber">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">Номер пункта</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="itemText">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">Текст пункта</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="bank">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">Банк</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="traceability">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">Отслеживаемость</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="covenantGroup">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">Группа ковенантов</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="covenantGroupCode">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">Код группы ковенантов</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="covenant">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">Ковенант</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="covenantCode">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">Код ковенанта</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="tagCode">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">Код тега</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="trigger">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">Триггер</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="bankInn">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">ИНН Банка</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                              <div class="settings-item library-item" data-col="orgInn">
+                                  <div class="settings-item-content">
+                                      <span class="settings-item-label">ИНН Организации</span>
+                                  </div>
+                                  <button class="btn-add-attr btn-secondary btn-icon-only" title="Добавить">
+                                      <i data-lucide="plus"></i>
+                                  </button>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="settings-pane settings-pane-main">
+                          <h3 class="library-title">Общие атрибуты</h3>
+                          <div class="settings-view-manager">
+                              <div class="view-dropdown-container">
+                                  <div class="view-dropdown-field" id="settings-view-dropdown">
+                                      <span>Базовое отображение</span>
+                                      <i data-lucide="chevron-down"></i>
+                                  </div>
+                                  <div class="view-dropdown-menu">
+                                      <div class="view-dropdown-item active" data-name="Базовое отображение">Базовое отображение</div>
+                                  </div>
+                              </div>
+                              <button class="btn-view-save" id="settings-view-save-btn" disabled>Сохранить</button>
+                          </div>
+                          <div class="settings-list" id="settings-columns-list">
+                              <div class="settings-accordion-content" style="display: block;">
+                                      <div class="settings-item active" data-col="date">
+                                          <div class="settings-item-content">
+                                              <div class="settings-checkbox"><i data-lucide="check"></i></div>
+                                              <span class="settings-item-label">Дата документа</span>
+                                          </div>
+                                          <div class="settings-item-pin" title="Закрепить колонку"><i data-lucide="pin"></i></div>
+                                          <div class="settings-item-drag"><i data-lucide="grip-vertical"></i></div>
+                                      </div>
+                                      <div class="settings-item active" data-col="number">
+                                          <div class="settings-item-content">
+                                              <div class="settings-checkbox"><i data-lucide="check"></i></div>
+                                              <span class="settings-item-label">Номер</span>
+                                          </div>
+                                          <div class="settings-item-pin" title="Закрепить колонку"><i data-lucide="pin"></i></div>
+                                          <div class="settings-item-drag"><i data-lucide="grip-vertical"></i></div>
+                                      </div>
+                                      <div class="settings-item active" data-col="name">
+                                          <div class="settings-item-content">
+                                              <div class="settings-checkbox"><i data-lucide="check"></i></div>
+                                              <span class="settings-item-label">Наименование</span>
+                                          </div>
+                                          <div class="settings-item-pin" title="Закрепить колонку"><i data-lucide="pin"></i></div>
+                                          <div class="settings-item-drag"><i data-lucide="grip-vertical"></i></div>
+                                      </div>
+                                      <div class="settings-item active" data-col="changed">
+                                          <div class="settings-item-content">
+                                              <div class="settings-checkbox"><i data-lucide="check"></i></div>
+                                              <span class="settings-item-label">Изменение</span>
+                                          </div>
+                                          <div class="settings-item-pin" title="Закрепить колонку"><i data-lucide="pin"></i></div>
+                                          <div class="settings-item-drag"><i data-lucide="grip-vertical"></i></div>
+                                      </div>
+                                      <div class="settings-item active" data-col="type">
+                                          <div class="settings-item-content">
+                                              <div class="settings-checkbox"><i data-lucide="check"></i></div>
+                                              <span class="settings-item-label">Тип</span>
+                                          </div>
+                                          <div class="settings-item-pin" title="Закрепить колонку"><i data-lucide="pin"></i></div>
+                                          <div class="settings-item-drag"><i data-lucide="grip-vertical"></i></div>
+                                      </div>
+                                  </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <footer class="drawer-footer settings-footer">
+                  <div class="settings-footer-left">
+                      <button class="btn-library-toggle" id="library-toggle-btn" title="Библиотека атрибутов">
+                          <i data-lucide="book"></i>
+                      </button>
+                  </div>
+                  <div class="settings-footer-right">
+                      <button class="btn-ghost" id="settings-default-btn">По умолчанию</button>
+                      <button class="btn-primary" id="settings-apply-btn">Применить</button>
+                  </div>
+              </footer>
+          </div>
+
+          <div id="move-package-overlay" class="modal-overlay" aria-hidden="true" inert>
+              <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="move-package-title">
+                  <div class="modal-header">
+                      <h2 id="move-package-title">Добавить в пакет <span class="count-badge" id="move-package-count">0</span></h2>
+                      <button class="btn-close-modal" id="close-move-package-modal" aria-label="Закрыть добавление в пакет"><i data-lucide="x"></i></button>
+                  </div>
+                  <div class="modal-body move-modal-body">
+                      <div id="move-package-tree" class="tree-view-area">
+                          <!-- Tree rendered here -->
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button class="btn-ghost" id="cancel-move-package">Отмена</button>
+                      <button class="btn-primary" id="apply-move-package" disabled>Применить</button>
+                  </div>
+              </div>
+          </div>
+
+          <div id="toast-container" class="toast-container" role="status" aria-live="polite" aria-atomic="true"></div>
+
+          <div id="save-view-overlay" class="modal-overlay" aria-hidden="true" inert>
+              <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="save-view-title">
+                  <div class="modal-header">
+                      <h2 id="save-view-title">Сохранение шаблона</h2>
+                      <button class="btn-close-modal" id="close-save-view-modal" aria-label="Закрыть сохранение шаблона"><i data-lucide="x"></i></button>
+                  </div>
+                  <div class="modal-body" style="padding: 24px;">
+                      <div class="form-group">
+                          <input type="text" class="form-control" id="view-template-name" placeholder="Введите наименование шаблона" maxlength="100">
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button class="btn-secondary" id="cancel-save-view">Отмена</button>
+                      <button class="btn-primary" id="confirm-save-view" disabled>Сохранить</button>
+                  </div>
+              </div>
+          </div>
+    </div>
+  </section>
 
   <!-- Bottom-Up Overlay for Detailed System View -->
   <div class="ds-system-overlay-backdrop js-overlay-close" id="system-overlay-backdrop"></div>
   <section class="ds-system-overlay" id="system-overlay">
-    
+
     <!-- Overlay Header -->
     <div class="app-system-view__header">
       <div class="app-system-view__title-area">
@@ -358,11 +1015,11 @@
     </div>
 
     <div class="ds-drawer__content ds-drawer__content--scrollable">
-      
+
       <!-- 1. Common attributes -->
       <div class="ds-filter-section">
-        
-        
+
+
         <div class="ds-filter-group">
           <label class="ds-filter-label">Номер</label>
           <div class="ds-multi-select js-multi-select" data-filter="id" data-options='["ECM-1001", "TRACKER-1005", "CONTROL-1008", "ECM-1012"]'>
@@ -395,8 +1052,8 @@
 
       <!-- 2. Construction contracts (ECM) -->
       <div class="ds-filter-section" data-filter-domain="ecm">
-        
-        
+
+
         <div class="ds-filter-group">
           <label class="ds-filter-label">Тип документа</label>
           <div class="ds-multi-select js-multi-select" data-filter="docType">
@@ -450,8 +1107,8 @@
 
       <!-- 3. Procurement (TMC) -->
       <div class="ds-filter-section" data-filter-domain="tracker">
-        
-        
+
+
         <div class="ds-filter-group">
           <label class="ds-filter-label">Бизнес-Юнит</label>
           <div class="ds-multi-select js-multi-select" data-filter="unit" data-options='["СД-Монолит", "СД-Уч-4", "БЦ Зенит", "ЖК Аура", "ЖК Ветер", "Участок 7", "Департамент 1", "Холдинг"]'>
@@ -483,8 +1140,8 @@
 
       <!-- 4. Assignments (SD) -->
       <div class="ds-filter-section" data-filter-domain="control">
-        
-        
+
+
         <div class="ds-filter-group">
           <label class="ds-filter-label">Объект</label>
           <div class="ds-multi-select js-multi-select" data-filter="object" data-options='["ЖК Аура", "ЖК Ветер", "БЦ Зенит", "Участок 7", "Технопарк", "Склад 3", "Офис СД", "Площадка 9"]'>
@@ -554,7 +1211,7 @@
               </svg>
               <input type="text" class="ds-search-input__control js-library-search" placeholder="Поиск атрибута...">
             </div>
-            
+
             <div class="ds-filter-options" id="js-library-list">
               <!-- Library attributes injected here -->
             </div>
@@ -584,7 +1241,7 @@
                 Сохранить
               </button>
             </div>
-  
+
             <div id="columns-visibility-sections">
               <!-- Columns injected here -->
             </div>
@@ -592,7 +1249,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="ds-drawer__footer">
       <div class="ds-drawer__footer-pane ds-drawer__footer-pane--library">
       </div>
@@ -625,7 +1282,7 @@
     <div class="ds-fab__result">
       Результат: <span class="ds-fab__badge" id="js-selection-count">0</span>
     </div>
-    
+
     <div class="ds-fab__actions">
       <!-- Universal actions -->
       <button class="ds-button ds-button--fab-outline js-fab-action js-fab-status" data-action="status">
@@ -698,7 +1355,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
     </div>
-    
+
     <div class="ds-modal__content" style="padding-top: 24px;">
       <div class="ds-filter-group">
         <label class="ds-filter-label">Название новой группы</label>

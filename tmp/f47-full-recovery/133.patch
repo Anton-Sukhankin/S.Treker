@@ -1,0 +1,9 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiColumnsButton } from './integrations/tend-ui/columns-button.jsx';
++import { mountTendUiBulkActions } from './integrations/tend-ui/bulk-actions.jsx';
+@@
+ mountTendUiCreateTaskButton();
++mountTendUiBulkActions();
+*** End Patch

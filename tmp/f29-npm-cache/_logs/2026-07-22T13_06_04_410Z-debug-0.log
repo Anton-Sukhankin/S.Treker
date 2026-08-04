@@ -1,0 +1,59 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.9.3
+2 info using node@v22.19.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\.npmrc
+5 silly config load:file:C:\Users\armad\.npmrc
+6 silly config load:file:C:\Users\armad\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm install @10d/tend-ui@file:vendor/tend-ui/10d-tend-ui-4.82.0.tgz
+8 verbose argv "install" "@10d/tend-ui@file:vendor/tend-ui/10d-tend-ui-4.82.0.tgz" "--save-exact" "--package-lock-only" "--offline" "--ignore-scripts" "--cache" ".\\tmp\\f29-npm-cache"
+9 verbose logfile logs-max:10 dir:C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\tmp\f29-npm-cache\_logs\2026-07-22T13_06_04_410Z-
+10 verbose logfile C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\tmp\f29-npm-cache\_logs\2026-07-22T13_06_04_410Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+13 silly idealTree buildDeps
+14 silly fetch manifest @10d/tend-ui@file:vendor/tend-ui/10d-tend-ui-4.82.0.tgz
+15 silly fetch manifest react@17.0.2
+16 silly packumentCache full:https://registry.npmjs.org/react cache-miss
+17 silly fetch manifest react@^17.0.2
+18 silly packumentCache full:https://registry.npmjs.org/react cache-miss
+19 verbose stack Error: unable to resolve dependency tree
+19 verbose stack     at #failPeerConflict (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:1363:25)
+19 verbose stack     at #loadPeerSet (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:1329:33)
+19 verbose stack     at async #buildDepStep (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:904:11)
+19 verbose stack     at async Arborist.buildIdealTree (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:181:7)
+19 verbose stack     at async Arborist.reify (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\reify.js:131:5)
+19 verbose stack     at async Install.exec (C:\Program Files\nodejs\node_modules\npm\lib\commands\install.js:150:5)
+19 verbose stack     at async Npm.exec (C:\Program Files\nodejs\node_modules\npm\lib\npm.js:207:9)
+19 verbose stack     at async module.exports (C:\Program Files\nodejs\node_modules\npm\lib\cli\entry.js:74:5)
+20 error code ERESOLVE
+21 error ERESOLVE unable to resolve dependency tree
+22 error
+23 error While resolving: s-tracker-prototype@0.1.0
+23 error Found: react@undefined
+23 error node_modules/react
+23 error   react@"17.0.2" from the root project
+23 error
+23 error Could not resolve dependency:
+23 error peer react@"^17.0.2" from @10d/tend-ui@4.82.0
+23 error node_modules/@10d/tend-ui
+23 error   @10d/tend-ui@"file:vendor/tend-ui/10d-tend-ui-4.82.0.tgz" from the root project
+23 error
+23 error Fix the upstream dependency conflict, or retry
+23 error this command with --force or --legacy-peer-deps
+23 error to accept an incorrect (and potentially broken) dependency resolution.
+24 error
+24 error
+24 error For a full report see:
+24 error C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\tmp\f29-npm-cache\_logs\2026-07-22T13_06_04_410Z-eresolve-report.txt
+25 silly unfinished npm timer reify 1784725568764
+26 silly unfinished npm timer reify:loadTrees 1784725568764
+27 silly unfinished npm timer idealTree:buildDeps 1784725568963
+28 silly unfinished npm timer idealTree:#root 1784725568964
+29 verbose cwd C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker
+30 verbose os Windows_NT 10.0.26200
+31 verbose node v22.19.0
+32 verbose npm  v10.9.3
+33 verbose exit 1
+34 verbose code 1
+35 error A complete log of this run can be found in: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\tmp\f29-npm-cache\_logs\2026-07-22T13_06_04_410Z-debug-0.log

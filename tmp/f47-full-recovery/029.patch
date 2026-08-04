@@ -1,0 +1,34 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\runtime.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { TendUI } from '@10d/tend-ui/theme';
++
++let themeInitialized = false;
++
++function initializeTendUiTheme() {
++  if (themeInitialized) {
++    return;
++  }
++
++  TendUI.init();
++  themeInitialized = true;
++}
++
++export function renderTendUi(element, mountNode) {
++  if (!mountNode) {
++    return false;
++  }
++
++  initializeTendUiTheme();
++
++  ReactDOM.render(
++    <TendUI lang="ru" theme="samolet">
++      {element}
++    </TendUI>,
++    mountNode,
++  );
++
++  return true;
++}
+*** End Patch

@@ -1,0 +1,85 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const columnsAdapterSource = readText('src/integrations/tend-ui/columns-button.jsx');
++const columnsDrawerAdapterSource = readText('src/integrations/tend-ui/columns-drawer-controls.jsx');
+ const columnsFooterAdapterSource = readText('src/integrations/tend-ui/columns-footer-actions.jsx');
+@@
+ assert.match(indexHtml, /id="tend-ui-columns-root"/);
++assert.match(indexHtml, /id="tend-ui-columns-close-root"/);
++assert.match(indexHtml, /id="tend-ui-library-search-root"/);
+ assert.match(indexHtml, /id="tend-ui-columns-footer-root"/);
+@@
+ assert.doesNotMatch(indexHtml, /<button[^>]+id="js-columns-btn"/);
++assert.doesNotMatch(indexHtml, /<button[^>]+class="[^"]*js-columns-close/);
++assert.doesNotMatch(indexHtml, /<input[^>]+class="[^"]*js-library-search/);
+ assert.doesNotMatch(indexHtml, /<button[^>]+class="[^"]*(?:js-open-library|js-library-reset|js-columns-reset|js-columns-apply)/);
+@@
+ assert.match(mainSource, /mountTendUiColumnsButton\(\)/);
++assert.match(mainSource, /mountTendUiColumnsDrawerControls\(\)/);
+ assert.match(mainSource, /mountTendUiColumnsFooterActions\(\)/);
+@@
+ assert.match(columnsAdapterSource, /data-testid="tend-ui-columns-button"/);
+ assert.match(columnsAdapterSource, /js-btn-open-columns/);
+ assert.doesNotMatch(columnsAdapterSource, /customColumnState|columnPresets|columns-drawer|renderColumnsDrawer/);
++assert.match(columnsDrawerAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(columnsDrawerAdapterSource, /@10d\/tend-ui\/primitives\/Input/);
++assert.match(columnsDrawerAdapterSource, /@10d\/tend-ui-icons\/Close\/Close\.js/);
++assert.match(columnsDrawerAdapterSource, /@10d\/tend-ui-icons\/Search\/Search\.js/);
++assert.match(columnsDrawerAdapterSource, /ReactDOM\.createPortal/);
++assert.match(columnsDrawerAdapterSource, /data-testid="tend-ui-columns-close"/);
++assert.match(columnsDrawerAdapterSource, /data-testid="tend-ui-library-search"/);
++assert.match(columnsDrawerAdapterSource, /className="js-columns-close"/);
++assert.match(columnsDrawerAdapterSource, /classNames=\{\{ input: 'js-library-search' \}\}/);
++assert.doesNotMatch(
++  columnsDrawerAdapterSource,
++  /onClick|onChange|draftColumnState|customColumnState|renderColumnsDrawer|renderLibrary|renderTab|classList|is-expanded/,
++);
+@@
+ assert.match(columnsDrawerSource, /s-tracker:columns-footer-changed/);
++assert.match(columnsDrawerSource, /querySelectorAll\('\.js-columns-close'\)/);
++assert.match(columnsDrawerSource, /closeLibrary\(\)/);
++assert.match(columnsDrawerSource, /querySelector\('\.js-library-search'\)\?\.value\.toLowerCase\(\)/);
++assert.match(columnsDrawerSource, /querySelector\('\.js-library-search'\)\?\.addEventListener\('input', renderLibrary\)/);
+ assert.match(columnsDrawerSource, /syncColumnsFooter\(\{ libraryOpen: true \}\)/);
+@@
+ assert.match(coreUiStyles, /\.ds-columns-footer__mount/);
+ assert.match(coreUiStyles, /\.ds-columns-footer__spacer/);
++assert.match(coreUiStyles, /\.ds-columns-close__mount/);
++assert.match(coreUiStyles, /\.ds-library-search__mount/);
+@@
+ assert.match(builtJavaScript, /tend-ui-columns-button/);
+ assert.match(builtJavaScript, /tend-ui-settings-icon/);
++assert.match(builtJavaScript, /tend-ui-columns-close/);
++assert.match(builtJavaScript, /tend-ui-library-search/);
++assert.match(builtJavaScript, /tend-ui-search-icon/);
+ assert.match(builtJavaScript, /tend-ui-columns-library-toggle/);
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+-const f36Result = { raw: 940702, gzip: 290034 };
+-const f37ColumnsFooterBudget = { raw: 20 * 1024, gzip: 6 * 1024 };
++const f37Result = { raw: 945839, gzip: 291773 };
++const f38ColumnsDrawerBudget = { raw: 20 * 1024, gzip: 6 * 1024 };
+@@
+-  rawBytes <= f36Result.raw + f37ColumnsFooterBudget.raw,
+-  `JavaScript bundle exceeds the reviewed F-37 columns-footer budget: ${rawBytes} bytes`,
++  rawBytes <= f37Result.raw + f38ColumnsDrawerBudget.raw,
++  `JavaScript bundle exceeds the reviewed F-38 columns-drawer-controls budget: ${rawBytes} bytes`,
+ );
+ assert.ok(
+-  gzipBytes <= f36Result.gzip + f37ColumnsFooterBudget.gzip,
+-  `Gzipped JavaScript bundle exceeds the reviewed F-37 columns-footer budget: ${gzipBytes} bytes`,
++  gzipBytes <= f37Result.gzip + f38ColumnsDrawerBudget.gzip,
++  `Gzipped JavaScript bundle exceeds the reviewed F-38 columns-drawer-controls budget: ${gzipBytes} bytes`,
+ );
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-columns-button/);
+ assert.match(bundle.toString('utf8'), /tend-ui-settings-icon/);
++assert.match(bundle.toString('utf8'), /tend-ui-columns-close/);
++assert.match(bundle.toString('utf8'), /tend-ui-library-search/);
++assert.match(bundle.toString('utf8'), /tend-ui-search-icon/);
+ assert.match(bundle.toString('utf8'), /tend-ui-columns-library-toggle/);
+@@
+-console.log('Budget: F-36 result plus 20 KiB raw / 6 KiB gzip for Tend UI column-settings footer controls');
++console.log('Budget: F-37 result plus 20 KiB raw / 6 KiB gzip for Tend UI column-settings close and library search controls');
+*** End Patch

@@ -1,0 +1,11 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+         <!-- PAGINATION COMPONENT -->
+         <div id="js-pagination-container" style="display: none; flex-shrink: 0; width: 100%; padding-top: 16px; padding-bottom: 16px; justify-content: center; align-items: center; background: white; border-top: 1px solid var(--color-border);">
+-            <div style="justify-content: flex-start; align-items: flex-start; gap: 8px; display: flex;" id="js-pagination-wrapper">
+-                <!-- Pagination arrows and numbers will be rendered here dynamically -->
+-            </div>
++            <div id="tend-ui-pagination-root" data-tend-ui-adapter="pagination"></div>
+         </div>
+*** End Patch

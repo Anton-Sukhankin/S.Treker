@@ -1,0 +1,41 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-bulk-actions.md
++# F-33: Tend UI Bulk Actions
++
++## Result
++
++Status: `[x] complete`
++
++The floating bulk-action bar renders seven Tend UI `Button` controls. S-Tracker retains all selection, queue, group, dialog and toast mechanics.
++
++## Controls
++
++| Control | Tend UI icon | Product behavior |
++| --- | --- | --- |
++| Change status | `Edit` | Existing presentation-only contract preserved |
++| Move to group | `FolderAdd` | Opens the existing move dialog |
++| Assign | `AccountCircle` | Queue-dependent; existing presentation-only contract preserved |
++| Start work | `Play` | Queue-dependent; existing presentation-only contract preserved |
++| Complete | `Done` | Queue-dependent; existing presentation-only contract preserved |
++| Remove from group | `Delete` | Removes selected tasks and deletes an empty group |
++| Clear selection | `Close` | Clears selected IDs and synchronized Checkbox state |
++
++## Ownership Boundary
++
++`bulk-actions.jsx` owns only Button rendering and stable `.js-fab-*` DOM hooks. It deliberately contains no handlers or application state. `floating-action-bar.js` owns visibility, selected IDs, dialog lifecycle, group mutation, toasts, sidebar counts and rerendering.
++
++## Verification
++
++- `npm.cmd run verify:tend-ui:all`: passed;
++- Vite: `930` transformed modules;
++- bundle: `936,175` raw / `288,864` gzip bytes;
++- Tend UI controls: `7`; legacy bulk buttons: `0`;
++- contextual visibility, clearing, move and remove-from-group: passed;
++- no closed corporate source access.
++
++## Next Group
++
++```text
++F-34: migrate the move-to-group dialog form controls to Tend UI Input and Button while preserving its existing product behavior.
++```
+*** End Patch

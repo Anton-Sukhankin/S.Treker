@@ -1,0 +1,77 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-pagination.md
++# F-31: Tend UI Pagination
++
++## Result
++
++Status: `[x] complete`
++
++Task-list pagination now renders through Tend UI `Pagination` while S-Tracker retains page state and task slicing.
++
++## Ownership Contract
++
++React owns only the visible pagination control and request emission.
++
++Vanilla code remains authoritative:
++
++1. `paginateItems()` calculates the page count and visible task slice.
++2. `renderPaginationControls()` publishes confirmed `current`, `pageSize`, `total` and `totalPages`.
++3. React renders Tend UI Pagination and emits `s-tracker:page-request`.
++4. Vanilla code validates the requested page.
++5. Vanilla code updates `window.paginationState.current` and calls `renderTab(tabName, true)`.
++6. The confirmed rerender publishes the resulting state back to React.
++
++The adapter contains no task data, queue logic, filters, selected-task state or direct `renderTab` call.
++
++## Public Package Export
++
++```text
++@10d/tend-ui/primitives/Pagination
++```
++
++The narrow export provides ESM, CJS and types from the refreshed local tarball.
++
++## Preserved Product Contract
++
++| Scenario | Verified result |
++| --- | --- |
++| More than 20 tasks | Pagination visible |
++| 20 or fewer tasks | Pagination hidden |
++| Initial/current reset | Page 1 |
++| Direct page selection | Correct 20-task slice |
++| Previous/next | Moves by one page |
++| First/last edge | Corresponding arrow disabled |
++| Last page | Partial result preserved |
++| Queue or search change | Resets to page 1 |
++| Card/table mode change | Current page preserved |
++| Selected tasks | Preserved across pages |
++| Active bulk-action bar | Pagination moves above it and remains clickable |
++
++## Bundle Budget
++
++The Pagination runtime adds its required Ant Pagination, locale, Tooltip and icon code. The executable gate allows only a bounded increment over the F-30 baseline:
++
++```text
++F-30 baseline: 809,677 raw / 249,892 gzip bytes
++F-31 allowance: +120 KiB raw / +40 KiB gzip
++F-31 result:    913,695 raw / 282,112 gzip bytes
++```
++
++## Verification
++
++`npm.cmd run verify:tend-ui:all` passed with `906` transformed modules and zero browser application errors.
++
++The refreshed main tarball SHA-256 is:
++
++```text
++41f66f47892e4d79830eac6eac53615b4af9885b1785b56fde5c13744775355a
++```
++
++No closed corporate registry, service or source was accessed. No package was published.
++
++## Next Group
++
++```text
++F-32: migrate S-Tracker task-selection controls to Tend UI Checkbox while preserving row selection, select-all, cross-page state and bulk actions.
++```
+*** End Patch

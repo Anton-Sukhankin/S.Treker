@@ -1,0 +1,19 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\features\task-workspace.css
+@@
+ .ds-library-item__label {
+@@
+   padding-right: 12px;
+ }
+ 
++.ds-library-item__action-mount {
++  align-items: center;
++  display: flex;
++  flex: 0 0 24px;
++  height: 24px;
++  justify-content: center;
++  width: 24px;
++}
++
+ .js-library-item-action {
+*** End Patch

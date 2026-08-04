@@ -1,0 +1,37 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-next-migration.md
+@@
+-## Decision
++## Completion Status
+ 
+-The next low-risk component is the global task search field. F-24 will migrate the existing native input to Tend UI `Input` through a second isolated adapter.
++Status: `[x]` - implemented and verified in F-24 on 2026-07-22.
+ 
+-F-23 selects and specifies the candidate only. It does not change the field or its behavior.
++The global task search field now renders as Tend UI `Input` through a second isolated adapter. Its product behavior remains vanilla-owned.
+@@
+-## Verification Required In F-24
++## F-24 Verification Result
+ 
+-- production build and all F-23 gates pass;
+-- exactly one native input exists with `id="js-global-search"`;
+-- typing a query filters the visible task set exactly as before;
+-- clearing the query restores the previous result set;
+-- layout and focus state are visually checked at desktop and mobile widths;
+-- browser console contains no errors;
+-- direct `dist/index.html` compatibility remains intact.
++- production build and all F-23 gates: passed;
++- native inputs with `id="js-global-search"`: exactly `1`;
++- Tend UI marker: exactly `1`;
++- query `Дашборд`: `20` items reduced to `4` in card and table modes;
++- full clear: `20` items restored;
++- desktop input geometry: `430 x 36`, unchanged width and stable height;
++- tested mobile geometry: input remained within the viewport with no horizontal document overflow;
++- focus border and shadow: visible;
++- browser console errors: `0`;
++- direct-file artifact: statically verified as one self-contained classic deferred script; the automation browser blocks navigation to `file://` by policy.
++
++## Next Candidate
++
++F-25 will migrate the functional `Печать` toolbar action to Tend UI `Button`, retaining the existing toast behavior and the isolated adapter boundary.
+*** End Patch

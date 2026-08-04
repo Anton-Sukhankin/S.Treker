@@ -1,0 +1,7 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/src/integrations/tend-ui/preset-toolbar.jsx
+@@
+         after={<ChevronDown aria-hidden="true" size={16} />}
++        aria-controls="js-preset-dropdown"
+         aria-expanded={expanded}
+*** End Patch

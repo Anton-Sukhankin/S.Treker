@@ -1,0 +1,49 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-columns-drawer-controls.md
++# Tend UI Column-Settings Drawer Controls
++
++Date: 2026-07-26
++
++Status: F-38 `[x]`.
++
++## Result
++
++The column-settings header close action and attribute-library search use the packaged Tend UI `Button`, `Input`, `Close` and `Search` exports.
++
++The adapter is implemented in:
++
++```text
++src/integrations/tend-ui/columns-drawer-controls.jsx
++```
++
++## Ownership
++
++React owns presentation and exposes the existing `.js-columns-close` and `.js-library-search` hooks. It does not implement product `onClick` or `onChange` behavior.
++
++Vanilla S-Tracker code continues to own:
++
++- drawer close and attribute-library collapse;
++- reconstruction of the draft from applied columns after close;
++- library filtering and empty state;
++- search-query persistence while the library or drawer is hidden;
++- column commit and table rerender.
++
++## Verification
++
++- one Tend UI close Button and one Tend UI search Input are rendered;
++- no legacy close or library-search controls remain;
++- filtering by `Внутренний номер` and the empty state pass;
++- the query survives library collapse and drawer close/reopen;
++- an uncommitted `internal_id` draft is discarded after close;
++- the close control is `40 x 40 px` and the input shell is `36 px` high;
++- `npm.cmd run verify:tend-ui:all` passes;
++- Vite transforms `938` modules;
++- the reviewed bundle is `947,513` raw / `292,047` gzip bytes;
++- no closed corporate source is accessed.
++
++## Next Group
++
++```text
++F-39: migrate attribute-library row actions to Tend UI Button/icons while preserving add/return semantics, current search filtering, draft isolation and library reset behavior.
++```
+*** End Patch

@@ -1,0 +1,45 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const filterAdapterSource = readText('src/integrations/tend-ui/toolbar-filter-button.jsx');
++const filterDrawerActionsAdapterSource = readText('src/integrations/tend-ui/filter-drawer-actions.jsx');
+@@
+ assert.match(indexHtml, /id="tend-ui-toolbar-filters-root"/);
++assert.match(indexHtml, /id="tend-ui-filter-drawer-close-root"/);
++assert.match(indexHtml, /id="tend-ui-filter-drawer-actions-root"/);
+@@
+ assert.doesNotMatch(indexHtml, /<button[^>]+id="js-sidebar-filters-btn"/);
++assert.doesNotMatch(indexHtml, /<button[^>]+class="[^"]*js-filter-(?:close|reset|apply)/);
+@@
+ assert.match(mainSource, /mountTendUiToolbarFilterButton\(\)/);
++assert.match(mainSource, /mountTendUiFilterDrawerActions\(\)/);
+@@
+ assert.doesNotMatch(filterAdapterSource, /activeFilters|applyFilters|filter-drawer|showToast/);
++assert.match(filterDrawerActionsAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(filterDrawerActionsAdapterSource, /@10d\/tend-ui-icons\/Close\/Close\.js/);
++assert.match(filterDrawerActionsAdapterSource, /ReactDOM\.createPortal/);
++assert.match(filterDrawerActionsAdapterSource, /className="js-filter-close"/);
++assert.match(filterDrawerActionsAdapterSource, /className="js-filter-reset"/);
++assert.match(filterDrawerActionsAdapterSource, /className="js-filter-apply"/);
++assert.match(filterDrawerActionsAdapterSource, /data-testid="tend-ui-filter-drawer-close"/);
++assert.match(filterDrawerActionsAdapterSource, /data-testid="tend-ui-filter-drawer-reset"/);
++assert.match(filterDrawerActionsAdapterSource, /data-testid="tend-ui-filter-drawer-apply"/);
++assert.doesNotMatch(
++  filterDrawerActionsAdapterSource,
++  /onClick|onChange|activeFilters|applyFilters|renderTab|updateSidebarCounts|classList|filter-overlay/,
++);
++assert.match(filterDrawerSource, /querySelectorAll\('\.js-filter-apply'\)/);
++assert.match(filterDrawerSource, /querySelectorAll\('\.js-filter-reset'\)/);
++assert.match(filterDrawerSource, /querySelectorAll\('\.js-filter-close, #filter-overlay'\)/);
++assert.match(filterDrawerSource, /resetPanelFilters\(\)/);
++assert.match(filterDrawerSource, /rerenderAfterFilterChange\(\)/);
+@@
+ assert.match(taskWorkspaceStyles, /\.ds-preset-option-delete-mount/);
++assert.match(taskWorkspaceStyles, /\.ds-filter-drawer-close__mount/);
++assert.match(taskWorkspaceStyles, /\.ds-filter-drawer-actions__mount/);
+@@
+ assert.match(builtJavaScript, /tend-ui-toolbar-filter-button/);
++assert.match(builtJavaScript, /tend-ui-filter-drawer-close/);
++assert.match(builtJavaScript, /tend-ui-filter-drawer-reset/);
++assert.match(builtJavaScript, /tend-ui-filter-drawer-apply/);
+*** End Patch

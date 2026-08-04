@@ -1,0 +1,34 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\toolbar-filter-button.jsx
++import React from 'react';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Close } from '@10d/tend-ui-icons/Close/Close.js';
++import { FilterAlt } from '@10d/tend-ui-icons/FilterAlt/FilterAlt.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++export function mountTendUiToolbarFilterButton() {
++  const mountNode = document.getElementById('tend-ui-toolbar-filters-root');
++
++  return renderTendUi(
++    <Button
++      before={<FilterAlt className="ds-button__icon" size={16} />}
++      className="ds-button js-btn-open-filters"
++      data-testid="tend-ui-toolbar-filter-button"
++      id="js-sidebar-filters-btn"
++      size="medium"
++      style={{ height: 36, whiteSpace: 'nowrap' }}
++      type="button"
++      variant="secondary"
++    >
++      <span className="ds-filter-reset-indicator js-filter-reset-indicator" aria-label="Сбросить все фильтры">
++        <span className="ds-filter-reset-indicator__count js-filter-reset-count">0</span>
++        <Close className="ds-filter-reset-indicator__clear" size={10} aria-hidden="true" />
++      </span>
++      <span>Фильтры</span>
++      <span className="ds-button__badge" />
++    </Button>,
++    mountNode,
++  );
++}
+*** End Patch

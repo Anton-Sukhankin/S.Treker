@@ -1,0 +1,19 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ .ds-pagination-arrow:disabled {
+   cursor: not-allowed;
+   opacity: 0.5;
+ }
++
++#tend-ui-pagination-root {
++  display: flex;
++  align-items: center;
++  justify-content: center;
++  min-height: 32px;
++}
++
++#tend-ui-pagination-root .tend-ui-pagination {
++  margin: 0;
++}
+*** End Patch

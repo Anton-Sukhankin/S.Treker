@@ -695,3 +695,65 @@
 .ds-drawer__footer-pane--library { border-right: 1px solid var(--color-border); display: none; }
 .ds-drawer.is-expanded .ds-drawer__footer-pane--library { display: flex; }
 .ds-drawer__footer-pane--main { justify-content: flex-end; flex: 1; }
+
+/* Bottom placement keeps the default right drawer contract intact. */
+.ds-drawer--bottom {
+  top: auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: clamp(560px, 76vh, 720px);
+  max-height: calc(100vh - 72px);
+  border-radius: 14px 14px 0 0;
+  box-shadow: 0 -18px 42px rgba(17, 24, 39, 0.16);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(100%);
+  transition:
+    transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 180ms ease-out,
+    visibility 0s linear 260ms;
+}
+
+.ds-drawer--bottom.is-active {
+  width: 100%;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+
+.ds-drawer--bottom .ds-drawer__header-pane {
+  width: 100%;
+  padding: 20px 32px;
+}
+
+.ds-drawer--bottom .ds-drawer__content {
+  padding: 0;
+}
+
+@media (max-width: 720px) {
+  .ds-drawer--bottom {
+    height: calc(100vh - 16px);
+    max-height: calc(100vh - 16px);
+  }
+
+  .ds-drawer--bottom .ds-drawer__header-pane {
+    padding: 16px 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-drawer,
+  .ds-drawer--bottom,
+  .ds-drawer-overlay {
+    transition-duration: 80ms;
+  }
+
+  .ds-drawer--bottom {
+    transform: none;
+  }
+}

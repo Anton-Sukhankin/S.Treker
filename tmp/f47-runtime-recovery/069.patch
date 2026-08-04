@@ -1,0 +1,109 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\audit-remaining-tend-ui-controls.mjs
+@@
+ assert.deepEqual(inventory.filterDrawer, {
+-  buttons: 3,
+-  inputs: 4,
++  buttons: 0,
++  inputs: 2,
+   inlineSvg: 17,
+   multiSelects: 8,
+ });
+@@
+ assert.match(filterDrawer, /id="tend-ui-filter-drawer-close-root"/);
+ assert.match(filterDrawer, /id="tend-ui-filter-drawer-actions-root"/);
++assert.match(filterDrawer, /id="tend-ui-money-range-inputs-root"/);
++assert.match(filterDrawer, /id="tend-ui-money-range-presets-root"/);
+ assert.doesNotMatch(filterDrawer, /<button[^>]+js-filter-(?:close|reset|apply)/);
+-assert.match(filterDrawer, /class="ds-money-range__preset js-money-range-preset"/);
++assert.doesNotMatch(filterDrawer, /<input[^>]+type="text"[^>]+js-money-range-input/);
++assert.doesNotMatch(filterDrawer, /<button[^>]+js-money-range-preset/);
+ assert.match(filterDrawer, /class="ds-money-range__thumb js-money-range-thumb"/);
+@@
+-console.log('Completed F-44: filter drawer Close, Reset and Apply actions');
+-console.log('Priority F-45: filter money-range text fields and preset actions');
+-console.log('Deferred boundaries: range thumbs, multi-select, system overlay, row actions and bookmarks');
++console.log('Completed F-45: filter money-range text fields and preset actions');
++console.log('Priority F-46: audit native range thumbs against Tend UI RangeInput and preserve slider behavior');
++console.log('Deferred boundaries: multi-select, system overlay, row actions and bookmarks');
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+-const f43Result = { raw: 952144, gzip: 293900 };
+-const f44FilterActionsBudget = { raw: 24 * 1024, gzip: 8 * 1024 };
++const f44Result = { raw: 953065, gzip: 293999 };
++const f45MoneyRangeBudget = { raw: 16 * 1024, gzip: 6 * 1024 };
+ 
+ assert.ok(
+-  rawBytes <= f43Result.raw + f44FilterActionsBudget.raw,
+-  `JavaScript bundle exceeds the reviewed F-44 filter-actions budget: ${rawBytes} bytes`,
++  rawBytes <= f44Result.raw + f45MoneyRangeBudget.raw,
++  `JavaScript bundle exceeds the reviewed F-45 money-range budget: ${rawBytes} bytes`,
+ );
+ assert.ok(
+-  gzipBytes <= f43Result.gzip + f44FilterActionsBudget.gzip,
+-  `Gzipped JavaScript bundle exceeds the reviewed F-44 filter-actions budget: ${gzipBytes} bytes`,
++  gzipBytes <= f44Result.gzip + f45MoneyRangeBudget.gzip,
++  `Gzipped JavaScript bundle exceeds the reviewed F-45 money-range budget: ${gzipBytes} bytes`,
+ );
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-filter-drawer-apply/);
++assert.match(bundle.toString('utf8'), /tend-ui-money-range-from/);
++assert.match(bundle.toString('utf8'), /tend-ui-money-range-to/);
++assert.match(bundle.toString('utf8'), /tend-ui-money-range-preset/);
+@@
+-console.log('Budget: F-43 result plus 24 KiB raw / 8 KiB gzip for Tend UI filter drawer actions');
++console.log('Budget: F-44 result plus 16 KiB raw / 6 KiB gzip for Tend UI money-range controls');
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const filterDrawerActionsAdapterSource = readText('src/integrations/tend-ui/filter-drawer-actions.jsx');
++const moneyRangeAdapterSource = readText('src/integrations/tend-ui/money-range-controls.jsx');
+@@
+ assert.match(indexHtml, /id="tend-ui-filter-drawer-actions-root"/);
++assert.match(indexHtml, /id="tend-ui-money-range-inputs-root"/);
++assert.match(indexHtml, /id="tend-ui-money-range-presets-root"/);
+@@
+ assert.doesNotMatch(indexHtml, /<button[^>]+class="[^"]*js-filter-(?:close|reset|apply)/);
++assert.doesNotMatch(indexHtml, /<input[^>]+type="text"[^>]+class="[^"]*js-money-range-input/);
++assert.doesNotMatch(indexHtml, /<button[^>]+class="[^"]*js-money-range-preset/);
++assert.match(indexHtml, /<input[^>]+type="range"[^>]+class="[^"]*js-money-range-thumb/);
+@@
+ assert.match(mainSource, /mountTendUiFilterDrawerActions\(\)/);
++assert.match(mainSource, /mountTendUiMoneyRangeControls\(\)/);
+@@
+ assert.doesNotMatch(
+   filterDrawerActionsAdapterSource,
+   /onClick|onChange|activeFilters|applyFilters|renderTab|updateSidebarCounts|classList|filter-overlay/,
+ );
++assert.match(moneyRangeAdapterSource, /@10d\/tend-ui\/primitives\/Input/);
++assert.match(moneyRangeAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(moneyRangeAdapterSource, /ReactDOM\.createPortal/);
++assert.match(moneyRangeAdapterSource, /id="js-money-range-from"/);
++assert.match(moneyRangeAdapterSource, /id="js-money-range-to"/);
++assert.match(moneyRangeAdapterSource, /className="ds-money-range__input js-money-range-input"/);
++assert.match(moneyRangeAdapterSource, /className="ds-money-range__preset js-money-range-preset"/);
++assert.match(moneyRangeAdapterSource, /data-testid="tend-ui-money-range-from"/);
++assert.match(moneyRangeAdapterSource, /data-testid="tend-ui-money-range-to"/);
++assert.match(moneyRangeAdapterSource, /data-testid="tend-ui-money-range-preset"/);
++assert.doesNotMatch(
++  moneyRangeAdapterSource,
++  /onClick|onChange|activeFilters|applyFilters|updateMoneyRange|renderMoneyRange|classList/,
++);
+ assert.match(filterDrawerSource, /querySelectorAll\('\.js-filter-apply'\)/);
+@@
+ assert.match(filterDrawerSource, /rerenderAfterFilterChange\(\)/);
++assert.match(filterDrawerSource, /clampMoneyValue/);
++assert.match(filterDrawerSource, /from > to/);
++assert.match(filterDrawerSource, /querySelectorAll\('\.js-money-range-input'\)/);
++assert.match(filterDrawerSource, /querySelectorAll\('\.js-money-range-thumb'\)/);
++assert.match(filterDrawerSource, /querySelectorAll\('\.js-money-range-preset'\)/);
++assert.match(filterDrawerSource, /preset\.classList\.toggle\('is-active'/);
+@@
+ assert.match(taskWorkspaceStyles, /\.ds-filter-drawer-actions__mount/);
++assert.match(selectionStyles, /\.ds-money-range__inputs \.tend-ui-input\.ds-money-range__input/);
++assert.match(selectionStyles, /\.ds-money-range__presets \.tend-ui-button\.ds-money-range__preset/);
+@@
+ assert.match(builtJavaScript, /tend-ui-filter-drawer-apply/);
++assert.match(builtJavaScript, /tend-ui-money-range-from/);
++assert.match(builtJavaScript, /tend-ui-money-range-to/);
++assert.match(builtJavaScript, /tend-ui-money-range-preset/);
+*** End Patch

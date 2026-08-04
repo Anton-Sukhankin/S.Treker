@@ -1,0 +1,41 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+-Интеграция двух primitives выполнена и проверена. S-Tracker сохраняет основной vanilla/Vite lifecycle, а React используется только внутри отдельных точек монтирования для кнопки `Создать задачу` и поля `Поиск по задачам`.
++Интеграция трёх controls выполнена и проверена. S-Tracker сохраняет основной vanilla/Vite lifecycle, а React используется только внутри отдельных точек монтирования для кнопки `Создать задачу`, поля `Поиск по задачам` и действия `Печать`.
+@@
+-| `index.html` | Содержит mount points `tend-ui-create-task-root` и `tend-ui-global-search-root`. |
++| `index.html` | Содержит mount points `tend-ui-create-task-root`, `tend-ui-global-search-root` и `tend-ui-print-root`. |
+@@
+ | `src/integrations/tend-ui/global-search-input.jsx` | Монтирует Tend UI `Input`, сохраняя `#js-global-search`. |
+-| `src/main.js` | Вызывает оба адаптера до общей инициализации обработчиков интерфейса и корректно обрабатывает уже наступивший `DOMContentLoaded`. |
++| `src/integrations/tend-ui/print-button.jsx` | Монтирует Tend UI `Button` и `Print`, сохраняя `#js-print-btn`. |
++| `src/main.js` | Вызывает три адаптера до общей инициализации обработчиков интерфейса и корректно обрабатывает уже наступивший `DOMContentLoaded`. |
+@@
+-React не управляет списком задач, навигацией, фильтрами, данными или состоянием приложения. Поисковое значение и вызов фильтрации остаются в `src/ui/basic-controls.js`.
++React не управляет списком задач, навигацией, фильтрами, toast, данными или состоянием приложения. Поисковое значение, вызов фильтрации и обработчик печати остаются в `src/ui/basic-controls.js`.
+@@
+ - React adapter не обращается к `window.activeFilters` и `window.applyFilters`;
++- в DOM присутствует ровно один Tend UI `Button` с `data-testid="tend-ui-print-button"`, `id="js-print-btn"` и иконкой `data-testid="tend-ui-print-icon"`;
++- кнопка печати сохраняет размер `40 x 40`, accessible name `Печать` и точный toast `Подготовка к печати...`;
++- в пользовательской группе перемещается `#tend-ui-print-root`, а не React-owned child;
+ - сборка проходит без ошибок;
+ - runtime-консоль не содержит ошибок.
+@@
+-- мигрированы одна кнопка и одно поле поиска;
++- мигрированы две кнопки и одно поле поиска;
+@@
+-Адаптеры обратимы независимо: вернуть соответствующий HTML-контрол, удалить его mount-вызов из `src/main.js` и оставить второй адаптер без изменений. Полный откат дополнительно удаляет общий runtime, Tend UI dependencies и `vendor/tend-ui/`. Остальные модули S-Tracker от React не зависят.
++Адаптеры обратимы независимо: вернуть соответствующий HTML-контрол, удалить его mount-вызов из `src/main.js` и оставить остальные адаптеры без изменений. Полный откат дополнительно удаляет общий runtime, Tend UI dependencies и `vendor/tend-ui/`. Остальные модули S-Tracker от React не зависят.
+@@
+-The next group is F-25: migrate the functional `Печать` toolbar action to Tend UI `Button` while preserving its existing toast behavior.
++## F-25 Print Action Result
++
++- `@10d/tend-ui/primitives/Button` and the packaged `Print` icon render through a third isolated mount;
++- the stable `#js-print-btn` contract keeps vanilla `initPrintAction()` in control of the toast;
++- card, table and custom-group views preserve the button position and `40 x 40` geometry;
++- the custom-view route moves the complete React mount node safely;
++- the bundle remains one classic deferred script and stays under F-23 limits.
++
++The next group is F-26: migrate the `Фильтры` toolbar trigger to Tend UI `Button` while preserving drawer opening, active-count/reset indication and vanilla filter ownership.
+*** End Patch

@@ -1,0 +1,42 @@
+*** Begin Patch
+*** Add File: ../S-Tracker/docs/tend-ui-columns-footer.md
++# F-37: Tend UI Column-Settings Footer
++
++## Result
++
++Status: `[x] complete`
++
++The four column-settings footer actions now render through Tend UI `Button`, `Book` and `Refresh`.
++
++## Ownership Boundary
++
++`columns-footer-actions.jsx` owns presentation plus confirmed library-open and library-reset-disabled state. `columns-drawer.js` owns drawer expansion, library membership, draft reset, Apply commit and table rerendering.
++
++## Preserved Hooks
++
++```text
++.js-open-library
++.js-library-reset
++.js-columns-reset
++.js-columns-apply
++```
++
++## Verification
++
++- four Tend UI controls and zero legacy footer controls;
++- library open/close and `aria-expanded` synchronization pass;
++- library reset visibility and disabled state pass;
++- add/reset, draft isolation, add/Apply and default/Apply flows pass;
++- Apply remains always available by the existing product contract;
++- controls are `36 px` high;
++- `npm.cmd run verify:tend-ui:all` passes with `936` modules;
++- bundle: `945,839` raw / `291,773` gzip bytes;
++- browser application errors: `0`;
++- no closed corporate source access.
++
++## Next Group
++
++```text
++F-38: migrate the column-settings header close action and library search to Tend UI Button/Input.
++```
+*** End Patch

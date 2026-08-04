@@ -1,0 +1,25 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-  <dialog class="ds-modal" id="js-modal-preset">
++  <dialog class="ds-modal" id="js-modal-preset" aria-labelledby="js-preset-dialog-title">
+@@
+-        <h3 class="ds-modal__title">Сохранение пресета</h3>
++        <h3 class="ds-modal__title" id="js-preset-dialog-title">Сохранение пресета</h3>
+@@
+-      <button class="ds-icon-button js-modal-preset-close">
+-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+-      </button>
++      <div class="ds-preset-dialog__close-mount" id="tend-ui-preset-dialog-close-root"></div>
+@@
+-        <label class="ds-filter-label">Название пресета</label>
+-        <input type="text" class="ds-input" id="js-preset-name-input" placeholder="Введите название">
++        <label class="ds-filter-label" for="js-preset-name-input">Название пресета</label>
++        <div class="ds-preset-dialog__input-mount" id="tend-ui-preset-dialog-input-root"></div>
+@@
+-      <div class="ds-modal__footer" style="margin-top: 24px;">
+-        <button class="ds-button ds-button--outlined js-modal-preset-close" style="flex: 1;">Отмена</button>
+-        <button class="ds-button ds-button--primary js-btn-preset-submit" style="flex: 1;">Подтвердить</button>
+-      </div>
++      <div class="ds-modal__footer ds-preset-dialog__actions" id="tend-ui-preset-dialog-actions-root" style="margin-top: 24px;"></div>
+*** End Patch

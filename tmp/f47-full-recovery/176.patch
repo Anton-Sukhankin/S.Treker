@@ -1,0 +1,28 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/scripts/report-tend-ui-bundle.mjs
+@@
+-const f34Result = { raw: 937481, gzip: 289178 };
+-const f35PresetDialogBudget = { raw: 24 * 1024, gzip: 8 * 1024 };
++const f35Result = { raw: 939361, gzip: 289710 };
++const f36PresetToolbarBudget = { raw: 16 * 1024, gzip: 5 * 1024 };
+ 
+ assert.ok(
+-  rawBytes <= f34Result.raw + f35PresetDialogBudget.raw,
+-  `JavaScript bundle exceeds the reviewed F-35 preset-dialog budget: ${rawBytes} bytes`,
++  rawBytes <= f35Result.raw + f36PresetToolbarBudget.raw,
++  `JavaScript bundle exceeds the reviewed F-36 preset-toolbar budget: ${rawBytes} bytes`,
+ );
+ assert.ok(
+-  gzipBytes <= f34Result.gzip + f35PresetDialogBudget.gzip,
+-  `Gzipped JavaScript bundle exceeds the reviewed F-35 preset-dialog budget: ${gzipBytes} bytes`,
++  gzipBytes <= f35Result.gzip + f36PresetToolbarBudget.gzip,
++  `Gzipped JavaScript bundle exceeds the reviewed F-36 preset-toolbar budget: ${gzipBytes} bytes`,
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-preset-dialog-confirm/);
++assert.match(bundle.toString('utf8'), /tend-ui-preset-trigger/);
++assert.match(bundle.toString('utf8'), /tend-ui-preset-save/);
++assert.match(bundle.toString('utf8'), /tend-ui-chevron-down-icon/);
+@@
+-console.log('Budget: F-34 result plus 24 KiB raw / 8 KiB gzip for Tend UI preset dialog controls');
++console.log('Budget: F-35 result plus 16 KiB raw / 5 KiB gzip for Tend UI preset toolbar controls');
+*** End Patch

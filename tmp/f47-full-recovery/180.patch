@@ -1,0 +1,43 @@
+*** Begin Patch
+*** Add File: ../S-Tracker/docs/tend-ui-preset-toolbar.md
++# F-36: Tend UI Preset Toolbar
++
++## Result
++
++Status: `[x] complete`
++
++The column-settings preset trigger and Save action now render through Tend UI `Button` and packaged `ChevronDown`.
++
++## Ownership Boundary
++
++`preset-toolbar.jsx` owns presentation plus confirmed label, expanded and disabled state. `columns-drawer.js` owns dropdown visibility, preset data, dirty comparison, column replay, deletion and preset-dialog opening.
++
++## Preserved Hooks
++
++```text
++.js-preset-dropdown-trigger
++.js-preset-current
++.js-preset-save-btn
++.js-preset-option
++.js-preset-delete
++```
++
++## Verification
++
++- two Tend UI controls and zero legacy trigger/save controls;
++- trigger opens/closes the listbox and outside click synchronizes `aria-expanded`;
++- Save is disabled for unchanged state and enabled for a changed column draft;
++- creation, base/saved switching and column replay pass;
++- deleting the active preset returns to the base preset and state;
++- delete is a semantic named button and remains discoverable on hover/focus;
++- `npm.cmd run verify:tend-ui:all` passes with `933` modules;
++- bundle: `940,702` raw / `290,034` gzip bytes;
++- browser application errors: `0`;
++- no closed corporate source access.
++
++## Next Group
++
++```text
++F-37: migrate the column-settings footer actions while preserving library, reset and Apply mechanics.
++```
+*** End Patch

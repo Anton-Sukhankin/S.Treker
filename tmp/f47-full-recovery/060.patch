@@ -1,0 +1,28 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\columns-button.jsx
++import React from 'react';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Settings } from '@10d/tend-ui-icons/Settings/Settings.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++export function mountTendUiColumnsButton() {
++  const mountNode = document.getElementById('tend-ui-columns-root');
++
++  return renderTendUi(
++    <Button
++      aria-label="Настройка колонок"
++      before={<Settings size={18} />}
++      className="ds-button--icon-only js-btn-open-columns"
++      data-testid="tend-ui-columns-button"
++      id="js-columns-btn"
++      size="medium"
++      style={{ display: 'none' }}
++      title="Настройка колонок"
++      type="button"
++      variant="secondary"
++    />,
++    mountNode,
++  );
++}
+*** End Patch

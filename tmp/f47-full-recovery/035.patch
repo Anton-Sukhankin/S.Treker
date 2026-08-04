@@ -1,0 +1,31 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const indexHtml = readText('index.html');
+ const mainSource = readText('src/main.js');
+-const adapterSource = readText('src/integrations/tend-ui/create-task-button.jsx');
++const buttonAdapterSource = readText('src/integrations/tend-ui/create-task-button.jsx');
++const searchAdapterSource = readText('src/integrations/tend-ui/global-search-input.jsx');
++const runtimeSource = readText('src/integrations/tend-ui/runtime.jsx');
+ 
+ assert.match(indexHtml, /id="tend-ui-create-task-root"/);
++assert.match(indexHtml, /id="tend-ui-global-search-root"/);
++assert.doesNotMatch(indexHtml, /<input[^>]+id="js-global-search"/);
+ assert.match(mainSource, /mountTendUiCreateTaskButton\(\)/);
+-assert.match(adapterSource, /@10d\/tend-ui\/primitives\/Button/);
+-assert.match(adapterSource, /@10d\/tend-ui\/theme/);
+-assert.match(adapterSource, /data-testid="tend-ui-create-task-button"/);
++assert.match(mainSource, /mountTendUiGlobalSearchInput\(\)/);
++assert.match(mainSource, /document\.readyState === 'loading'/);
++assert.match(buttonAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(buttonAdapterSource, /data-testid="tend-ui-create-task-button"/);
++assert.match(searchAdapterSource, /@10d\/tend-ui\/primitives\/Input/);
++assert.match(searchAdapterSource, /id="js-global-search"/);
++assert.match(searchAdapterSource, /data-testid="tend-ui-global-search-input"/);
++assert.doesNotMatch(searchAdapterSource, /activeFilters|applyFilters/);
++assert.match(runtimeSource, /@10d\/tend-ui\/theme/);
++assert.match(runtimeSource, /TendUI\.init\(\)/);
+@@
+ assert.match(builtJavaScript, /tend-ui-create-task-button/);
++assert.match(builtJavaScript, /tend-ui-global-search-input/);
+*** End Patch

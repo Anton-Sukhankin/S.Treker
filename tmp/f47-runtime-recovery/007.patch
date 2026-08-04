@@ -1,0 +1,175 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\runtime.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { TendUI } from '@10d/tend-ui/theme';
++
++let themeInitialized = false;
++
++function initializeTendUiTheme() {
++  if (themeInitialized) {
++    return;
++  }
++
++  TendUI.init();
++  themeInitialized = true;
++}
++
++export function renderTendUi(element, mountNode) {
++  if (!mountNode) {
++    return false;
++  }
++
++  initializeTendUiTheme();
++
++  ReactDOM.render(
++    <TendUI lang="ru" theme="samolet">
++      {element}
++    </TendUI>,
++    mountNode,
++  );
++
++  return true;
++}
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\global-search-input.jsx
++import React from 'react';
++import { Input } from '@10d/tend-ui/primitives/Input';
++
++import { renderTendUi } from './runtime.jsx';
++
++export function mountTendUiGlobalSearchInput() {
++  const mountNode = document.getElementById('tend-ui-global-search-root');
++
++  return renderTendUi(
++    <Input
++      aria-label="Поиск по задачам"
++      className="ds-search-input__control"
++      data-testid="tend-ui-global-search-input"
++      height={36}
++      id="js-global-search"
++      placeholder="Поиск по задачам"
++      type="text"
++      width="100%"
++    />,
++    mountNode,
++  );
++}
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\create-task-button.jsx
+@@
+ import React from 'react';
+-import ReactDOM from 'react-dom';
+ import { Button } from '@10d/tend-ui/primitives/Button';
+-import { TendUI } from '@10d/tend-ui/theme';
+ 
+-let themeInitialized = false;
++import { renderTendUi } from './runtime.jsx';
+@@
+-  if (!mountNode) {
+-    return false;
+-  }
+-
+-  if (!themeInitialized) {
+-    TendUI.init();
+-    themeInitialized = true;
+-  }
+-
+-  ReactDOM.render(
+-    <TendUI lang="ru" theme="samolet">
+-      <Button
+-        className="js-btn-create-task"
+-        data-testid="tend-ui-create-task-button"
+-        size="medium"
+-        type="button"
+-        variant="primary"
+-      >
+-        Создать задачу
+-      </Button>
+-    </TendUI>,
++  return renderTendUi(
++    <Button
++      className="js-btn-create-task"
++      data-testid="tend-ui-create-task-button"
++      size="medium"
++      type="button"
++      variant="primary"
++    >
++      Создать задачу
++    </Button>,
+     mountNode,
+   );
+-
+-  return true;
+ }
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { initOverviewTabs } from './features/tasks/tasks-view.js';
+ import { mountTendUiCreateTaskButton } from './integrations/tend-ui/create-task-button.jsx';
++import { mountTendUiGlobalSearchInput } from './integrations/tend-ui/global-search-input.jsx';
+ 
+ initializeAppState();
+ mountTendUiCreateTaskButton();
++mountTendUiGlobalSearchInput();
+ 
+-document.addEventListener('DOMContentLoaded', () => {
++function initializeInterface() {
+@@
+   updateSidebarCounts();
+-});
++}
++
++if (document.readyState === 'loading') {
++  document.addEventListener('DOMContentLoaded', initializeInterface, { once: true });
++} else {
++  initializeInterface();
++}
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-              <input type="text" class="ds-search-input__control" id="js-global-search" placeholder="Поиск по задачам">
++              <div id="tend-ui-global-search-root" data-tend-ui-adapter="global-search"></div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ .ds-search-input-wrapper { display: flex; align-items: center; position: relative; width: 280px; }
++#tend-ui-global-search-root { display: contents; }
+ .ds-search-input__icon {
+-  position: absolute; left: 12px; width: 16px; height: 16px; color: var(--color-text-secondary);
++  position: absolute; left: 12px; z-index: 1; width: 16px; height: 16px; color: var(--color-text-secondary); pointer-events: none;
+ }
+@@
+ .ds-search-input__control:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
++.ds-search-input-wrapper .ds-search-input__control.tend-ui-input {
++  width: 100%; height: 36px; padding: 8px 12px 8px 36px; font-family: inherit;
++}
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const indexHtml = readText('index.html');
+ const mainSource = readText('src/main.js');
+-const adapterSource = readText('src/integrations/tend-ui/create-task-button.jsx');
++const buttonAdapterSource = readText('src/integrations/tend-ui/create-task-button.jsx');
++const searchAdapterSource = readText('src/integrations/tend-ui/global-search-input.jsx');
++const runtimeSource = readText('src/integrations/tend-ui/runtime.jsx');
+ 
+ assert.match(indexHtml, /id="tend-ui-create-task-root"/);
++assert.match(indexHtml, /id="tend-ui-global-search-root"/);
++assert.doesNotMatch(indexHtml, /<input[^>]+id="js-global-search"/);
+ assert.match(mainSource, /mountTendUiCreateTaskButton\(\)/);
+-assert.match(adapterSource, /@10d\/tend-ui\/primitives\/Button/);
+-assert.match(adapterSource, /@10d\/tend-ui\/theme/);
+-assert.match(adapterSource, /data-testid="tend-ui-create-task-button"/);
++assert.match(mainSource, /mountTendUiGlobalSearchInput\(\)/);
++assert.match(mainSource, /document\.readyState === 'loading'/);
++assert.match(buttonAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(buttonAdapterSource, /data-testid="tend-ui-create-task-button"/);
++assert.match(searchAdapterSource, /@10d\/tend-ui\/primitives\/Input/);
++assert.match(searchAdapterSource, /id="js-global-search"/);
++assert.match(searchAdapterSource, /data-testid="tend-ui-global-search-input"/);
++assert.doesNotMatch(searchAdapterSource, /activeFilters|applyFilters/);
++assert.match(runtimeSource, /@10d\/tend-ui\/theme/);
++assert.match(runtimeSource, /TendUI\.init\(\)/);
+@@
+ assert.match(builtJavaScript, /tend-ui-create-task-button/);
++assert.match(builtJavaScript, /tend-ui-global-search-input/);
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-create-task-button/);
++assert.match(bundle.toString('utf8'), /tend-ui-global-search-input/);
+*** End Patch

@@ -1,0 +1,41 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const printAdapterSource = readText('src/integrations/tend-ui/print-button.jsx');
++const filterAdapterSource = readText('src/integrations/tend-ui/toolbar-filter-button.jsx');
+ const runtimeSource = readText('src/integrations/tend-ui/runtime.jsx');
+ const basicControlsSource = readText('src/ui/basic-controls.js');
+ const tasksViewSource = readText('src/features/tasks/tasks-view.js');
++const filterDrawerSource = readText('src/features/filters/filter-drawer.js');
+@@
+ assert.match(indexHtml, /id="tend-ui-print-root"/);
++assert.match(indexHtml, /id="tend-ui-toolbar-filters-root"/);
+ assert.doesNotMatch(indexHtml, /<input[^>]+id="js-global-search"/);
+ assert.doesNotMatch(indexHtml, /<button[^>]+id="js-print-btn"/);
++assert.doesNotMatch(indexHtml, /<button[^>]+id="js-sidebar-filters-btn"/);
+@@
+ assert.match(mainSource, /mountTendUiPrintButton\(\)/);
++assert.match(mainSource, /mountTendUiToolbarFilterButton\(\)/);
+@@
+ assert.doesNotMatch(printAdapterSource, /showToast|activeFilters|applyFilters/);
++assert.match(filterAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(filterAdapterSource, /@10d\/tend-ui-icons\/FilterAlt\/FilterAlt\.js/);
++assert.match(filterAdapterSource, /@10d\/tend-ui-icons\/Close\/Close\.js/);
++assert.match(filterAdapterSource, /id="js-sidebar-filters-btn"/);
++assert.match(filterAdapterSource, /data-testid="tend-ui-toolbar-filter-button"/);
++assert.match(filterAdapterSource, /js-filter-reset-indicator/);
++assert.match(filterAdapterSource, /js-filter-reset-count/);
++assert.doesNotMatch(filterAdapterSource, /activeFilters|applyFilters|filter-drawer|showToast/);
+@@
+ assert.match(tasksViewSource, /appendChild\(printControl\)/);
++assert.match(filterDrawerSource, /querySelectorAll\('\.js-btn-open-filters'\)/);
++assert.match(filterDrawerSource, /classList\.toggle\('is-active-filter', count > 0\)/);
++assert.match(filterDrawerSource, /classList\.toggle\('has-active-filters', count > 0\)/);
++assert.match(filterDrawerSource, /querySelectorAll\('\.js-filter-reset-indicator'\)/);
++assert.match(filterDrawerSource, /resetPanelFiltersAndApply\(\)/);
+@@
+ assert.match(builtJavaScript, /tend-ui-print-icon/);
++assert.match(builtJavaScript, /tend-ui-toolbar-filter-button/);
++assert.match(builtJavaScript, /tend-ui-filter-alt-icon/);
++assert.match(builtJavaScript, /tend-ui-close-icon/);
+*** End Patch

@@ -1,0 +1,84 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\queue-tabs.jsx
++import React from 'react';
++import { Tabs } from '@10d/tend-ui/primitives/Tabs';
++
++import { REVERSE_STATUS_MAP } from '../../data/statuses.js';
++import { renderTendUi } from './runtime.jsx';
++
++const QUEUES_CHANGED_EVENT = 's-tracker:queues-changed';
++const QUEUE_REQUEST_EVENT = 's-tracker:queue-request';
++const COUNTED_STATUSES = new Set(['todo', 'in_progress', 'to_assign']);
++const QUEUE_STATUSES = ['todo', 'in_progress', 'done', 'to_assign', 'review', 'initiated'];
++
++function createInitialQueues() {
++  return QUEUE_STATUSES.map(status => ({
++    count: 0,
++    hasOverdue: false,
++    label: REVERSE_STATUS_MAP[status],
++    status,
++  }));
++}
++
++function QueueTabs({ mountNode }) {
++  const [activeStatus, setActiveStatus] = React.useState(mountNode.dataset.activeStatus || 'todo');
++  const [queues, setQueues] = React.useState(createInitialQueues);
++
++  React.useEffect(() => {
++    const syncQueues = event => {
++      setActiveStatus(event.detail?.activeStatus || 'todo');
++      setQueues(event.detail?.queues || createInitialQueues());
++    };
++
++    mountNode.addEventListener(QUEUES_CHANGED_EVENT, syncQueues);
++    return () => mountNode.removeEventListener(QUEUES_CHANGED_EVENT, syncQueues);
++  }, [mountNode]);
++
++  const requestQueue = status => {
++    mountNode.dispatchEvent(
++      new CustomEvent(QUEUE_REQUEST_EVENT, {
++        bubbles: true,
++        detail: { status },
++      }),
++    );
++  };
++
++  const items = queues.map(queue => ({
++    key: queue.status,
++    label: (
++      <span
++        className={`ds-queue-tabs__label js-overview-tab${queue.status === activeStatus ? ' is-active' : ''}`}
++        data-status={queue.status}
++      >
++        <span>{queue.label}</span>
++        {COUNTED_STATUSES.has(queue.status) && (
++          <span
++            className={`ds-tab__badge${queue.hasOverdue && queue.count > 0 ? ' is-overdue' : ''}`}
++            data-testid={`queue-count-${queue.status}`}
++            style={{ opacity: queue.count === 0 ? 0.5 : 1 }}
++          >
++            {queue.count}
++          </span>
++        )}
++      </span>
++    ),
++  }));
++
++  return (
++    <Tabs
++      activeKey={activeStatus}
++      animated={false}
++      className="ds-queue-tabs"
++      data-testid="tend-ui-queue-tabs"
++      items={items}
++      onChange={requestQueue}
++      size="small"
++    />
++  );
++}
++
++export function mountTendUiQueueTabs() {
++  const mountNode = document.getElementById('tend-ui-queue-tabs-root');
++  return renderTendUi(<QueueTabs mountNode={mountNode} />, mountNode);
++}
+*** End Patch

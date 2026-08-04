@@ -1,0 +1,130 @@
+.component-story-canvas {
+  width: min(920px, calc(100vw - 64px));
+  min-height: 160px;
+  padding: 24px;
+  color: var(--color-text-primary);
+  font-family: Inter, Arial, sans-serif;
+}
+
+.component-story-stack {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.ds-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: min(360px, 100%);
+}
+
+.ds-field__label {
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.ds-field__required,
+.ds-field__error {
+  color: var(--color-danger, #dc2626);
+}
+
+.ds-field__description,
+.ds-field__error {
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.ds-field__description {
+  color: var(--color-text-secondary);
+}
+
+.ds-field.has-error .ds-input,
+.ds-field.has-error .ds-select {
+  border-color: var(--color-danger, #dc2626);
+}
+
+.ds-checkbox.ds-checkbox--native input.ds-checkbox__native-control {
+  display: block;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.ds-checkbox--native .ds-checkbox__native-control:focus-visible + .ds-checkbox__box {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.ds-checkbox--native .ds-checkbox__native-control:disabled ~ * {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.ds-checkbox--native .ds-checkbox__native-control:indeterminate + .ds-checkbox__box {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.ds-checkbox--native .ds-checkbox__native-control:indeterminate + .ds-checkbox__box::after {
+  width: 8px;
+  height: 2px;
+  border: 0;
+  background: #ffffff;
+  transform: none;
+}
+
+.ds-pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ds-pagination .ds-button {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+}
+
+.ds-pagination .ds-pagination-item--active {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.ds-pagination-item--ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+}
+
+.ds-toast__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ds-toast__message {
+  font-size: 0.875rem;
+}
+
+.component-registry-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-bg-surface);
+}
+
+.component-registry-table th,
+.component-registry-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+  font-size: 0.8125rem;
+}

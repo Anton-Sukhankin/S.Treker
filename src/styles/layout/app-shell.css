@@ -10,6 +10,28 @@
   margin-top: 0;
 }
 
+.app-layout[hidden] {
+  display: none !important;
+}
+
+.esm-search-section {
+  height: calc(100vh - 92px);
+  min-height: 0;
+  overflow: hidden;
+  background: var(--color-bg-muted);
+}
+
+.esm-search-section[hidden] {
+  display: none !important;
+}
+
+.esm-search-section__root {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #f8fafc;
+}
+
 /* Sidebar */
 .app-sidebar {
   background-color: var(--color-sidebar-bg);

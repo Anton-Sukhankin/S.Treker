@@ -1,0 +1,15 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+ The next group is F-42: run a column-settings migration completion audit and verify the full drawer lifecycle as one regression suite.
++
++## F-42 Column-Settings Completion Result
++
++- the static drawer, preset dialog and generated templates contain no legacy native controls or inline SVG;
++- an executable completion gate covers 11 mounts, seven adapters and 19 built markers;
++- vanilla ownership for draft, drag, library, preset fallback and Apply is enforced;
++- discard, hide/restore, library add/return/reset and preset save/replay/delete pass in one browser regression;
++- all build, security and bundle gates remain green.
++
++The next group is F-43: audit remaining legacy controls outside column settings and define the next bounded Tend UI migration wave, starting with the filter drawer.
+*** End Patch

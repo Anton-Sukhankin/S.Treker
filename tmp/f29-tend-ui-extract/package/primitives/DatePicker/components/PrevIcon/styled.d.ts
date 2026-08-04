@@ -1,0 +1,1 @@
+export declare const PrevIcon: import("styled-components").StyledComponent<import("react").ForwardRefExoticComponent<Omit<import("@tend-ui-icons/types").IconProps, "children"> & import("react").RefAttributes<HTMLSpanElement>>, import("styled-components").DefaultTheme, {}, never>;

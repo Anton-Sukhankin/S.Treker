@@ -1,0 +1,9 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiPrintButton } from './integrations/tend-ui/print-button.jsx';
++import { mountTendUiPagination } from './integrations/tend-ui/pagination.jsx';
+@@
+ mountTendUiPrintButton();
++mountTendUiPagination();
+*** End Patch

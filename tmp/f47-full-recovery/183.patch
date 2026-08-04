@@ -1,0 +1,87 @@
+*** Begin Patch
+*** Add File: ../S-Tracker/src/integrations/tend-ui/columns-footer-actions.jsx
++import React from 'react';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Book } from '@10d/tend-ui-icons/Book/Book.js';
++import { Refresh } from '@10d/tend-ui-icons/Refresh/Refresh.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++const COLUMNS_FOOTER_CHANGED_EVENT = 's-tracker:columns-footer-changed';
++const controlStyle = { height: 36 };
++
++function ColumnsFooterActions({ mountNode }) {
++  const [libraryOpen, setLibraryOpen] = React.useState(false);
++  const [libraryResetDisabled, setLibraryResetDisabled] = React.useState(true);
++
++  React.useEffect(() => {
++    const syncFooter = event => {
++      const detail = event.detail || {};
++      if (typeof detail.libraryOpen === 'boolean') setLibraryOpen(detail.libraryOpen);
++      if (typeof detail.libraryResetDisabled === 'boolean') {
++        setLibraryResetDisabled(detail.libraryResetDisabled);
++      }
++    };
++
++    mountNode.addEventListener(COLUMNS_FOOTER_CHANGED_EVENT, syncFooter);
++    return () => mountNode.removeEventListener(COLUMNS_FOOTER_CHANGED_EVENT, syncFooter);
++  }, [mountNode]);
++
++  return (
++    <>
++      <Button
++        aria-controls="columns-attribute-library"
++        aria-expanded={libraryOpen}
++        aria-label="Библиотека атрибутов"
++        before={<Book aria-hidden="true" size={20} />}
++        className="js-open-library"
++        data-testid="tend-ui-columns-library-toggle"
++        size="medium"
++        style={{ height: 36, width: 36 }}
++        title="Библиотека атрибутов"
++        type="button"
++        variant={libraryOpen ? 'primary' : 'secondary'}
++      />
++      <Button
++        before={<Refresh aria-hidden="true" size={16} />}
++        className="js-library-reset"
++        data-testid="tend-ui-columns-library-reset"
++        disabled={libraryResetDisabled}
++        size="medium"
++        style={{ ...controlStyle, display: libraryOpen ? 'inline-flex' : 'none' }}
++        title="Сбросить добавленные атрибуты"
++        type="button"
++        variant="secondary"
++      >
++        Сбросить
++      </Button>
++      <span className="ds-columns-footer__spacer" />
++      <Button
++        className="js-columns-reset"
++        data-testid="tend-ui-columns-default"
++        size="medium"
++        style={controlStyle}
++        type="button"
++        variant="ghost"
++      >
++        По умолчанию
++      </Button>
++      <Button
++        className="js-columns-apply"
++        data-testid="tend-ui-columns-apply"
++        size="medium"
++        style={controlStyle}
++        type="button"
++        variant="primary"
++      >
++        Применить
++      </Button>
++    </>
++  );
++}
++
++export function mountTendUiColumnsFooterActions() {
++  const mountNode = document.getElementById('tend-ui-columns-footer-root');
++  return renderTendUi(<ColumnsFooterActions mountNode={mountNode} />, mountNode);
++}
+*** End Patch

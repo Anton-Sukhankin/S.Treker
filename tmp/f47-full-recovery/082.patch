@@ -1,0 +1,15 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-            <!-- View Switcher -->
+-            <div class="ds-segmented-control js-view-switcher">
+-              <button class="ds-segmented-control__item is-active" data-view="cards" title="Оптимизированный вид">
+-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+-              </button>
+-              <button class="ds-segmented-control__item" data-view="table" title="Табличный вид">
+-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+-              </button>
+-            </div>
++            <!-- View Switcher -->
++            <div id="tend-ui-view-switcher-root" class="js-view-switcher" data-tend-ui-adapter="view-switcher"></div>
+*** End Patch

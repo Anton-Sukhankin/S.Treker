@@ -1,0 +1,18 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+-The next group is F-33: migrate bulk-action bar controls while preserving queue-dependent visibility, status actions, group movement and selection clearing.
++## F-33 Bulk Actions Result
++
++- seven bulk controls render through Tend UI `Button` and narrow icon exports;
++- the React adapter owns only presentation and stable `.js-fab-*` hooks;
++- vanilla code owns queue-dependent visibility, selected IDs, dialog lifecycle and group mutations;
++- move-to-group, remove-from-group and explicit clear scenarios pass;
++- status, assign, work and done retain their pre-existing presentation-only contract;
++- all build, security and bundle gates remain green.
++
++The next group is F-34: migrate move-to-group dialog controls while preserving native dialog lifecycle, group creation, fallback naming, toast and selection clearing.
+@@
+ - `docs/tend-ui-task-selection.md` records the completed F-32 Checkbox portal boundary, cross-page state and select-all verification.
++- `docs/tend-ui-bulk-actions.md` records the completed F-33 Button boundary, contextual visibility and group-action verification.
+*** End Patch

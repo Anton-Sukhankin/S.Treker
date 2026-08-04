@@ -1,0 +1,63 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ .ds-pagination-arrow:disabled {
+   cursor: not-allowed;
+   opacity: 0.5;
+ }
++
++#tend-ui-pagination-root {
++  display: flex;
++  align-items: center;
++  justify-content: center;
++  min-height: 32px;
++}
++
++#tend-ui-pagination-root .tend-ui-pagination {
++  margin: 0;
++}
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const queueTabsAdapterSource = readText('src/integrations/tend-ui/queue-tabs.jsx');
++const paginationAdapterSource = readText('src/integrations/tend-ui/pagination.jsx');
+ const queueStateSource = readText('src/domain/queue-state.js');
+@@
+ const columnsDrawerSource = readText('src/features/columns/columns-drawer.js');
++const paginationControlsSource = readText('src/features/pagination/pagination-controls.js');
+@@
+ assert.match(indexHtml, /id="tend-ui-queue-tabs-root"/);
++assert.match(indexHtml, /id="tend-ui-pagination-root"/);
+@@
+ assert.doesNotMatch(indexHtml, /<button[^>]+class="[^"]*js-overview-tab/);
++assert.doesNotMatch(indexHtml, /id="js-pagination-wrapper"/);
+@@
+ assert.match(mainSource, /mountTendUiQueueTabs\(\)/);
++assert.match(mainSource, /mountTendUiPagination\(\)/);
+@@
+ assert.deepEqual(installedTendUiManifest.exports['./primitives/Tabs'], {
+@@
+ });
++assert.deepEqual(installedTendUiManifest.exports['./primitives/Pagination'], {
++  types: './primitives/Pagination/index.d.ts',
++  import: './primitives/Pagination/index.js',
++  require: './cjs/primitives/Pagination/index.js',
++});
+@@
+ assert.doesNotMatch(queueTabsAdapterSource, /MOCK_LAYOUTS|generateTask|renderTab|updateSidebarCounts/);
++assert.match(paginationAdapterSource, /@10d\/tend-ui\/primitives\/Pagination/);
++assert.match(paginationAdapterSource, /data-testid="tend-ui-task-pagination"/);
++assert.match(paginationAdapterSource, /s-tracker:page-request/);
++assert.match(paginationAdapterSource, /s-tracker:pagination-changed/);
++assert.doesNotMatch(paginationAdapterSource, /renderTab|paginationState|activeFilters|MOCK_LAYOUTS/);
++assert.match(paginationControlsSource, /addEventListener\('s-tracker:page-request'/);
++assert.match(paginationControlsSource, /new CustomEvent\('s-tracker:pagination-changed'/);
++assert.match(paginationControlsSource, /window\.renderTab\(tabName, true\)/);
++assert.doesNotMatch(paginationControlsSource, /innerHTML|js-page-jump|js-page-prev|js-page-next/);
+@@
+ assert.match(builtJavaScript, /tend-ui-queue-tabs/);
++assert.match(builtJavaScript, /tend-ui-task-pagination/);
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-table-view-icon/);
++assert.match(bundle.toString('utf8'), /tend-ui-task-pagination/);
+*** End Patch

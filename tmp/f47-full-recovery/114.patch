@@ -1,0 +1,24 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+ const rawBytes = statSync(bundlePath).size;
+ const gzipBytes = gzipSync(bundle).length;
+ 
+-assert.ok(rawBytes <= 800 * 1024, `JavaScript bundle exceeds the F-23 limit: ${rawBytes} bytes`);
+-assert.ok(gzipBytes <= 250 * 1024, `Gzipped JavaScript bundle exceeds the F-23 limit: ${gzipBytes} bytes`);
++const f30Baseline = { raw: 809677, gzip: 249892 };
++const f31PaginationBudget = { raw: 120 * 1024, gzip: 40 * 1024 };
++
++assert.ok(
++  rawBytes <= f30Baseline.raw + f31PaginationBudget.raw,
++  `JavaScript bundle exceeds the reviewed F-31 Pagination budget: ${rawBytes} bytes`,
++);
++assert.ok(
++  gzipBytes <= f30Baseline.gzip + f31PaginationBudget.gzip,
++  `Gzipped JavaScript bundle exceeds the reviewed F-31 Pagination budget: ${gzipBytes} bytes`,
++);
+@@
+-console.log('Decision: single chunk retained for direct file:// compatibility');
++console.log('Decision: single chunk retained for direct file:// compatibility');
++console.log('Budget: F-30 baseline plus 120 KiB raw / 40 KiB gzip for Tend UI Pagination');
+*** End Patch

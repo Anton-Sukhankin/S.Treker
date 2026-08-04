@@ -1,0 +1,196 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-column-settings-completion.mjs
++import assert from 'node:assert/strict';
++import { existsSync, readFileSync, readdirSync } from 'node:fs';
++import { resolve } from 'node:path';
++
++const root = resolve(import.meta.dirname, '..');
++const readText = relativePath => readFileSync(resolve(root, relativePath), 'utf8');
++
++const indexHtml = readText('index.html');
++const columnsSource = readText('src/features/columns/columns-drawer.js');
++const mainSource = readText('src/main.js');
++
++const drawerStart = indexHtml.indexOf('<aside class="ds-drawer ds-drawer--right" id="columns-drawer">');
++const drawerEnd = indexHtml.indexOf('</aside>', drawerStart);
++assert.ok(drawerStart >= 0 && drawerEnd > drawerStart, 'Column-settings drawer boundary is missing');
++
++const drawerHtml = indexHtml.slice(drawerStart, drawerEnd + '</aside>'.length);
++const presetDialogStart = indexHtml.indexOf('<dialog class="ds-modal" id="js-modal-preset"');
++const presetDialogEnd = indexHtml.indexOf('</dialog>', presetDialogStart);
++assert.ok(presetDialogStart >= 0 && presetDialogEnd > presetDialogStart, 'Preset dialog boundary is missing');
++
++const presetDialogHtml = indexHtml.slice(
++  presetDialogStart,
++  presetDialogEnd + '</dialog>'.length,
++);
++const nativeControlPattern = /<(?:button|input|select|textarea)\b/i;
++
++assert.doesNotMatch(
++  drawerHtml,
++  nativeControlPattern,
++  'Static column-settings drawer must expose Tend UI mounts instead of native controls',
++);
++assert.doesNotMatch(
++  presetDialogHtml,
++  nativeControlPattern,
++  'Static preset dialog must expose Tend UI mounts instead of native controls',
++);
++assert.doesNotMatch(
++  columnsSource,
++  /<(?:button|input|select|textarea|svg)\b/i,
++  'Generated column-settings templates must not reintroduce native controls or inline SVG',
++);
++
++const staticMounts = [
++  'tend-ui-columns-close-root',
++  'tend-ui-library-search-root',
++  'tend-ui-library-actions-root',
++  'tend-ui-preset-trigger-root',
++  'tend-ui-preset-save-root',
++  'tend-ui-column-row-controls-root',
++  'tend-ui-preset-delete-actions-root',
++  'tend-ui-columns-footer-root',
++  'tend-ui-preset-dialog-input-root',
++  'tend-ui-preset-dialog-close-root',
++  'tend-ui-preset-dialog-actions-root',
++];
++
++for (const mountId of staticMounts) {
++  assert.match(indexHtml, new RegExp(`id="${mountId}"`), `Missing Tend UI mount: ${mountId}`);
++}
++
++const adapterContracts = [
++  {
++    file: 'src/integrations/tend-ui/columns-drawer-controls.jsx',
++    mounts: ['tend-ui-columns-close-root', 'tend-ui-library-search-root'],
++    markers: ['tend-ui-columns-close', 'tend-ui-library-search'],
++  },
++  {
++    file: 'src/integrations/tend-ui/columns-footer-actions.jsx',
++    mounts: ['tend-ui-columns-footer-root'],
++    markers: [
++      'tend-ui-columns-library-toggle',
++      'tend-ui-columns-library-reset',
++      'tend-ui-columns-default',
++      'tend-ui-columns-apply',
++    ],
++  },
++  {
++    file: 'src/integrations/tend-ui/library-item-actions.jsx',
++    mounts: ['tend-ui-library-actions-root'],
++    markers: ['tend-ui-library-item-add', 'tend-ui-library-item-return'],
++  },
++  {
++    file: 'src/integrations/tend-ui/column-row-controls.jsx',
++    mounts: ['tend-ui-column-row-controls-root'],
++    markers: [
++      'tend-ui-column-visibility',
++      'tend-ui-column-return',
++      'tend-ui-column-drag-icon',
++    ],
++  },
++  {
++    file: 'src/integrations/tend-ui/preset-toolbar.jsx',
++    mounts: ['tend-ui-preset-trigger-root', 'tend-ui-preset-save-root'],
++    markers: ['tend-ui-preset-trigger', 'tend-ui-preset-save'],
++  },
++  {
++    file: 'src/integrations/tend-ui/preset-delete-actions.jsx',
++    mounts: ['tend-ui-preset-delete-actions-root'],
++    markers: ['tend-ui-preset-delete', 'tend-ui-preset-delete-icon'],
++  },
++  {
++    file: 'src/integrations/tend-ui/preset-dialog-controls.jsx',
++    mounts: [
++      'tend-ui-preset-dialog-input-root',
++      'tend-ui-preset-dialog-close-root',
++      'tend-ui-preset-dialog-actions-root',
++    ],
++    markers: [
++      'tend-ui-preset-name-input',
++      'tend-ui-preset-dialog-close',
++      'tend-ui-preset-dialog-cancel',
++      'tend-ui-preset-dialog-confirm',
++    ],
++  },
++];
++
++const allMarkers = [];
++for (const contract of adapterContracts) {
++  const source = readText(contract.file);
++  assert.match(source, /@10d\/tend-ui/, `${contract.file} must consume Tend UI`);
++
++  for (const mountId of contract.mounts) {
++    assert.match(source, new RegExp(mountId), `${contract.file} does not bind ${mountId}`);
++  }
++  for (const marker of contract.markers) {
++    assert.match(source, new RegExp(marker), `${contract.file} is missing ${marker}`);
++    allMarkers.push(marker);
++  }
++}
++
++const mountCalls = [
++  'mountTendUiColumnsDrawerControls',
++  'mountTendUiColumnsFooterActions',
++  'mountTendUiLibraryItemActions',
++  'mountTendUiColumnRowControls',
++  'mountTendUiPresetToolbar',
++  'mountTendUiPresetDeleteActions',
++  'mountTendUiPresetDialogControls',
++];
++for (const mountCall of mountCalls) {
++  assert.match(mainSource, new RegExp(`${mountCall}\\(\\)`), `Missing runtime mount: ${mountCall}`);
++}
++
++const generatedMountContracts = [
++  'data-tend-ui-library-action',
++  'data-tend-ui-column-checkbox',
++  'data-tend-ui-column-return',
++  'data-tend-ui-column-drag',
++  'data-tend-ui-preset-delete',
++];
++for (const contract of generatedMountContracts) {
++  assert.match(columnsSource, new RegExp(contract), `Missing generated mount contract: ${contract}`);
++}
++
++const ownershipContracts = [
++  /beginDraft\(window\.navigationContext\.id\)/,
++  /syncDraftFromDrawer\(navId\)/,
++  /row\.addEventListener\('dragstart'/,
++  /row\.addEventListener\('dragover'/,
++  /row\.addEventListener\('dragend'/,
++  /delete window\.columnPresets\[navId\]\[presetName\]/,
++  /window\.activeColumnPreset\[navId\] = 'base'/,
++  /draftActiveColumnPreset\[navId\] = 'base'/,
++  /setDraftState\(navId, getBaseState\(navId\)\)/,
++  /setDraftState\(navId, getDraftState\(navId\)\.filter/,
++  /window\.customColumnState\[navId\]/,
++  /window\.renderTab\(getActiveQueueLabel/,
++];
++for (const contract of ownershipContracts) {
++  assert.match(columnsSource, contract, `Missing vanilla ownership contract: ${contract}`);
++}
++
++assert.match(columnsSource, /role="option"/);
++assert.match(columnsSource, /aria-selected/);
++assert.match(indexHtml, /id="js-preset-dropdown"[^>]+role="listbox"/);
++
++const distAssetsRoot = resolve(root, 'dist', 'assets');
++assert.ok(existsSync(distAssetsRoot), 'Run npm run build before column-settings completion verification');
++const builtJavaScript = readdirSync(distAssetsRoot)
++  .filter(file => file.endsWith('.js'))
++  .map(file => readFileSync(resolve(distAssetsRoot, file), 'utf8'))
++  .join('\n');
++
++for (const marker of allMarkers) {
++  assert.match(builtJavaScript, new RegExp(marker), `Built artifact is missing ${marker}`);
++}
++
++console.log('Column-settings Tend UI completion verification passed.');
++console.log(`Static Tend UI mounts: ${staticMounts.length}`);
++console.log(`Verified adapters: ${adapterContracts.length}`);
++console.log(`Built control markers: ${allMarkers.length}`);
++console.log('Legacy native controls/inline SVG in drawer templates: 0');
++console.log('Vanilla ownership: drag, draft, library, preset fallback and Apply retained');
+*** End Patch

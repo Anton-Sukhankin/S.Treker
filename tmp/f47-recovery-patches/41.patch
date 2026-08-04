@@ -1,0 +1,40 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-      <button class="ds-icon-button js-filter-close" aria-label="Закрыть">
+-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+-      </button>
++      <div class="ds-filter-drawer-close__mount" id="tend-ui-filter-drawer-close-root"></div>
+@@
+     <!-- Sticky Footer -->
+     <div class="ds-drawer__footer">
+-      <button class="ds-button ds-button--text js-filter-reset">Сбросить всё</button>
+-      <button class="ds-button ds-button--primary js-filter-apply">Применить</button>
++      <div class="ds-filter-drawer-actions__mount" id="tend-ui-filter-drawer-actions-root"></div>
+     </div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiDownloadButton } from './integrations/tend-ui/download-button.jsx';
++import { mountTendUiFilterDrawerActions } from './integrations/tend-ui/filter-drawer-actions.jsx';
+ import { mountTendUiGlobalSearchInput } from './integrations/tend-ui/global-search-input.jsx';
+@@
+ mountTendUiDownloadButton();
++mountTendUiFilterDrawerActions();
+ mountTendUiGlobalSearchInput();
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\features\task-workspace.css
+@@
+ #filter-drawer .ds-drawer__footer {
+@@
+   align-items: center !important;
+ }
++
++.ds-filter-drawer-close__mount,
++.ds-filter-drawer-actions__mount {
++  display: flex;
++  align-items: center;
++}
++
++.ds-filter-drawer-actions__mount {
++  gap: 12px;
++}
+*** End Patch

@@ -1,0 +1,114 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\bulk-actions.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { AccountCircle } from '@10d/tend-ui-icons/AccountCircle/AccountCircle.js';
++import { Close } from '@10d/tend-ui-icons/Close/Close.js';
++import { Delete } from '@10d/tend-ui-icons/Delete/Delete.js';
++import { Done } from '@10d/tend-ui-icons/Done/Done.js';
++import { Edit } from '@10d/tend-ui-icons/Edit/Edit.js';
++import { FolderAdd } from '@10d/tend-ui-icons/FolderAdd/FolderAdd.js';
++import { Play } from '@10d/tend-ui-icons/Play/Play.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++const buttonStyle = { height: 38, whiteSpace: 'nowrap' };
++
++function ActionButton({ before, children, className, testId, ...props }) {
++  return (
++    <Button
++      before={before}
++      className={`ds-fab-button ${className}`}
++      data-testid={testId}
++      size="medium"
++      style={buttonStyle}
++      type="button"
++      variant="ghost"
++      {...props}
++    >
++      {children}
++    </Button>
++  );
++}
++
++function BulkActionControls({ clearMount }) {
++  return (
++    <>
++      <ActionButton
++        before={<Edit size={16} />}
++        className="js-fab-action js-fab-status"
++        data-action="status"
++        testId="tend-ui-bulk-status"
++      >
++        Изменить статус
++      </ActionButton>
++      <ActionButton
++        before={<FolderAdd size={16} />}
++        className="js-fab-to-group"
++        testId="tend-ui-bulk-to-group"
++      >
++        Переместить в группу
++      </ActionButton>
++      <ActionButton
++        before={<AccountCircle size={16} />}
++        className="js-fab-action js-fab-assign"
++        data-action="assign"
++        style={{ ...buttonStyle, display: 'none' }}
++        testId="tend-ui-bulk-assign"
++      >
++        Назначить
++      </ActionButton>
++      <ActionButton
++        before={<Play size={16} />}
++        className="js-fab-action js-fab-work"
++        data-action="work"
++        style={{ ...buttonStyle, display: 'none' }}
++        testId="tend-ui-bulk-work"
++      >
++        Взять в работу
++      </ActionButton>
++      <ActionButton
++        before={<Done size={16} />}
++        className="js-fab-action js-fab-done"
++        data-action="done"
++        style={{ ...buttonStyle, display: 'none' }}
++        testId="tend-ui-bulk-done"
++      >
++        Завершить
++      </ActionButton>
++      <ActionButton
++        before={<Delete size={16} />}
++        className="js-fab-from-group"
++        preset="danger"
++        style={{ ...buttonStyle, display: 'none' }}
++        testId="tend-ui-bulk-from-group"
++      >
++        Удалить из группы
++      </ActionButton>
++      {ReactDOM.createPortal(
++        <Button
++          aria-label="Снять выделение"
++          before={<Close size={20} />}
++          className="ds-fab-clear-button js-fab-clear"
++          data-testid="tend-ui-bulk-clear"
++          size="medium"
++          style={{ height: 38, width: 38 }}
++          title="Снять выделение"
++          type="button"
++          variant="ghost"
++        />,
++        clearMount,
++      )}
++    </>
++  );
++}
++
++export function mountTendUiBulkActions() {
++  const mountNode = document.getElementById('tend-ui-bulk-actions-root');
++  const clearMount = document.getElementById('tend-ui-bulk-clear-root');
++
++  if (!mountNode || !clearMount) return false;
++  return renderTendUi(<BulkActionControls clearMount={clearMount} />, mountNode);
++}
+*** End Patch

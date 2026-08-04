@@ -1,0 +1,7 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\task-selection\floating-action-bar.js
+@@
+   const REVERSE_STATUS_MAP = reverseStatusMap;
+   const m = document.getElementById('js-modal-move');
+-  const submitBtn = document.getElementById('js-btn-move-submit');
+*** End Patch

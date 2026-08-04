@@ -1,0 +1,123 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-    <div class="ds-fab__actions">
+-      <!-- Universal actions -->
+-      <button class="ds-button ds-button--fab-outline js-fab-action js-fab-status" data-action="status">
+-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+-        Изменить статус
+-      </button>
+-
+-      <button class="ds-button ds-button--fab-outline js-fab-to-group">
+-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="12" y1="11" x2="12" y2="17"></line><line x1="9" y1="14" x2="15" y2="14"></line></svg>
+-        Переместить в группу
+-      </button>
+-
+-      <!-- Context-dependent (Additive) -->
+-      <button class="ds-button ds-button--fab-outline js-fab-action js-fab-assign" data-action="assign" style="display: none;">
+-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M1 21v-2a4 4 0 0 1 4-4h5a4 4 0 0 1 4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+-        Назначить
+-      </button>
+-
+-      <button class="ds-button ds-button--fab-outline js-fab-action js-fab-work" data-action="work" style="display: none;">
+-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 2v4"></path><path d="M12 18v4"></path><path d="M4.93 4.93l2.83 2.83"></path><path d="M16.24 16.24l2.83 2.83"></path><path d="M2 12h4"></path><path d="M18 12h4"></path><path d="M4.93 19.07l2.83-2.83"></path><path d="M16.24 7.76l2.83-2.83"></path></svg>
+-        Взять в работу
+-      </button>
+-
+-      <button class="ds-button ds-button--fab-outline js-fab-action js-fab-done" data-action="done" style="display: none;">
+-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="20 6 9 17 4 12"></polyline></svg>
+-        Завершить
+-      </button>
+-
+-      <button class="ds-button ds-button--fab-outline js-fab-from-group" style="display: none;">
+-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+-        Удалить из группы
+-      </button>
+-    </div>
+-
+-    <button class="ds-fab__close js-fab-clear" title="Снять выделение">
+-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+-    </button>
++    <div class="ds-fab__actions" id="tend-ui-bulk-actions-root"></div>
++    <div class="ds-fab__close-mount" id="tend-ui-bulk-clear-root"></div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiColumnsButton } from './integrations/tend-ui/columns-button.jsx';
++import { mountTendUiBulkActions } from './integrations/tend-ui/bulk-actions.jsx';
+@@
+ mountTendUiCreateTaskButton();
++mountTendUiBulkActions();
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\patterns\drawers-filters-actions.css
+@@
+-.ds-button--fab-outline {
+-  background: transparent;
+-  color: #fff;
+-  border: 1px solid rgba(255, 255, 255, 0.2);
+-  height: 38px;
+-  border-radius: 10px;
+-  padding: 0 16px;
+-  font-size: 0.8125rem;
+-  white-space: nowrap;
+-}
+-
+-.ds-button--fab-outline:hover {
+-  background-color: rgba(255, 255, 255, 0.05);
+-  border-color: rgba(255, 255, 255, 0.4);
+-}
+-
+-.ds-button--fab-outline svg {
+-  opacity: 0.7;
+-}
+-
+-.ds-fab__close {
++.ds-fab .tend-ui-button.ds-fab-button {
++  background: transparent !important;
++  color: #fff !important;
++  border: 1px solid rgba(255, 255, 255, 0.2) !important;
++  border-radius: 8px !important;
++  padding: 0 12px !important;
++  font-size: 0.8125rem !important;
++}
++
++.ds-fab .tend-ui-button.ds-fab-button:hover {
++  background-color: rgba(255, 255, 255, 0.08) !important;
++  border-color: rgba(255, 255, 255, 0.4) !important;
++}
++
++.ds-fab__close-mount {
+   width: 38px;
+   height: 38px;
+-  padding: 0;
+-  border-radius: 50%;
+-  background: transparent;
+-  border: 1px solid rgba(255, 255, 255, 0.2);
+-  color: #fff;
+-  display: flex;
++  display: inline-flex;
+   align-items: center;
+   justify-content: center;
+-  cursor: pointer;
+-  transition: all 0.2s;
++  flex-shrink: 0;
+ }
+ 
+-.ds-fab__close:hover {
+-  background-color: rgba(255, 255, 255, 0.1);
+-  border-color: #fff;
++.ds-fab .tend-ui-button.ds-fab-clear-button {
++  min-width: 38px !important;
++  padding: 0 !important;
++  border: 1px solid rgba(255, 255, 255, 0.2) !important;
++  border-radius: 50% !important;
++  background: transparent !important;
++  color: #fff !important;
+ }
+ 
+-.ds-fab__close:hover {
+-  background-color: var(--color-border);
+-  color: var(--color-text-primary);
++.ds-fab .tend-ui-button.ds-fab-clear-button:hover {
++  background-color: rgba(255, 255, 255, 0.12) !important;
++  border-color: #fff !important;
+ }
+*** End Patch

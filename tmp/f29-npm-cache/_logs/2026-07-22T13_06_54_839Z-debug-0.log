@@ -1,0 +1,24 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.9.3
+2 info using node@v22.19.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\.npmrc
+5 silly config load:file:C:\Users\armad\.npmrc
+6 silly config load:file:C:\Users\armad\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm install @10d/tend-ui@file:vendor/tend-ui/10d-tend-ui-4.82.0.tgz
+8 verbose argv "install" "@10d/tend-ui@file:vendor/tend-ui/10d-tend-ui-4.82.0.tgz" "--save-exact" "--package-lock-only" "--offline" "--ignore-scripts" "--legacy-peer-deps" "--force" "--cache" ".\\tmp\\f29-npm-cache"
+9 verbose logfile logs-max:10 dir:C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\tmp\f29-npm-cache\_logs\2026-07-22T13_06_54_839Z-
+10 verbose logfile C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\tmp\f29-npm-cache\_logs\2026-07-22T13_06_54_839Z-debug-0.log
+11 warn using --force Recommended protections disabled.
+12 silly logfile done cleaning log files
+13 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+14 silly idealTree buildDeps
+15 silly fetch manifest @10d/tend-ui@file:vendor/tend-ui/10d-tend-ui-4.82.0.tgz
+16 silly placeDep ROOT @10d/tend-ui@4.82.0 REPLACE for: s-tracker-prototype@0.1.0 want: file:vendor/tend-ui/10d-tend-ui-4.82.0.tgz
+17 silly audit report null
+18 verbose cwd C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker
+19 verbose os Windows_NT 10.0.26200
+20 verbose node v22.19.0
+21 verbose npm  v10.9.3
+22 verbose exit 0
+23 info ok

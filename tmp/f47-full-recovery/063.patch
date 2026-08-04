@@ -1,0 +1,12 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\tasks\tasks-view.js
+@@
+-  const columnsButton = document.getElementById('js-columns-btn');
++  const columnsControl = document.getElementById('tend-ui-columns-root') ?? document.getElementById('js-columns-btn');
+@@
+-      if (columnsButton && columnsButton.parentNode !== headerActions) headerActions.appendChild(columnsButton);
++      if (columnsControl && columnsControl.parentNode !== headerActions) headerActions.appendChild(columnsControl);
+@@
+-    if (columnsButton && columnsButton.parentNode === headerActions) toolbarRight.insertBefore(columnsButton, createButton);
++    if (columnsControl && columnsControl.parentNode === headerActions) toolbarRight.insertBefore(columnsControl, createButton);
+*** End Patch

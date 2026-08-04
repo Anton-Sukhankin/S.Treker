@@ -1,0 +1,81 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\task-selection.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { Checkbox } from '@10d/tend-ui/primitives/Checkbox';
++
++import { renderTendUi } from './runtime.jsx';
++
++const SELECTION_CHANGED_EVENT = 's-tracker:selection-changed';
++const SELECTION_REQUEST_EVENT = 's-tracker:selection-request';
++
++function collectControls() {
++  return Array.from(document.querySelectorAll('[data-tend-ui-task-selection]')).map(node => ({
++    checked: node.dataset.checked === 'true',
++    id: node.dataset.id || null,
++    indeterminate: node.dataset.indeterminate === 'true',
++    key: node.dataset.selectionKey,
++    kind: node.dataset.selectionKind,
++    node,
++  }));
++}
++
++function TaskSelectionCheckbox({ control }) {
++  const requestSelection = event => {
++    event.stopPropagation();
++    control.node.dispatchEvent(
++      new CustomEvent(SELECTION_REQUEST_EVENT, {
++        bubbles: true,
++        detail: {
++          checked: event.target.checked,
++          id: control.id,
++          kind: control.kind,
++        },
++      }),
++    );
++  };
++
++  const label = control.kind === 'all' ? 'Выбрать все задачи на странице' : `Выбрать задачу ${control.id}`;
++  const testId = control.kind === 'all' ? 'tend-ui-select-all-tasks' : 'tend-ui-select-task';
++
++  return (
++    <Checkbox
++      aria-label={label}
++      checked={control.checked}
++      data-testid={testId}
++      indeterminate={control.indeterminate}
++      onChange={requestSelection}
++      onClick={event => event.stopPropagation()}
++    />
++  );
++}
++
++function TaskSelectionPortals() {
++  const [controls, setControls] = React.useState(collectControls);
++
++  React.useLayoutEffect(() => {
++    const refresh = () => setControls(collectControls());
++    window.addEventListener(SELECTION_CHANGED_EVENT, refresh);
++    window.addEventListener('table-rendered', refresh);
++    refresh();
++
++    return () => {
++      window.removeEventListener(SELECTION_CHANGED_EVENT, refresh);
++      window.removeEventListener('table-rendered', refresh);
++    };
++  }, []);
++
++  return controls.map(control =>
++    ReactDOM.createPortal(
++      <TaskSelectionCheckbox control={control} />,
++      control.node,
++      control.key,
++    ),
++  );
++}
++
++export function mountTendUiTaskSelection() {
++  const mountNode = document.getElementById('tend-ui-task-selection-root');
++  return renderTendUi(<TaskSelectionPortals />, mountNode);
++}
+*** End Patch

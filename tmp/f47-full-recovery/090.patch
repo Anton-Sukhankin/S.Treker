@@ -1,0 +1,77 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-view-switcher.md
++# F-29: Tend UI View Switcher
++
++## Result
++
++Status: `[x] complete`
++
++The card/table mode control now renders through Tend UI `Segmented` with packaged `CardView` and `TableView` icons.
++
++## Ownership Contract
++
++React owns only the visual segmented control and its selected indicator.
++
++`src/ui/basic-controls.js` remains the application-state owner:
++
++1. React emits `s-tracker:view-request` with `cards` or `table`.
++2. Vanilla code validates the requested value.
++3. Vanilla code switches `#view-mode-cards` and `#view-mode-table`.
++4. Vanilla code updates column/download action visibility.
++5. Vanilla code records `data-current-view` and emits `s-tracker:view-changed`.
++6. React synchronizes the selected segment from that confirmed event.
++
++The adapter contains no task rendering, column state, download behavior or navigation logic.
++
++## Public Package Export
++
++F-29 exposed an existing component through a missing narrow package export:
++
++```text
++@10d/tend-ui/primitives/Segmented
++```
++
++The export provides ESM, CJS and type entrypoints. The main package was rebuilt, public metadata was checked, the local tarball was refreshed and S-Tracker's lockfile now records the new tarball integrity.
++
++This avoids the aggregate `@10d/tend-ui/primitives` import, which would have increased the S-Tracker JavaScript bundle from approximately `747 KB` to `1.61 MB`.
++
++## Preserved Product Contract
++
++| Scenario | Verified result |
++| --- | --- |
++| Initial mode | Cards selected |
++| Card mode | Cards visible; table, columns and download hidden |
++| Table mode | Table visible; columns and download visible |
++| Geometry | Mount remains `105 x 40`; each option remains `46 x 20` internally |
++| Accessibility | Two radios named `Оптимизированный вид` and `Табличный вид` |
++| Custom-group table | Mount in `#js-header-actions`; table actions visible |
++| Custom-group cards | Mount remains in header; table actions hidden |
++| Return to main navigation | Mount returns to `.app-toolbar__actions` with selected mode preserved |
++
++## Verification
++
++`npm.cmd run verify:tend-ui:all` passed:
++
++```text
++Vite modules: 741
++JavaScript chunks: 1
++Bundle raw: 747,476 bytes
++Bundle gzip: 230,190 bytes
++```
++
++Static gates verify the narrow package export, adapter imports, event boundary, removal of raw switcher buttons, custom-view movement and production markers.
++
++The refreshed `@10d/tend-ui@4.82.0` tarball SHA-256 is:
++
++```text
++c4bf2d67a4dad9bce3cf7fba6b22af6dabe46c20ae94e43e876f2ccf9abc12fa
++```
++
++No closed corporate registry, service or source was accessed. No package was published.
++
++## Next Group
++
++```text
++F-30: migrate the S-Tracker queue/status selector to Tend UI Tabs while preserving queue counts, task filtering, rerendering and custom-view hiding.
++```
+*** End Patch

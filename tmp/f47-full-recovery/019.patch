@@ -1,0 +1,14 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\audit-tend-ui-local-compensations.mjs
+@@
+ const lodashPolicy = policy.packages.lodash;
+ const lodashModule = await import('lodash');
+ assert.deepEqual(Object.keys(lodashModule).sort(), [...lodashPolicy.allowedExports].sort());
++
++const classnamesPolicy = policy.packages.classnames;
++const classnamesModule = await import('classnames');
++assert.deepEqual(Object.keys(classnamesModule).sort(), [...classnamesPolicy.allowedExports].sort());
++assert.equal(classnamesModule.default('base', { active: true, disabled: false }), 'base active');
+ 
+ const lodashFiles = readdirSync(resolve(root, 'node_modules', 'lodash'));
+*** End Patch

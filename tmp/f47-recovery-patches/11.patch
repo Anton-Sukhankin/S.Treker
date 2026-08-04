@@ -1,0 +1,19 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\tasks\tasks-view.js
+@@
+   const viewSwitcher = document.querySelector('.js-view-switcher');
+   const createButton = document.querySelector('.js-btn-create-task');
++  const createControl = document.getElementById('tend-ui-create-task-root') ?? createButton;
+@@
+   if (toolbarRight) {
++    const toolbarAnchor = createControl?.parentNode === toolbarRight ? createControl : null;
+     if (viewSwitcher && viewSwitcher.parentNode === headerActions) toolbarRight.insertBefore(viewSwitcher, toolbarRight.firstChild);
+-    if (columnsControl && columnsControl.parentNode === headerActions) toolbarRight.insertBefore(columnsControl, createButton);
+-    if (downloadButton && downloadButton.parentNode === headerActions) toolbarRight.insertBefore(downloadButton, createButton);
+-    if (printControl && printControl.parentNode === headerActions) toolbarRight.insertBefore(printControl, createButton);
++    if (columnsControl && columnsControl.parentNode === headerActions) toolbarRight.insertBefore(columnsControl, toolbarAnchor);
++    if (downloadButton && downloadButton.parentNode === headerActions) toolbarRight.insertBefore(downloadButton, toolbarAnchor);
++    if (printControl && printControl.parentNode === headerActions) toolbarRight.insertBefore(printControl, toolbarAnchor);
+   }
+ }
+*** End Patch

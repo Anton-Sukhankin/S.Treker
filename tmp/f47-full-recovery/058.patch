@@ -1,0 +1,59 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-filter-trigger.md
++# F-26: Tend UI Toolbar Filter Trigger
++
++## Result
++
++The main toolbar filter trigger now renders through:
++
++```text
++src/integrations/tend-ui/toolbar-filter-button.jsx
++```
++
++The adapter uses Tend UI `Button`, `FilterAlt` and `Close`. The system-overlay filter trigger remains unchanged; both controls continue to use the shared vanilla filter drawer.
++
++## Preserved Product Contract
++
++- stable button id: `#js-sidebar-filters-btn`;
++- shared open selector: `.js-btn-open-filters`;
++- stable size: `120 x 36`;
++- click opens `#filter-overlay` and `#filter-drawer`;
++- active filters add `is-active-filter` and `has-active-filters`;
++- `.js-filter-reset-count` displays the active panel-filter count;
++- the active-state indicator replaces the filter icon;
++- clicking `.js-filter-reset-indicator` resets and applies filters without opening the drawer;
++- the trigger remains available in card, table and custom-group views.
++
++## Ownership Boundary
++
++React renders only the stable control DOM. `src/features/filters/filter-drawer.js` remains the sole owner of:
++
++- `window.activeFilters`;
++- `window.applyFilters`;
++- drawer/overlay state;
++- indicator classes and count;
++- reset and rerender behavior.
++
++The adapter contains no product-state or drawer access. Because React does not rerender this static mount, vanilla class and text mutations remain stable.
++
++## Verification
++
++`npm.cmd run verify:tend-ui:all` passed before documentation sync:
++
++```text
++Vite modules: 725
++JavaScript chunks: 1
++Bundle raw: 726,560 bytes
++Bundle gzip: 224,017 bytes
++```
++
++Browser checks passed for opening, one active money-range filter, count `1`, icon replacement, independent reset to `0`, and drawer availability in card, table and temporary custom-group views.
++
++No corporate registry or closed corporate source was accessed.
++
++## Next Group
++
++```text
++F-27: migrate the S-Tracker column-settings toolbar action to Tend UI Button/Icon while preserving drawer behavior and custom-view placement.
++```
+*** End Patch

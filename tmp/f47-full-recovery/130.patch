@@ -1,0 +1,60 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-task-selection.md
++# F-32: Tend UI Task Selection
++
++## Result
++
++Status: `[x] complete`
++
++Card, table and select-all task controls render through Tend UI `Checkbox` while S-Tracker remains the owner of selected IDs and bulk actions.
++
++## Ownership Contract
++
++1. `tasks-view.js` creates stable mount points for both task surfaces and the table header.
++2. `task-selection.jsx` renders controlled Checkbox portals and emits `s-tracker:selection-request`.
++3. `floating-action-bar.js` updates `window.selectedTaskIds` and row state.
++4. Vanilla code publishes the confirmed state through `s-tracker:selection-changed`.
++5. React refreshes checked and indeterminate presentation from the confirmed mount datasets.
++
++The adapter does not read or mutate selected IDs, task data, pagination, filters or bulk-action behavior.
++
++## Public Package Export
++
++```text
++@10d/tend-ui/primitives/Checkbox
++```
++
++The local tarball provides ESM, CommonJS and TypeScript entrypoints.
++
++## Verified Scenarios
++
++| Scenario | Result |
++| --- | --- |
++| Card selection | Passed |
++| Card/table synchronization | Passed |
++| Partial-page indeterminate | Passed |
++| Select current page | Passed: 20 tasks |
++| Move to page two | Selection count remains 20 |
++| Add one page-two task | Selection count becomes 21 |
++| Clear selection | Count, rows and controls return to zero |
++| Dynamic mounts | `41/41` contain Checkbox inputs |
++| Legacy checkbox controls | `0` |
++| Browser console errors | `0` |
++
++## Verification
++
++`npm.cmd run verify:tend-ui:all` passes with `923` transformed modules.
++
++```text
++Bundle: 928,233 raw / 286,643 gzip bytes
++Budget: F-31 result +32 KiB raw / +12 KiB gzip
++```
++
++No closed corporate source was accessed.
++
++## Next Group
++
++```text
++F-33: migrate the bulk-action bar controls to Tend UI Button while preserving queue-dependent visibility, status actions, group movement and selection clearing.
++```
+*** End Patch

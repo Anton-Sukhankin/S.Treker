@@ -1,0 +1,75 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\patterns\drawers-filters-actions.css
+@@
+-.ds-button--fab-outline {
+-  background: transparent;
+-  color: #fff;
+-  border: 1px solid rgba(255, 255, 255, 0.2);
+-  height: 38px;
+-  border-radius: 10px;
+-  padding: 0 16px;
+-  font-size: 0.8125rem;
+-  white-space: nowrap;
+-}
+-
+-.ds-button--fab-outline:hover {
+-  background-color: rgba(255, 255, 255, 0.05);
+-  border-color: rgba(255, 255, 255, 0.4);
+-}
+-
+-.ds-button--fab-outline svg {
+-  opacity: 0.7;
+-}
+-
+-.ds-fab__close {
++.ds-fab .tend-ui-button.ds-fab-button {
++  background: transparent !important;
++  color: #fff !important;
++  border: 1px solid rgba(255, 255, 255, 0.2) !important;
++  border-radius: 8px !important;
++  padding: 0 12px !important;
++  font-size: 0.8125rem !important;
++}
++
++.ds-fab .tend-ui-button.ds-fab-button:hover {
++  background-color: rgba(255, 255, 255, 0.08) !important;
++  border-color: rgba(255, 255, 255, 0.4) !important;
++}
++
++.ds-fab__close-mount {
+   width: 38px;
+   height: 38px;
+-  padding: 0;
+-  border-radius: 50%;
+-  background: transparent;
+-  border: 1px solid rgba(255, 255, 255, 0.2);
+-  color: #fff;
+-  display: flex;
++  display: inline-flex;
+   align-items: center;
+   justify-content: center;
+-  cursor: pointer;
+-  transition: all 0.2s;
++  flex-shrink: 0;
+ }
+ 
+-.ds-fab__close:hover {
+-  background-color: rgba(255, 255, 255, 0.1);
+-  border-color: #fff;
++.ds-fab .tend-ui-button.ds-fab-clear-button {
++  min-width: 38px !important;
++  padding: 0 !important;
++  border: 1px solid rgba(255, 255, 255, 0.2) !important;
++  border-radius: 50% !important;
++  background: transparent !important;
++  color: #fff !important;
+ }
+ 
+-.ds-fab__close:hover {
+-  background-color: var(--color-border);
+-  color: var(--color-text-primary);
++.ds-fab .tend-ui-button.ds-fab-clear-button:hover {
++  background-color: rgba(255, 255, 255, 0.12) !important;
++  border-color: #fff !important;
+ }
+*** End Patch

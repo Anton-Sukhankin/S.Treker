@@ -1,0 +1,14 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/docs/tend-ui-integration.md
+@@
+-The next group is F-35: migrate preset-save dialog controls while preserving empty-name validation, trimmed names, draft capture, dropdown refresh and close/cancel behavior.
++## F-35 Preset Dialog Result
++
++- the native preset-save dialog renders one Tend UI `Input` and three Tend UI `Button` controls;
++- React owns presentation and controlled reset only;
++- vanilla code owns lifecycle, validation, trimming, draft capture, preset storage and dropdown refresh;
++- whitespace validation, close, cancel, reset, trimmed save and base/saved replay pass;
++- all build, security and bundle gates remain green.
++
++The next group is F-36: migrate the preset trigger and Save action while preserving dropdown selection/deletion, active preset, dirty-state and disabled behavior.
+*** End Patch

@@ -1,0 +1,53 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const paginationAdapterSource = readText('src/integrations/tend-ui/pagination.jsx');
++const taskSelectionAdapterSource = readText('src/integrations/tend-ui/task-selection.jsx');
+@@
+ const paginationControlsSource = readText('src/features/pagination/pagination-controls.js');
++const taskSelectionSource = readText('src/features/task-selection/floating-action-bar.js');
+ const coreUiStyles = readText('src/styles/components/core-ui.css');
++const selectionStyles = readText('src/styles/patterns/drawers-filters-actions.css');
+@@
+ assert.match(indexHtml, /id="tend-ui-pagination-root"/);
++assert.match(indexHtml, /id="tend-ui-task-selection-root"/);
+@@
+ assert.match(mainSource, /mountTendUiPagination\(\)/);
++assert.match(mainSource, /mountTendUiTaskSelection\(\)/);
+@@
+ assert.deepEqual(installedTendUiManifest.exports['./primitives/Pagination'], {
+@@
+ });
++assert.deepEqual(installedTendUiManifest.exports['./primitives/Checkbox'], {
++  types: './primitives/Checkbox/index.d.ts',
++  import: './primitives/Checkbox/index.js',
++  require: './cjs/primitives/Checkbox/index.js',
++});
+@@
+ assert.match(coreUiStyles, /body:has\(#js-selection-fab\.is-active\) #js-pagination-container/);
++assert.match(taskSelectionAdapterSource, /@10d\/tend-ui\/primitives\/Checkbox/);
++assert.match(taskSelectionAdapterSource, /ReactDOM\.createPortal/);
++assert.match(taskSelectionAdapterSource, /data-testid=\{testId\}/);
++assert.match(taskSelectionAdapterSource, /s-tracker:selection-request/);
++assert.match(taskSelectionAdapterSource, /s-tracker:selection-changed/);
++assert.doesNotMatch(
++  taskSelectionAdapterSource,
++  /selectedTaskIds|renderTab|paginationState|activeFilters|MOCK_LAYOUTS/,
++);
++assert.match(taskSelectionSource, /addEventListener\('s-tracker:selection-request'/);
++assert.match(taskSelectionSource, /new CustomEvent\('s-tracker:selection-changed'/);
++assert.match(taskSelectionSource, /setVisibleTableSelection\(Boolean\(checked\)\)/);
++assert.match(taskSelectionSource, /window\.selectedTaskIds/);
++assert.doesNotMatch(taskSelectionSource, /addEventListener\('click',[\s\S]*js-task-select/);
++assert.match(tasksViewSource, /data-tend-ui-task-selection/);
++assert.match(tasksViewSource, /data-selection-kind="task"/);
++assert.match(tasksViewSource, /data-selection-kind="all"/);
++assert.doesNotMatch(tasksViewSource, /ds-selection-checkbox|<polyline points="20 6 9 17 4 12"/);
++assert.match(selectionStyles, /\.tend-ui-task-selection-mount/);
++assert.match(selectionStyles, /\.tend-ui-portal-host/);
++assert.doesNotMatch(selectionStyles, /\.ds-selection-checkbox/);
+@@
+ assert.match(builtJavaScript, /tend-ui-task-pagination/);
++assert.match(builtJavaScript, /tend-ui-select-task/);
++assert.match(builtJavaScript, /tend-ui-select-all-tasks/);
+*** End Patch

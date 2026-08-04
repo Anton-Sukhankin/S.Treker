@@ -1,0 +1,23 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+-| `index.html` | Содержит mount points `tend-ui-create-task-root`, `tend-ui-global-search-root`, `tend-ui-print-root`, `tend-ui-toolbar-filters-root`, `tend-ui-columns-root`, `tend-ui-download-root` и `tend-ui-view-switcher-root`. |
++| `index.html` | Содержит mount points `tend-ui-create-task-root`, `tend-ui-global-search-root`, `tend-ui-print-root`, `tend-ui-toolbar-filters-root`, `tend-ui-columns-root`, `tend-ui-download-root`, `tend-ui-view-switcher-root` и `tend-ui-queue-tabs-root`. |
+@@
+ | `src/integrations/tend-ui/view-switcher.jsx` | Монтирует Tend UI `Segmented`, `CardView` и `TableView`; передает запросы vanilla-контроллеру и принимает подтвержденное состояние. |
+-| `src/main.js` | Вызывает семь адаптеров до общей инициализации обработчиков интерфейса и корректно обрабатывает уже наступивший `DOMContentLoaded`. |
++| `src/integrations/tend-ui/queue-tabs.jsx` | Монтирует Tend UI `Tabs`; отправляет запрос выбора очереди и принимает рассчитанные vanilla-кодом счетчики. |
++| `src/domain/queue-state.js` | Хранит единый DOM-совместимый контракт активной очереди для всех vanilla-потребителей. |
++| `src/main.js` | Вызывает восемь адаптеров до общей инициализации обработчиков интерфейса и корректно обрабатывает уже наступивший `DOMContentLoaded`. |
+@@
+ - runtime-консоль не содержит ошибок.
++
++## F-30 Queue Tabs Result
++
++- Tend UI `Tabs` renders six queues through an eighth isolated mount;
++- `@10d/tend-ui/primitives/Tabs` provides a narrow ESM/CJS/types boundary;
++- React emits queue requests but does not own task data, filters, pagination or navigation;
++- vanilla code computes queue counts and publishes confirmed state through `s-tracker:queues-changed`;
++- all six queues, card/table persistence and custom-view hide/return pass;
++- the aggregate build, security and bundle gates remain green.
+*** End Patch

@@ -1,0 +1,30 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+-const f36Result = { raw: 940702, gzip: 290034 };
+-const f37ColumnsFooterBudget = { raw: 20 * 1024, gzip: 6 * 1024 };
++const f37Result = { raw: 945839, gzip: 291773 };
++const f38ColumnsDrawerBudget = { raw: 20 * 1024, gzip: 6 * 1024 };
+@@
+-  rawBytes <= f36Result.raw + f37ColumnsFooterBudget.raw,
+-  `JavaScript bundle exceeds the reviewed F-37 columns-footer budget: ${rawBytes} bytes`,
++  rawBytes <= f37Result.raw + f38ColumnsDrawerBudget.raw,
++  `JavaScript bundle exceeds the reviewed F-38 columns-drawer-controls budget: ${rawBytes} bytes`,
+ );
+ assert.ok(
+-  gzipBytes <= f36Result.gzip + f37ColumnsFooterBudget.gzip,
+-  `Gzipped JavaScript bundle exceeds the reviewed F-37 columns-footer budget: ${gzipBytes} bytes`,
++  gzipBytes <= f37Result.gzip + f38ColumnsDrawerBudget.gzip,
++  `Gzipped JavaScript bundle exceeds the reviewed F-38 columns-drawer-controls budget: ${gzipBytes} bytes`,
+ );
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-columns-button/);
+ assert.match(bundle.toString('utf8'), /tend-ui-settings-icon/);
++assert.match(bundle.toString('utf8'), /tend-ui-columns-close/);
++assert.match(bundle.toString('utf8'), /tend-ui-library-search/);
++assert.match(bundle.toString('utf8'), /tend-ui-search-icon/);
+ assert.match(bundle.toString('utf8'), /tend-ui-columns-library-toggle/);
+@@
+-console.log('Budget: F-36 result plus 20 KiB raw / 6 KiB gzip for Tend UI column-settings footer controls');
++console.log('Budget: F-37 result plus 20 KiB raw / 6 KiB gzip for Tend UI column-settings close and library search controls');
+*** End Patch

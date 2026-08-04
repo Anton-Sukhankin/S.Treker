@@ -72,6 +72,16 @@ function setVisibleTableSelection(isSelected) {
   });
 }
 
+export function clearTaskSelection() {
+  window.selectedTaskIds.clear();
+  document.querySelectorAll('.js-task-select').forEach(control => control.classList.remove('is-checked'));
+  document.querySelectorAll('.js-select-all-table').forEach(control => {
+    control.classList.remove('is-checked', 'is-indeterminate');
+  });
+  document.querySelectorAll('.ds-task-row, .ds-table-row').forEach(row => row.classList.remove('is-selected'));
+  updateFloatingActionBar();
+}
+
 
 
 export function initTaskSelection() { 
@@ -134,13 +144,7 @@ export function initFloatingActionBar({ updateSidebarCounts, reverseStatusMap })
   });
 
   document.querySelectorAll('.js-modal-move-close').forEach(b => b.onclick = () => m?.close());
-  document.querySelector('.js-fab-clear')?.addEventListener('click', () => { 
-    window.selectedTaskIds.clear(); 
-    updateFloatingActionBar();
-    document.querySelectorAll('.js-task-select').forEach(c => c.classList.remove('is-checked')); 
-    document.querySelectorAll('.js-select-all-table').forEach(c => c.classList.remove('is-checked', 'is-indeterminate'));
-    document.querySelectorAll('.ds-task-row, .ds-table-row').forEach(r => r.classList.remove('is-selected')); 
-  });
+  document.querySelector('.js-fab-clear')?.addEventListener('click', clearTaskSelection);
 
   document.querySelector('.js-fab-from-group')?.addEventListener('click', () => {
     const nav = window.navigationContext;

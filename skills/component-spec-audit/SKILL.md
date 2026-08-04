@@ -88,6 +88,25 @@ Require:
 
 Do not add `margin`, `padding`, `top`, `bottom`, `left`, `right`, `z-index`, class names, selectors, or technical layout values unless the value is a product rule.
 
+## Visual Reference Audit
+
+When `01-structure.md` contains a visual reference, verify it as part of the spatial contract.
+
+Require:
+
+- image paths are local to the component folder, for example `assets/<component>-<state>.png`;
+- missing images are explicitly marked as reserved paths, not inserted as ready markdown image links;
+- final visual references show the target component or one concrete spatial state, plus only the neighboring context needed for layer, anchoring, overlap, or visible cross-component result;
+- full-screen screenshots are allowed only as raw material; the exported visual reference must be a cropped component or state image inside the component folder;
+- no absolute local paths, temporary local folders, desktop screenshots, browser cache paths, or external working paths are used as exported context;
+- every visible area named in the image description also appears in the spatial contract;
+- every visible area required by the spatial contract appears on the image or has a separate visual reference;
+- screenshots are treated as layout references for grouping, adjacency, layers, and states, not as style specifications for colors, typography, hover/focus, or default design-system mechanics.
+
+If an image does not show an area that the text describes, either require a separate image for that area or rewrite the image description so it does not claim that the area is visible.
+
+For cross-component user flows, visual references stay in the folders of the components that own the visible state. A flow document may list those references as key scenario states, but must not store a generic full-screen scenario screenshot as the source of truth.
+
 ## Design System Boundary Audit
 
 Component specs describe S-Tracker product UI/UX rules. They do not repeat internal documentation for corporate React components.
@@ -124,6 +143,7 @@ Check:
 - neighboring components;
 - role-dependent and dynamic lists;
 - spatial contracts for floating, modal, drawer, sticky, and overlay areas.
+- visual references for complex spatial states, if present.
 
 Do not let `01` describe full user behavior or state rules.
 

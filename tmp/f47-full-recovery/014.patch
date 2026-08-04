@@ -1,0 +1,52 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-next-migration.md
++# Tend UI Next Migration Candidate
++
++## Decision
++
++The next low-risk component is the global task search field. F-24 will migrate the existing native input to Tend UI `Input` through a second isolated adapter.
++
++F-23 selects and specifies the candidate only. It does not change the field or its behavior.
++
++## Why Input Is Next
++
++- the field has one stable location and one DOM identity: `#js-global-search`;
++- current behavior is narrow: trim the value, update `window.activeFilters.search` and invoke `window.applyFilters`;
++- Tend UI has a local `Input` source, public package export and Storybook stories;
++- the component forwards ordinary input props and supports a React ref;
++- migration can stay inside `src/integrations/tend-ui/` without moving filters or task state into React.
++
++## Contract To Preserve
++
++| Contract | Required F-24 result |
++| --- | --- |
++| DOM identity | The rendered native input remains discoverable as `#js-global-search`. |
++| Search behavior | Every input change updates `window.activeFilters.search` with a trimmed value. |
++| Filter refresh | Existing `window.applyFilters({ keepDrawerOpen: true })` behavior remains. |
++| Placeholder | `Поиск по задачам` remains visible. |
++| Layout | Search stays in the current toolbar position without shifting adjacent controls. |
++| Ownership | React owns only the search mount and existing Tend UI button mount. |
++| Regression | Card/table switching, filters and task rendering remain vanilla-owned. |
++
++## Intended Import
++
++```jsx
++import { Input } from '@10d/tend-ui/primitives/Input';
++```
++
++The adapter will be wrapped in the same `TendUI` provider contract used by the create-task button. Provider initialization should be shared before a second mount is introduced.
++
++## Verification Required In F-24
++
++- production build and all F-23 gates pass;
++- exactly one native input exists with `id="js-global-search"`;
++- typing a query filters the visible task set exactly as before;
++- clearing the query restores the previous result set;
++- layout and focus state are visually checked at desktop and mobile widths;
++- browser console contains no errors;
++- direct `dist/index.html` compatibility remains intact.
++
++## Rejected Candidates For This Step
++
++Table, Select, modal and column settings have broader state or interaction contracts. They remain later migration work after the second isolated primitive proves the adapter pattern.
+*** End Patch

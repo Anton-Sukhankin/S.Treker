@@ -62,16 +62,17 @@ function renderDateValue(value, isAlert = false) {
   `;
 }
 
-function renderTaskTitle(title) {
-  const value = escapeHtml(title);
+function renderTaskTitle(task) {
+  const value = escapeHtml(task.title);
+  const taskId = escapeHtml(task.id);
   return `
-    <span class="ds-task-title" title="${value}">
+    <button class="ds-task-title js-open-task-card" type="button" data-task-id="${taskId}" title="${value}" aria-label="Открыть карточку задачи «${value}»">
       <svg class="ds-task-title__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <path d="M9 11l2 2 4-4"></path>
         <path d="M5 4h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"></path>
       </svg>
       <span class="ds-task-title__text">${value}</span>
-    </span>
+    </button>
   `;
 }
 
@@ -294,7 +295,7 @@ function renderTableCell(task, sysId, column, columns, isSelected) {
   let value = task[column.key] || '<span class="ds-table-empty-val">–</span>';
 
   if (column.key === 'cb') value = renderSelectionCheckbox(task.id, isSelected);
-  else if (column.key === 'title') value = renderTaskTitle(task.title);
+  else if (column.key === 'title') value = renderTaskTitle(task);
   else if (column.key === 'status') value = renderTaskStatusTag(task);
   else if (column.key === 'sys') value = sysId.toUpperCase();
   else if (column.key === 'author') value = renderPersonCell(task.authorInfo, 'table');
@@ -344,7 +345,7 @@ function renderTaskCard(task, sysId) {
       ${renderSelectionCheckbox(task.id, isSelected)}
       <div class="ds-task-row__main">
         <span class="ds-task-row__id">${task.id}</span>
-        <span class="ds-task-row__name">${renderTaskTitle(task.title)}</span>
+        <span class="ds-task-row__name">${renderTaskTitle(task)}</span>
       </div>
       <div class="ds-task-row__meta">
         ${renderTaskStatusTag(task)}

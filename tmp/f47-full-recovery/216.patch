@@ -1,0 +1,33 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\patterns\drawers-filters-actions.css
+@@
+ .ds-column-row__content {
+@@
+ }
++
++.ds-column-row__checkbox-mount {
++  display: flex;
++  flex: 1 1 auto;
++  min-width: 0;
++}
++
++.ds-column-row__checkbox-mount .tend-ui-checkbox {
++  min-width: 0;
++}
++
++.ds-column-row__actions {
++  align-items: center;
++  display: flex;
++  flex: 0 0 auto;
++}
++
++.ds-column-row__return-mount {
++  align-items: center;
++  display: flex;
++  flex: 0 0 24px;
++  height: 24px;
++  justify-content: center;
++  margin-right: 8px;
++  width: 24px;
++}
+*** End Patch

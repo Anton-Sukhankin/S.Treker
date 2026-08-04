@@ -1,0 +1,12 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ #tend-ui-global-search-root { display: contents; }
+ #tend-ui-print-root { display: contents; }
++#tend-ui-print-root .ds-button--icon-only {
++  width: 40px;
++  min-width: 40px;
++  height: 40px;
++  padding: 0;
++}
+*** End Patch

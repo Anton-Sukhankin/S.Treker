@@ -1,0 +1,19 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ #tend-ui-pagination-root .tend-ui-pagination {
+   margin: 0;
+ }
++
++body:has(#js-selection-fab.is-active) #js-pagination-container {
++  padding-bottom: 88px !important;
++}
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const columnsDrawerSource = readText('src/features/columns/columns-drawer.js');
+ const paginationControlsSource = readText('src/features/pagination/pagination-controls.js');
++const coreUiStyles = readText('src/styles/components/core-ui.css');
+@@
+ assert.doesNotMatch(paginationControlsSource, /innerHTML|js-page-jump|js-page-prev|js-page-next/);
++assert.match(coreUiStyles, /body:has\(#js-selection-fab\.is-active\) #js-pagination-container/);
+*** End Patch

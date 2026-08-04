@@ -1,0 +1,57 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/src/features/columns/columns-drawer.js
+@@
+   const draftColumnState = {};
+   const draftActiveColumnPreset = {};
++  const presetToolbarMount = document.getElementById('tend-ui-preset-trigger-root');
++
++  function syncPresetToolbar(detail) {
++    presetToolbarMount?.dispatchEvent(
++      new CustomEvent('s-tracker:preset-toolbar-changed', { detail }),
++    );
++  }
++
++  function setPresetDropdownOpen(isOpen) {
++    const dropdown = dr.querySelector('.js-preset-dropdown');
++    if (!dropdown) return;
++    dropdown.style.display = isOpen ? 'block' : 'none';
++    syncPresetToolbar({ expanded: isOpen });
++  }
+@@
+-    const current = dr.querySelector('.js-preset-current span');
+-    if (!dd || !current) return;
+-
+-    current.textContent = active === 'base' ? 'Базовое отображение' : active;
++    if (!dd) return;
++
++    syncPresetToolbar({
++      currentLabel: active === 'base' ? 'Базовое отображение' : active,
++    });
+@@
+-    const saveBtn = dr.querySelector('.js-preset-save-btn');
+-
+-    if (!saveBtn) return;
+-    if (isChanged) {
+-      saveBtn.removeAttribute('disabled');
+-    } else {
+-      saveBtn.setAttribute('disabled', 'true');
+-    }
++    syncPresetToolbar({ saveDisabled: !isChanged });
+@@
+   dr.querySelector('.js-preset-dropdown-trigger')?.addEventListener('click', e => {
+     if (e.target.closest('.js-preset-dropdown')) return;
+     const dd = dr.querySelector('.js-preset-dropdown');
+-    if (dd) dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
++    if (dd) setPresetDropdownOpen(dd.style.display === 'none');
+   });
+ 
+   document.addEventListener('click', e => {
+     if (!e.target.closest('.js-preset-dropdown-trigger')) {
+-      const dd = dr.querySelector('.js-preset-dropdown');
+-      if (dd) dd.style.display = 'none';
++      setPresetDropdownOpen(false);
+@@
+-      const dd = dr.querySelector('.js-preset-dropdown');
+-      if (dd) dd.style.display = 'none';
++      setPresetDropdownOpen(false);
+*** End Patch

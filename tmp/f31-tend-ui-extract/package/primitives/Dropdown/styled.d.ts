@@ -1,0 +1,2 @@
+export declare const Root: import("styled-components").StyledComponent<import("react").ForwardRefExoticComponent<import("antd-core/es/dropdown").DropDownProps & import("react").RefAttributes<never>>, import("styled-components").DefaultTheme, {}, never>;
+export declare const Content: import("styled-components").StyledComponent<"div", import("styled-components").DefaultTheme, import("../../grid/Box").BoxProps, never>;

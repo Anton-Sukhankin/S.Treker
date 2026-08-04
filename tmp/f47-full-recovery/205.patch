@@ -1,0 +1,11 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiGlobalSearchInput } from './integrations/tend-ui/global-search-input.jsx';
++import { mountTendUiLibraryItemActions } from './integrations/tend-ui/library-item-actions.jsx';
+ import { mountTendUiMoveDialogControls } from './integrations/tend-ui/move-dialog-controls.jsx';
+@@
+ mountTendUiGlobalSearchInput();
++mountTendUiLibraryItemActions();
+ mountTendUiMoveDialogControls();
+*** End Patch

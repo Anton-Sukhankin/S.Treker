@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>S-Tracker — локальные прототипы</title>
+    <link rel="stylesheet" href="./file-fallback.css" />
+  </head>
+  <body>
+    <div id="local-stands-hub">
+      <main class="stand-file-fallback">
+        <section class="stand-file-fallback__card">
+          <p class="stand-file-fallback__eyebrow">S-Tracker · локальный стенд</p>
+          <h1 class="stand-file-fallback__title">Для отображения интерфейса запустите локальный сервер</h1>
+          <p class="stand-file-fallback__text">Дважды нажмите <strong>start-local-stands.cmd</strong> в этой папке. Стенд откроется автоматически.</p>
+          <code class="stand-file-fallback__command">npm.cmd run dev</code>
+          <a class="stand-file-fallback__link" data-local-stand-link href="http://127.0.0.1:4175/">Открыть запущенный стенд</a>
+        </section>
+      </main>
+    </div>
+    <script>
+      if (window.location.protocol === 'file:') {
+        const targetUrl = 'http://127.0.0.1:4175/';
+        fetch(targetUrl, { mode: 'no-cors' })
+          .then(() => window.location.replace(targetUrl))
+          .catch(() => {});
+      }
+    </script>
+    <script type="module" src="/src/entries/hub.js"></script>
+  </body>
+</html>

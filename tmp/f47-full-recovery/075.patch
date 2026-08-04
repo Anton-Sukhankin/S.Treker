@@ -1,0 +1,12 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\tasks\tasks-view.js
+@@
+-  const downloadButton = document.getElementById('js-download-btn');
++  const downloadControl = document.getElementById('tend-ui-download-root') ?? document.getElementById('js-download-btn');
+@@
+-      if (downloadButton && downloadButton.parentNode !== headerActions) headerActions.appendChild(downloadButton);
++      if (downloadControl && downloadControl.parentNode !== headerActions) headerActions.appendChild(downloadControl);
+@@
+-    if (downloadButton && downloadButton.parentNode === headerActions) toolbarRight.insertBefore(downloadButton, toolbarAnchor);
++    if (downloadControl && downloadControl.parentNode === headerActions) toolbarRight.insertBefore(downloadControl, toolbarAnchor);
+*** End Patch

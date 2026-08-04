@@ -1,0 +1,9 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/src/main.js
+@@
+ import { mountTendUiColumnsButton } from './integrations/tend-ui/columns-button.jsx';
++import { mountTendUiColumnsFooterActions } from './integrations/tend-ui/columns-footer-actions.jsx';
+@@
+ mountTendUiColumnsButton();
++mountTendUiColumnsFooterActions();
+*** End Patch

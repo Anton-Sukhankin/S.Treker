@@ -1,0 +1,196 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/index.html
+@@
+-            <div class="ds-preset-control" style="display: flex; gap: 8px;">
+-              <div class="ds-preset-select-wrapper js-preset-dropdown-trigger" style="flex: 1; position: relative;">
+-                <div class="ds-search-input-wrapper" style="width: 100%; cursor: pointer;">
+-                   <div class="ds-search-input__control js-preset-current" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; height: 36px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: #fff; color: var(--color-text-primary); user-select: none;">
+-                       <span>Базовое отображение</span>
+-                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+-                   </div>
+-                </div>
++            <div class="ds-preset-control">
++              <div class="ds-preset-select-wrapper js-preset-dropdown-trigger">
++                <div class="ds-preset-toolbar__trigger-mount" id="tend-ui-preset-trigger-root"></div>
+                 <div class="ds-preset-dropdown js-preset-dropdown" style="display: none; position: absolute; top: calc(100% + 4px); left: 0; width: 100%; background: #fff; border: 1px solid var(--color-border); border-radius: var(--radius-md); box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 1000; padding: 4px; max-height: 200px; overflow-y: auto;">
+                    <!-- Presets injected dynamically -->
+                 </div>
+               </div>
+-              <button class="ds-button ds-button--primary js-preset-save-btn" disabled style="padding: 0 16px; transition: all 0.2s ease;">
+-                Сохранить
+-              </button>
++              <div class="ds-preset-toolbar__save-mount" id="tend-ui-preset-save-root"></div>
+             </div>
+*** Add File: ../S-Tracker/src/integrations/tend-ui/preset-toolbar.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { ChevronDown } from '@10d/tend-ui-icons/ChevronDown/ChevronDown.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++const PRESET_TOOLBAR_CHANGED_EVENT = 's-tracker:preset-toolbar-changed';
++
++function PresetToolbar({ mountNode, saveMount }) {
++  const [currentLabel, setCurrentLabel] = React.useState('Базовое отображение');
++  const [expanded, setExpanded] = React.useState(false);
++  const [saveDisabled, setSaveDisabled] = React.useState(true);
++
++  React.useEffect(() => {
++    const syncToolbar = event => {
++      const detail = event.detail || {};
++      if (typeof detail.currentLabel === 'string') setCurrentLabel(detail.currentLabel);
++      if (typeof detail.expanded === 'boolean') setExpanded(detail.expanded);
++      if (typeof detail.saveDisabled === 'boolean') setSaveDisabled(detail.saveDisabled);
++    };
++
++    mountNode.addEventListener(PRESET_TOOLBAR_CHANGED_EVENT, syncToolbar);
++    return () => mountNode.removeEventListener(PRESET_TOOLBAR_CHANGED_EVENT, syncToolbar);
++  }, [mountNode]);
++
++  return (
++    <>
++      <Button
++        after={<ChevronDown aria-hidden="true" size={16} />}
++        aria-expanded={expanded}
++        aria-haspopup="listbox"
++        className="js-preset-current"
++        data-testid="tend-ui-preset-trigger"
++        fullWidth
++        size="medium"
++        style={{ height: 36 }}
++        type="button"
++        variant="secondary"
++      >
++        <span>{currentLabel}</span>
++      </Button>
++      {ReactDOM.createPortal(
++        <Button
++          className="js-preset-save-btn"
++          data-testid="tend-ui-preset-save"
++          disabled={saveDisabled}
++          size="medium"
++          style={{ height: 36 }}
++          type="button"
++          variant="primary"
++        >
++          Сохранить
++        </Button>,
++        saveMount,
++      )}
++    </>
++  );
++}
++
++export function mountTendUiPresetToolbar() {
++  const mountNode = document.getElementById('tend-ui-preset-trigger-root');
++  const saveMount = document.getElementById('tend-ui-preset-save-root');
++
++  if (!mountNode || !saveMount) return false;
++  return renderTendUi(<PresetToolbar mountNode={mountNode} saveMount={saveMount} />, mountNode);
++}
+*** Update File: ../S-Tracker/src/main.js
+@@
+ import { mountTendUiPresetDialogControls } from './integrations/tend-ui/preset-dialog-controls.jsx';
++import { mountTendUiPresetToolbar } from './integrations/tend-ui/preset-toolbar.jsx';
+@@
+ mountTendUiPresetDialogControls();
++mountTendUiPresetToolbar();
+*** Update File: ../S-Tracker/src/features/columns/columns-drawer.js
+@@
+   const draftColumnState = {};
+   const draftActiveColumnPreset = {};
++  const presetToolbarMount = document.getElementById('tend-ui-preset-trigger-root');
++
++  function syncPresetToolbar(detail) {
++    presetToolbarMount?.dispatchEvent(
++      new CustomEvent('s-tracker:preset-toolbar-changed', { detail }),
++    );
++  }
++
++  function setPresetDropdownOpen(isOpen) {
++    const dropdown = dr.querySelector('.js-preset-dropdown');
++    if (!dropdown) return;
++    dropdown.style.display = isOpen ? 'block' : 'none';
++    syncPresetToolbar({ expanded: isOpen });
++  }
+@@
+-    const current = dr.querySelector('.js-preset-current span');
+-    if (!dd || !current) return;
+-
+-    current.textContent = active === 'base' ? 'Базовое отображение' : active;
++    if (!dd) return;
++
++    syncPresetToolbar({
++      currentLabel: active === 'base' ? 'Базовое отображение' : active,
++    });
+@@
+-    const saveBtn = dr.querySelector('.js-preset-save-btn');
+-
+-    if (!saveBtn) return;
+-    if (isChanged) {
+-      saveBtn.removeAttribute('disabled');
+-    } else {
+-      saveBtn.setAttribute('disabled', 'true');
+-    }
++    syncPresetToolbar({ saveDisabled: !isChanged });
+@@
+   dr.querySelector('.js-preset-dropdown-trigger')?.addEventListener('click', e => {
+     if (e.target.closest('.js-preset-dropdown')) return;
+     const dd = dr.querySelector('.js-preset-dropdown');
+-    if (dd) dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
++    if (dd) setPresetDropdownOpen(dd.style.display === 'none');
+   });
+ 
+   document.addEventListener('click', e => {
+     if (!e.target.closest('.js-preset-dropdown-trigger')) {
+-      const dd = dr.querySelector('.js-preset-dropdown');
+-      if (dd) dd.style.display = 'none';
++      setPresetDropdownOpen(false);
+@@
+-      const dd = dr.querySelector('.js-preset-dropdown');
+-      if (dd) dd.style.display = 'none';
++      setPresetDropdownOpen(false);
+*** Update File: ../S-Tracker/src/styles/components/core-ui.css
+@@
+ .ds-preset-dialog__close-mount > .tend-ui-button {
+   min-width: 40px !important;
+   padding: 0 !important;
+ }
++
++.ds-preset-control {
++  display: flex;
++  gap: 8px;
++}
++
++.ds-preset-select-wrapper {
++  flex: 1 1 auto;
++  min-width: 0;
++  position: relative;
++}
++
++.ds-preset-toolbar__trigger-mount {
++  width: 100%;
++}
++
++.ds-preset-toolbar__trigger-mount > .tend-ui-button {
++  justify-content: space-between;
++  min-width: 0;
++  width: 100%;
++}
++
++.ds-preset-toolbar__trigger-mount .js-preset-current > span {
++  min-width: 0;
++  overflow: hidden;
++  text-overflow: ellipsis;
++  white-space: nowrap;
++}
++
++.ds-preset-toolbar__save-mount {
++  flex: 0 0 auto;
++}
+*** Update File: ../S-Tracker/src/styles/features/task-workspace.css
+@@
+-.js-preset-save-btn:disabled { background-color: #f3f4f6 !important; color: #9ca3af !important; border: 1px solid #e5e7eb !important; opacity: 1 !important; cursor: not-allowed !important; }
+-.js-preset-save-btn:not(:disabled) { background-color: var(--color-primary) !important; color: #ffffff !important; border: 1px solid var(--color-primary) !important; cursor: pointer !important; }
+*** End Patch

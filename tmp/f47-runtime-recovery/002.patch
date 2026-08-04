@@ -1,0 +1,89 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\package.json
+@@
+   "scripts": {
+     "dev": "vite --host 127.0.0.1",
+     "build": "vite build",
+-    "preview": "vite preview --host 127.0.0.1"
++    "preview": "vite preview --host 127.0.0.1",
++    "verify:tend-ui": "node scripts/verify-tend-ui-adapter.mjs"
+   },
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
++import assert from 'node:assert/strict';
++import { existsSync, readFileSync, readdirSync } from 'node:fs';
++import { resolve } from 'node:path';
++
++const root = resolve(import.meta.dirname, '..');
++const readText = relativePath => readFileSync(resolve(root, relativePath), 'utf8');
++const readJson = relativePath => JSON.parse(readText(relativePath));
++
++const packageJson = readJson('package.json');
++const packageLock = readJson('package-lock.json');
++const vendorRoot = resolve(root, 'vendor', 'tend-ui');
++const vendorTarballs = readdirSync(vendorRoot).filter(file => file.endsWith('.tgz')).sort();
++
++assert.equal(vendorTarballs.length, 18, 'Expected 15 Tend UI and 3 compensation tarballs');
++
++const tendUiDependencies = Object.entries(packageJson.dependencies).filter(([name]) =>
++  name.startsWith('@10d/'),
++);
++
++assert.equal(tendUiDependencies.length, 15, 'Expected all 15 Tend UI packages as local dependencies');
++
++for (const [packageName, reference] of tendUiDependencies) {
++  assert.match(reference, /^file:vendor\/tend-ui\/.+\.tgz$/, `${packageName} must use a local tarball`);
++
++  const lockEntry = packageLock.packages[`node_modules/${packageName}`];
++  assert.ok(lockEntry, `Missing lock entry for ${packageName}`);
++  assert.match(
++    lockEntry.resolved,
++    /^file:vendor\/tend-ui\/.+\.tgz$/,
++    `${packageName} lock entry must remain registry-free`,
++  );
++}
++
++for (const compensationName of ['classnames', 'lodash', 'uuid']) {
++  assert.match(
++    packageJson.dependencies[compensationName],
++    /^file:vendor\/tend-ui\/.+\.tgz$/,
++    `${compensationName} must use the reviewed local compensation tarball`,
++  );
++}
++
++for (const lockEntry of Object.values(packageLock.packages)) {
++  if (!lockEntry.resolved || !lockEntry.resolved.startsWith('http')) {
++    continue;
++  }
++
++  assert.match(
++    lockEntry.resolved,
++    /^https:\/\/registry\.npmjs\.org\//,
++    `Unexpected package source: ${lockEntry.resolved}`,
++  );
++}
++
++const indexHtml = readText('index.html');
++const mainSource = readText('src/main.js');
++const adapterSource = readText('src/integrations/tend-ui/create-task-button.jsx');
++
++assert.match(indexHtml, /id="tend-ui-create-task-root"/);
++assert.match(mainSource, /mountTendUiCreateTaskButton\(\)/);
++assert.match(adapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(adapterSource, /@10d\/tend-ui\/theme/);
++assert.match(adapterSource, /data-testid="tend-ui-create-task-button"/);
++
++const distAssetsRoot = resolve(root, 'dist', 'assets');
++assert.ok(existsSync(distAssetsRoot), 'Run npm run build before the Tend UI verification');
++
++const builtJavaScript = readdirSync(distAssetsRoot)
++  .filter(file => file.endsWith('.js'))
++  .map(file => readFileSync(resolve(distAssetsRoot, file), 'utf8'))
++  .join('\n');
++
++assert.match(builtJavaScript, /tend-ui-create-task-button/);
++
++console.log('Tend UI adapter verification passed.');
++console.log(`Local tarballs: ${vendorTarballs.length}`);
++console.log(`Local @10d packages: ${tendUiDependencies.length}`);
++console.log('Package sources: local tarballs plus registry.npmjs.org only');
+*** End Patch

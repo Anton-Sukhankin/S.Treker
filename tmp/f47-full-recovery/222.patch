@@ -1,0 +1,55 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const columnsFooterAdapterSource = readText('src/integrations/tend-ui/columns-footer-actions.jsx');
+ const libraryActionsAdapterSource = readText('src/integrations/tend-ui/library-item-actions.jsx');
++const columnRowControlsAdapterSource = readText('src/integrations/tend-ui/column-row-controls.jsx');
+@@
+ assert.match(indexHtml, /id="tend-ui-library-actions-root"/);
++assert.match(indexHtml, /id="tend-ui-column-row-controls-root"/);
+@@
+ assert.match(mainSource, /mountTendUiLibraryItemActions\(\)/);
++assert.match(mainSource, /mountTendUiColumnRowControls\(\)/);
+@@
+ assert.doesNotMatch(
+   libraryActionsAdapterSource,
+   /onClick|onChange|setDraftState|draftColumnState|customColumnState|renderColumnsDrawer|renderLibrary|renderTab/,
+ );
++assert.match(columnRowControlsAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(columnRowControlsAdapterSource, /@10d\/tend-ui\/primitives\/Checkbox/);
++assert.match(columnRowControlsAdapterSource, /@10d\/tend-ui-icons\/ArrowBack\/ArrowBack\.js/);
++assert.match(columnRowControlsAdapterSource, /ReactDOM\.createPortal/);
++assert.match(columnRowControlsAdapterSource, /s-tracker:column-rows-changed/);
++assert.match(columnRowControlsAdapterSource, /className="js-col-cb"/);
++assert.match(columnRowControlsAdapterSource, /className="js-return-to-library"/);
++assert.match(columnRowControlsAdapterSource, /data-testid="tend-ui-column-visibility"/);
++assert.match(columnRowControlsAdapterSource, /data-testid="tend-ui-column-return"/);
++assert.doesNotMatch(
++  columnRowControlsAdapterSource,
++  /onClick|onChange|setDraftState|draftColumnState|customColumnState|renderColumnsDrawer|renderLibrary|renderTab|dragstart|dragend/,
++);
+@@
+ assert.doesNotMatch(columnsDrawerSource, /const actionIcon =/);
++assert.match(columnsDrawerSource, /data-tend-ui-column-checkbox/);
++assert.match(columnsDrawerSource, /data-tend-ui-column-return/);
++assert.match(columnsDrawerSource, /s-tracker:column-rows-changed/);
++assert.match(columnsDrawerSource, /row\.querySelector\('\.js-col-cb input\[type="checkbox"\]'\)/);
++assert.match(columnsDrawerSource, /list\.addEventListener\('change'/);
++assert.match(columnsDrawerSource, /e\.target\.closest\('\.js-col-cb'\)/);
++assert.match(columnsDrawerSource, /list\.addEventListener\('click'/);
++assert.match(columnsDrawerSource, /e\.target\.closest\('\.js-return-to-library'\)/);
++assert.match(columnsDrawerSource, /row\.addEventListener\('dragstart'/);
++assert.match(columnsDrawerSource, /row\.addEventListener\('dragend'/);
++assert.match(columnsDrawerSource, /list\.addEventListener\('dragover'/);
++assert.doesNotMatch(columnsDrawerSource, /<input type="checkbox" class="js-col-cb"/);
++assert.doesNotMatch(columnsDrawerSource, /<div class="js-return-to-library"/);
+@@
+ assert.match(taskWorkspaceStyles, /\.ds-library-item__action-mount/);
++assert.match(selectionStyles, /\.ds-column-row__checkbox-mount/);
++assert.match(selectionStyles, /\.ds-column-row__return-mount/);
+@@
+ assert.match(builtJavaScript, /tend-ui-arrow-back-icon/);
++assert.match(builtJavaScript, /tend-ui-column-visibility/);
++assert.match(builtJavaScript, /tend-ui-column-return/);
++assert.match(builtJavaScript, /tend-ui-column-return-icon/);
+*** End Patch

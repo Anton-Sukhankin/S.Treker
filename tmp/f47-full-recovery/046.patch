@@ -1,0 +1,39 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const buttonAdapterSource = readText('src/integrations/tend-ui/create-task-button.jsx');
+ const searchAdapterSource = readText('src/integrations/tend-ui/global-search-input.jsx');
++const printAdapterSource = readText('src/integrations/tend-ui/print-button.jsx');
+ const runtimeSource = readText('src/integrations/tend-ui/runtime.jsx');
+ const basicControlsSource = readText('src/ui/basic-controls.js');
++const tasksViewSource = readText('src/features/tasks/tasks-view.js');
+@@
+ assert.match(indexHtml, /id="tend-ui-create-task-root"/);
+ assert.match(indexHtml, /id="tend-ui-global-search-root"/);
++assert.match(indexHtml, /id="tend-ui-print-root"/);
+ assert.doesNotMatch(indexHtml, /<input[^>]+id="js-global-search"/);
++assert.doesNotMatch(indexHtml, /<button[^>]+id="js-print-btn"/);
+ assert.match(mainSource, /mountTendUiCreateTaskButton\(\)/);
+ assert.match(mainSource, /mountTendUiGlobalSearchInput\(\)/);
++assert.match(mainSource, /mountTendUiPrintButton\(\)/);
+@@
+ assert.match(searchAdapterSource, /data-testid="tend-ui-global-search-input"/);
+ assert.doesNotMatch(searchAdapterSource, /activeFilters|applyFilters/);
++assert.match(printAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(printAdapterSource, /@10d\/tend-ui-icons\/Print\/Print\.js/);
++assert.match(printAdapterSource, /id="js-print-btn"/);
++assert.match(printAdapterSource, /data-testid="tend-ui-print-button"/);
++assert.match(printAdapterSource, /before=\{<Print size=\{16\} \/>\}/);
++assert.doesNotMatch(printAdapterSource, /showToast|activeFilters|applyFilters/);
+@@
+ assert.match(basicControlsSource, /window\.applyFilters\(\{ keepDrawerOpen: true \}\)/);
++assert.match(basicControlsSource, /getElementById\('js-print-btn'\)/);
++assert.match(basicControlsSource, /showToast\('/);
++assert.match(tasksViewSource, /getElementById\('tend-ui-print-root'\)/);
++assert.match(tasksViewSource, /appendChild\(printControl\)/);
+@@
+ assert.match(builtJavaScript, /tend-ui-create-task-button/);
+ assert.match(builtJavaScript, /tend-ui-global-search-input/);
++assert.match(builtJavaScript, /tend-ui-print-button/);
++assert.match(builtJavaScript, /tend-ui-print-icon/);
+*** End Patch

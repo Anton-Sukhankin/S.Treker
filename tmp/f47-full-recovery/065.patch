@@ -1,0 +1,41 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const buttonAdapterSource = readText('src/integrations/tend-ui/create-task-button.jsx');
++const columnsAdapterSource = readText('src/integrations/tend-ui/columns-button.jsx');
+@@
+ const filterDrawerSource = readText('src/features/filters/filter-drawer.js');
++const columnsDrawerSource = readText('src/features/columns/columns-drawer.js');
+@@
+ assert.match(indexHtml, /id="tend-ui-toolbar-filters-root"/);
++assert.match(indexHtml, /id="tend-ui-columns-root"/);
+@@
+ assert.doesNotMatch(indexHtml, /<button[^>]+id="js-sidebar-filters-btn"/);
++assert.doesNotMatch(indexHtml, /<button[^>]+id="js-columns-btn"/);
+@@
+ assert.match(mainSource, /mountTendUiToolbarFilterButton\(\)/);
++assert.match(mainSource, /mountTendUiColumnsButton\(\)/);
+@@
+ assert.doesNotMatch(filterAdapterSource, /activeFilters|applyFilters|filter-drawer|showToast/);
++assert.match(columnsAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(columnsAdapterSource, /@10d\/tend-ui-icons\/Settings\/Settings\.js/);
++assert.match(columnsAdapterSource, /id="js-columns-btn"/);
++assert.match(columnsAdapterSource, /data-testid="tend-ui-columns-button"/);
++assert.match(columnsAdapterSource, /js-btn-open-columns/);
++assert.doesNotMatch(columnsAdapterSource, /customColumnState|columnPresets|columns-drawer|renderColumnsDrawer/);
+@@
+ assert.match(tasksViewSource, /appendChild\(printControl\)/);
++assert.match(tasksViewSource, /getElementById\('tend-ui-columns-root'\)/);
++assert.match(tasksViewSource, /appendChild\(columnsControl\)/);
+@@
+ assert.match(filterDrawerSource, /resetPanelFiltersAndApply\(\)/);
++assert.match(basicControlsSource, /getElementById\('js-columns-btn'\)/);
++assert.match(basicControlsSource, /columnsButton\.style\.display = isTableView \? 'inline-flex' : 'none'/);
++assert.match(columnsDrawerSource, /querySelectorAll\('\.js-btn-open-columns'\)/);
++assert.match(columnsDrawerSource, /beginDraft\(window\.navigationContext\.id\)/);
++assert.match(columnsDrawerSource, /dr\.classList\.add\('is-active'\)/);
+@@
+ assert.match(builtJavaScript, /tend-ui-close-icon/);
++assert.match(builtJavaScript, /tend-ui-columns-button/);
++assert.match(builtJavaScript, /tend-ui-settings-icon/);
+*** End Patch

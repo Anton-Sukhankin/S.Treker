@@ -1,0 +1,82 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\move-dialog-controls.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Input } from '@10d/tend-ui/primitives/Input';
++import { Close } from '@10d/tend-ui-icons/Close/Close.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++const actionStyle = { height: 40 };
++
++function MoveDialogControls({ actionsMount, closeMount }) {
++  return (
++    <>
++      <Input
++        aria-label="Название новой группы"
++        data-testid="tend-ui-move-group-input"
++        height={40}
++        id="js-move-group-name"
++        placeholder="Напр: Срочный ремонт БЦ"
++        size="medium"
++        type="text"
++        width="100%"
++      />
++      {ReactDOM.createPortal(
++        <Button
++          aria-label="Закрыть"
++          before={<Close size={20} />}
++          className="js-modal-move-close"
++          data-testid="tend-ui-move-dialog-close"
++          size="medium"
++          style={{ height: 40, width: 40 }}
++          title="Закрыть"
++          type="button"
++          variant="ghost"
++        />,
++        closeMount,
++      )}
++      {ReactDOM.createPortal(
++        <>
++          <Button
++            className="js-modal-move-close"
++            data-testid="tend-ui-move-dialog-cancel"
++            size="medium"
++            style={actionStyle}
++            type="button"
++            variant="secondary"
++          >
++            Отмена
++          </Button>
++          <Button
++            className="js-btn-confirm-move"
++            data-testid="tend-ui-move-dialog-confirm"
++            id="js-btn-move-submit"
++            size="medium"
++            style={actionStyle}
++            type="button"
++            variant="primary"
++          >
++            Переместить
++          </Button>
++        </>,
++        actionsMount,
++      )}
++    </>
++  );
++}
++
++export function mountTendUiMoveDialogControls() {
++  const inputMount = document.getElementById('tend-ui-move-dialog-input-root');
++  const closeMount = document.getElementById('tend-ui-move-dialog-close-root');
++  const actionsMount = document.getElementById('tend-ui-move-dialog-actions-root');
++
++  if (!inputMount || !closeMount || !actionsMount) return false;
++
++  return renderTendUi(
++    <MoveDialogControls actionsMount={actionsMount} closeMount={closeMount} />,
++    inputMount,
++  );
++}
+*** End Patch

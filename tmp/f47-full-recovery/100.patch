@@ -1,0 +1,14 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\task-selection\floating-action-bar.js
+@@
+ import { showToast } from '../../ui/toast.js';
++import { getActiveQueueLabel } from '../../domain/queue-state.js';
+@@
+-    const at = document.querySelector('.js-status-tabs .js-overview-tab.is-active');
+-    window.renderTab(REVERSE_STATUS_MAP[at?.getAttribute('data-status')] || 'К исполнению');
++    window.renderTab(getActiveQueueLabel(REVERSE_STATUS_MAP));
+@@
+-    const at = document.querySelector('.js-status-tabs .js-overview-tab.is-active');
+-    window.renderTab(REVERSE_STATUS_MAP[at?.getAttribute('data-status')] || 'К исполнению');
++    window.renderTab(getActiveQueueLabel(REVERSE_STATUS_MAP));
+*** End Patch

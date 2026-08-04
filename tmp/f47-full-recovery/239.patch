@@ -1,0 +1,15 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+-The next group is F-41: migrate remaining drag-handle and preset-delete icons/actions while preserving native drag ordering, preset deletion and active-preset fallback.
++## F-41 Column Chrome Controls Result
++
++- all 18 main rows render packaged Tend UI `DragIndicator` icons through portals;
++- user presets render Tend UI `Button`/`Delete` controls through a dedicated dynamic portal adapter;
++- React owns presentation and accessible naming only;
++- vanilla code owns drag ordering, DOM-order draft collection, preset deletion and active/draft fallback to `base`;
++- active preset deletion returns to `Базовое отображение` and restores the base draft;
++- all build, security and bundle gates remain green.
++
++The next group is F-42: run a column-settings migration completion audit and verify the full drawer lifecycle as one regression suite.
+*** End Patch

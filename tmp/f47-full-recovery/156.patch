@@ -1,0 +1,81 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\integrations\tend-ui\preset-dialog-controls.jsx
++import React from 'react';
++import ReactDOM from 'react-dom';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Input } from '@10d/tend-ui/primitives/Input';
++import { Close } from '@10d/tend-ui-icons/Close/Close.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++const actionStyle = { height: 40 };
++
++function PresetDialogControls({ actionsMount, closeMount }) {
++  return (
++    <>
++      <Input
++        aria-label="Название пресета"
++        data-testid="tend-ui-preset-name-input"
++        height={40}
++        id="js-preset-name-input"
++        placeholder="Введите название"
++        size="medium"
++        type="text"
++        width="100%"
++      />
++      {ReactDOM.createPortal(
++        <Button
++          aria-label="Закрыть"
++          before={<Close size={20} />}
++          className="js-modal-preset-close"
++          data-testid="tend-ui-preset-dialog-close"
++          size="medium"
++          style={{ height: 40, width: 40 }}
++          title="Закрыть"
++          type="button"
++          variant="ghost"
++        />,
++        closeMount,
++      )}
++      {ReactDOM.createPortal(
++        <>
++          <Button
++            className="js-modal-preset-close"
++            data-testid="tend-ui-preset-dialog-cancel"
++            size="medium"
++            style={actionStyle}
++            type="button"
++            variant="secondary"
++          >
++            Отмена
++          </Button>
++          <Button
++            className="js-btn-preset-submit"
++            data-testid="tend-ui-preset-dialog-confirm"
++            size="medium"
++            style={actionStyle}
++            type="button"
++            variant="primary"
++          >
++            Подтвердить
++          </Button>
++        </>,
++        actionsMount,
++      )}
++    </>
++  );
++}
++
++export function mountTendUiPresetDialogControls() {
++  const inputMount = document.getElementById('tend-ui-preset-dialog-input-root');
++  const closeMount = document.getElementById('tend-ui-preset-dialog-close-root');
++  const actionsMount = document.getElementById('tend-ui-preset-dialog-actions-root');
++
++  if (!inputMount || !closeMount || !actionsMount) return false;
++
++  return renderTendUi(
++    <PresetDialogControls actionsMount={actionsMount} closeMount={closeMount} />,
++    inputMount,
++  );
++}
+*** End Patch

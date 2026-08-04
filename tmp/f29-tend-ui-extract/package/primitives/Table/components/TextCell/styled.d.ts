@@ -1,0 +1,1 @@
+export declare const Root: import("styled-components").StyledComponent<import("react").ForwardRefExoticComponent<import("@10d/tend-ui-typography/Base").BaseProps<keyof import("react").JSX.IntrinsicElements> & import("react").RefAttributes<HTMLElement>>, import("styled-components").DefaultTheme, {}, never>;

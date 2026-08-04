@@ -1,0 +1,61 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\vendor\tend-ui\compensation-policy.json
++{
++  "schemaVersion": 1,
++  "sourcePolicy": "reviewed-local-tarball",
++  "packages": {
++    "classnames": {
++      "version": "2.5.1",
++      "tarball": "classnames-2.5.1.tgz",
++      "sha256": "f51d9b43c520cf469a3866199e218260f5081cc24a03911f5de42b185cd4fbb0",
++      "allowedExports": ["default"],
++      "review": "Local compatibility helper used by the Tend UI artifact chain."
++    },
++    "lodash": {
++      "version": "4.17.21",
++      "tarball": "lodash-4.17.21.tgz",
++      "sha256": "89cb7e54f1ed52b50e1cde1945660af2eb761be8fab6c828734dabb5dc17b114",
++      "allowedExports": [
++        "camelCase",
++        "chunk",
++        "cloneDeep",
++        "countBy",
++        "debounce",
++        "default",
++        "groupBy",
++        "identity",
++        "isEmpty",
++        "isEqual",
++        "isFunction",
++        "isNil",
++        "isPlainObject",
++        "isString",
++        "kebabCase",
++        "mapKeys",
++        "mapValues",
++        "merge",
++        "mergeWith",
++        "omit",
++        "omitBy",
++        "pick",
++        "pickBy",
++        "startCase",
++        "throttle",
++        "uniq",
++        "uniqBy",
++        "upperFirst"
++      ],
++      "excludedUpstreamApis": ["template", "unset"],
++      "advisoryDisposition": "Upstream template/unset APIs are absent. Local omit deletes direct own keys only and is covered by a prototype-safety test."
++    },
++    "uuid": {
++      "version": "10.0.0",
++      "tarball": "uuid-10.0.0.tgz",
++      "sha256": "89a7db4148ccaad8891213e066c4b15516eb820179a54fa2e55076e4b6222eee",
++      "allowedExports": ["default", "v4"],
++      "excludedUpstreamApis": ["v1", "v3", "v5", "v6", "v7"],
++      "advisoryDisposition": "Only string-returning v4 is implemented. Upstream namespace/buffer APIs are absent and caller buffers are not accepted or mutated."
++    }
++  }
++}
+*** End Patch

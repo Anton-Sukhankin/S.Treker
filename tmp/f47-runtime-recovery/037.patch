@@ -1,0 +1,82 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const bulkActionsAdapterSource = readText('src/integrations/tend-ui/bulk-actions.jsx');
++const moveDialogAdapterSource = readText('src/integrations/tend-ui/move-dialog-controls.jsx');
+@@
+ assert.match(indexHtml, /id="tend-ui-bulk-clear-root"/);
++assert.match(indexHtml, /id="tend-ui-move-dialog-input-root"/);
++assert.match(indexHtml, /id="tend-ui-move-dialog-close-root"/);
++assert.match(indexHtml, /id="tend-ui-move-dialog-actions-root"/);
++assert.match(indexHtml, /aria-labelledby="js-move-dialog-title"/);
++assert.match(indexHtml, /for="js-move-group-name"/);
+@@
+ assert.doesNotMatch(indexHtml, /<button[^>]+class="[^"]*js-fab-(?:status|to-group|assign|work|done|from-group|clear)/);
++assert.doesNotMatch(indexHtml, /<input[^>]+id="js-move-group-name"/);
++assert.doesNotMatch(indexHtml, /<button[^>]+class="[^"]*(?:js-modal-move-close|js-btn-confirm-move)/);
+@@
+ assert.match(mainSource, /mountTendUiBulkActions\(\)/);
++assert.match(mainSource, /mountTendUiMoveDialogControls\(\)/);
+@@
+ assert.doesNotMatch(selectionStyles, /\.ds-fab__close\s*\{/);
++assert.match(moveDialogAdapterSource, /@10d\/tend-ui\/primitives\/Input/);
++assert.match(moveDialogAdapterSource, /@10d\/tend-ui\/primitives\/Button/);
++assert.match(moveDialogAdapterSource, /@10d\/tend-ui-icons\/Close\/Close\.js/);
++assert.match(moveDialogAdapterSource, /ReactDOM\.createPortal/);
++assert.match(moveDialogAdapterSource, /id="js-move-group-name"/);
++assert.match(moveDialogAdapterSource, /id="js-btn-move-submit"/);
++assert.match(moveDialogAdapterSource, /className="js-modal-move-close"/);
++assert.match(moveDialogAdapterSource, /className="js-btn-confirm-move"/);
++for (const testId of [
++  'tend-ui-move-group-input',
++  'tend-ui-move-dialog-close',
++  'tend-ui-move-dialog-cancel',
++  'tend-ui-move-dialog-confirm',
++]) {
++  assert.match(moveDialogAdapterSource, new RegExp(testId));
++}
++assert.doesNotMatch(
++  moveDialogAdapterSource,
++  /onClick|selectedTaskIds|customGroups|showToast|renderTab|navigationContext|showModal|\.close\(/,
++);
++assert.match(taskSelectionSource, /getElementById\('js-move-group-name'\)/);
++assert.match(taskSelectionSource, /if \(input\) input\.value = ''/);
++assert.match(taskSelectionSource, /\?\.value \|\| 'Группа'/);
++assert.match(taskSelectionSource, /window\.customGroups\.push/);
++assert.match(taskSelectionSource, /m\?\.close\(\)/);
++assert.match(taskSelectionSource, /querySelectorAll\('\.js-modal-move-close'\)/);
++assert.match(coreUiStyles, /\.ds-move-dialog__close-mount/);
++assert.match(coreUiStyles, /\.ds-move-dialog__input-mount/);
++assert.match(coreUiStyles, /\.ds-move-dialog__actions/);
+@@
+ assert.match(builtJavaScript, /tend-ui-bulk-clear/);
++assert.match(builtJavaScript, /tend-ui-move-group-input/);
++assert.match(builtJavaScript, /tend-ui-move-dialog-close/);
++assert.match(builtJavaScript, /tend-ui-move-dialog-cancel/);
++assert.match(builtJavaScript, /tend-ui-move-dialog-confirm/);
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+-const f32Result = { raw: 928233, gzip: 286643 };
+-const f33BulkActionsBudget = { raw: 40 * 1024, gzip: 12 * 1024 };
++const f33Result = { raw: 936175, gzip: 288864 };
++const f34MoveDialogBudget = { raw: 24 * 1024, gzip: 8 * 1024 };
+@@
+-  rawBytes <= f32Result.raw + f33BulkActionsBudget.raw,
+-  `JavaScript bundle exceeds the reviewed F-33 bulk-actions budget: ${rawBytes} bytes`,
++  rawBytes <= f33Result.raw + f34MoveDialogBudget.raw,
++  `JavaScript bundle exceeds the reviewed F-34 move-dialog budget: ${rawBytes} bytes`,
+@@
+-  gzipBytes <= f32Result.gzip + f33BulkActionsBudget.gzip,
+-  `Gzipped JavaScript bundle exceeds the reviewed F-33 bulk-actions budget: ${gzipBytes} bytes`,
++  gzipBytes <= f33Result.gzip + f34MoveDialogBudget.gzip,
++  `Gzipped JavaScript bundle exceeds the reviewed F-34 move-dialog budget: ${gzipBytes} bytes`,
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-bulk-clear/);
++assert.match(bundle.toString('utf8'), /tend-ui-move-group-input/);
++assert.match(bundle.toString('utf8'), /tend-ui-move-dialog-close/);
++assert.match(bundle.toString('utf8'), /tend-ui-move-dialog-cancel/);
++assert.match(bundle.toString('utf8'), /tend-ui-move-dialog-confirm/);
+@@
+-console.log('Budget: F-32 result plus 40 KiB raw / 12 KiB gzip for Tend UI bulk actions');
++console.log('Budget: F-33 result plus 24 KiB raw / 8 KiB gzip for Tend UI move dialog controls');
+*** End Patch

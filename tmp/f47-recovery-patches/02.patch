@@ -1,0 +1,11 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\package.json
+@@
+   "scripts": {
+     "dev": "vite --host 127.0.0.1",
+     "build": "vite build",
+-    "preview": "vite preview --host 127.0.0.1"
++    "preview": "vite preview --host 127.0.0.1",
++    "verify:tend-ui": "node scripts/verify-tend-ui-adapter.mjs"
+   },
+*** End Patch

@@ -1,0 +1,43 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\index.html
+@@
+-            <button class="ds-button ds-button--outlined ds-button--icon-only" id="js-download-btn" title="Скачать" style="display: none;">
+-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+-                <polyline points="7 10 12 15 17 10"></polyline>
+-                <line x1="12" y1="15" x2="12" y2="3"></line>
+-              </svg>
+-            </button>
++            <div id="tend-ui-download-root" data-tend-ui-adapter="download"></div>
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\main.js
+@@
+ import { mountTendUiColumnsButton } from './integrations/tend-ui/columns-button.jsx';
++import { mountTendUiDownloadButton } from './integrations/tend-ui/download-button.jsx';
+@@
+ mountTendUiColumnsButton();
++mountTendUiDownloadButton();
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\tasks\tasks-view.js
+@@
+-  const downloadButton = document.getElementById('js-download-btn');
++  const downloadControl = document.getElementById('tend-ui-download-root') ?? document.getElementById('js-download-btn');
+@@
+-      if (downloadButton && downloadButton.parentNode !== headerActions) headerActions.appendChild(downloadButton);
++      if (downloadControl && downloadControl.parentNode !== headerActions) headerActions.appendChild(downloadControl);
+@@
+-    if (downloadButton && downloadButton.parentNode === headerActions) toolbarRight.insertBefore(downloadButton, toolbarAnchor);
++    if (downloadControl && downloadControl.parentNode === headerActions) toolbarRight.insertBefore(downloadControl, toolbarAnchor);
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ #tend-ui-columns-root { display: contents; }
++#tend-ui-download-root { display: contents; }
+@@
+ #tend-ui-columns-root .ds-button--icon-only {
+@@
+ }
++#tend-ui-download-root .ds-button--icon-only {
++  width: 40px;
++  min-width: 40px;
++  height: 40px;
++  padding: 0;
++}
+*** End Patch

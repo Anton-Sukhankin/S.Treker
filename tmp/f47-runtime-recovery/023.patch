@@ -1,0 +1,101 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ .ds-segmented-control__item svg { width: 14px; height: 14px; }
++
++.js-status-tabs {
++  min-width: 0;
++  height: 40px;
++}
++
++.ds-queue-tabs {
++  width: max-content;
++  min-width: 100%;
++  height: 40px;
++}
++
++.ds-queue-tabs .tend-ui-tabs-nav {
++  height: 40px;
++  margin: 0;
++}
++
++.ds-queue-tabs .tend-ui-tabs-nav::before {
++  border-color: var(--color-border);
++}
++
++.ds-queue-tabs .tend-ui-tabs-tab {
++  height: 40px;
++  margin: 0;
++  padding: 0 16px;
++  white-space: nowrap;
++}
++
++.ds-queue-tabs .tend-ui-tabs-tab + .tend-ui-tabs-tab {
++  margin-left: 8px;
++}
++
++.ds-queue-tabs .tend-ui-tabs-tab-btn {
++  display: inline-flex;
++  align-items: center;
++  height: 100%;
++}
++
++.ds-queue-tabs__label {
++  display: inline-flex;
++  align-items: center;
++  gap: 2px;
++}
++
++.ds-queue-tabs .tend-ui-tabs-content-holder {
++  display: none;
++}
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\verify-tend-ui-adapter.mjs
+@@
+ const viewSwitcherAdapterSource = readText('src/integrations/tend-ui/view-switcher.jsx');
++const queueTabsAdapterSource = readText('src/integrations/tend-ui/queue-tabs.jsx');
++const queueStateSource = readText('src/domain/queue-state.js');
+@@
+ assert.match(indexHtml, /id="tend-ui-view-switcher-root"/);
++assert.match(indexHtml, /id="tend-ui-queue-tabs-root"/);
++assert.match(indexHtml, /data-active-status="todo"/);
+@@
+ assert.doesNotMatch(indexHtml, /<button[^>]+data-view="(?:cards|table)"/);
++assert.doesNotMatch(indexHtml, /<button[^>]+class="[^"]*js-overview-tab/);
+@@
+ assert.match(mainSource, /mountTendUiViewSwitcher\(\)/);
++assert.match(mainSource, /mountTendUiQueueTabs\(\)/);
+@@
+ assert.deepEqual(installedTendUiManifest.exports['./primitives/Segmented'], {
+@@
+ });
++assert.deepEqual(installedTendUiManifest.exports['./primitives/Tabs'], {
++  types: './primitives/Tabs/index.d.ts',
++  import: './primitives/Tabs/index.js',
++  require: './cjs/primitives/Tabs/index.js',
++});
+@@
+ assert.doesNotMatch(viewSwitcherAdapterSource, /view-mode-cards|view-mode-table|js-columns-btn|js-download-btn|style\.display/);
++assert.match(queueTabsAdapterSource, /@10d\/tend-ui\/primitives\/Tabs/);
++assert.match(queueTabsAdapterSource, /data-testid="tend-ui-queue-tabs"/);
++assert.match(queueTabsAdapterSource, /s-tracker:queue-request/);
++assert.match(queueTabsAdapterSource, /s-tracker:queues-changed/);
++assert.doesNotMatch(queueTabsAdapterSource, /MOCK_LAYOUTS|generateTask|renderTab|updateSidebarCounts/);
++assert.match(queueStateSource, /data\.activeStatus|dataset\.activeStatus/);
++assert.match(tasksViewSource, /addEventListener\('s-tracker:queue-request'/);
++assert.match(tasksViewSource, /new CustomEvent\('s-tracker:queues-changed'/);
++
++const activeQueueConsumers = [
++  mainSource,
++  tasksViewSource,
++  filterDrawerSource,
++  columnsDrawerSource,
++  readText('src/features/filters/multi-select.js'),
++  readText('src/features/sidebar/sidebar.js'),
++  readText('src/features/task-selection/floating-action-bar.js'),
++].join('\n');
++
++assert.doesNotMatch(activeQueueConsumers, /js-overview-tab\.is-active/);
+@@
+ assert.match(builtJavaScript, /tend-ui-view-switcher/);
++assert.match(builtJavaScript, /tend-ui-queue-tabs/);
+*** End Patch

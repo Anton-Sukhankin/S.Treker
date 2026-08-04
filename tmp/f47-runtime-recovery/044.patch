@@ -1,0 +1,185 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/index.html
+@@
+-      <div class="ds-drawer__pane ds-drawer__pane--library">
++      <div class="ds-drawer__pane ds-drawer__pane--library" id="columns-attribute-library">
+@@
+       <div class="ds-drawer__footer-pane ds-drawer__footer-pane--library">
+       </div>
+       <div class="ds-drawer__footer-pane ds-drawer__footer-pane--main">
+-        <button class="js-open-library" title="Библиотека атрибутов">
+-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+-          </svg>
+-        </button>
+-        <button class="ds-button ds-button--outlined js-library-reset" disabled title="Сбросить добавленные атрибуты">
+-          <svg class="ds-button__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+-            <polyline points="1 4 1 10 7 10"></polyline>
+-            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+-          </svg>
+-          Сбросить
+-        </button>
+-        <div style="flex: 1;"></div>
+-        <button class="ds-button ds-button--text js-columns-reset">По умолчанию</button>
+-        <button class="ds-button ds-button--primary js-columns-apply">Применить</button>
++        <div class="ds-columns-footer__mount" id="tend-ui-columns-footer-root"></div>
+       </div>
+*** Add File: ../S-Tracker/src/integrations/tend-ui/columns-footer-actions.jsx
++import React from 'react';
++import { Button } from '@10d/tend-ui/primitives/Button';
++import { Book } from '@10d/tend-ui-icons/Book/Book.js';
++import { Refresh } from '@10d/tend-ui-icons/Refresh/Refresh.js';
++
++import { renderTendUi } from './runtime.jsx';
++
++const COLUMNS_FOOTER_CHANGED_EVENT = 's-tracker:columns-footer-changed';
++const controlStyle = { height: 36 };
++
++function ColumnsFooterActions({ mountNode }) {
++  const [libraryOpen, setLibraryOpen] = React.useState(false);
++  const [libraryResetDisabled, setLibraryResetDisabled] = React.useState(true);
++
++  React.useEffect(() => {
++    const syncFooter = event => {
++      const detail = event.detail || {};
++      if (typeof detail.libraryOpen === 'boolean') setLibraryOpen(detail.libraryOpen);
++      if (typeof detail.libraryResetDisabled === 'boolean') {
++        setLibraryResetDisabled(detail.libraryResetDisabled);
++      }
++    };
++
++    mountNode.addEventListener(COLUMNS_FOOTER_CHANGED_EVENT, syncFooter);
++    return () => mountNode.removeEventListener(COLUMNS_FOOTER_CHANGED_EVENT, syncFooter);
++  }, [mountNode]);
++
++  return (
++    <>
++      <Button
++        aria-controls="columns-attribute-library"
++        aria-expanded={libraryOpen}
++        aria-label="Библиотека атрибутов"
++        before={<Book aria-hidden="true" size={20} />}
++        className="js-open-library"
++        data-testid="tend-ui-columns-library-toggle"
++        size="medium"
++        style={{ height: 36, width: 36 }}
++        title="Библиотека атрибутов"
++        type="button"
++        variant={libraryOpen ? 'primary' : 'secondary'}
++      />
++      <Button
++        before={<Refresh aria-hidden="true" size={16} />}
++        className="js-library-reset"
++        data-testid="tend-ui-columns-library-reset"
++        disabled={libraryResetDisabled}
++        size="medium"
++        style={{ ...controlStyle, display: libraryOpen ? 'inline-flex' : 'none' }}
++        title="Сбросить добавленные атрибуты"
++        type="button"
++        variant="secondary"
++      >
++        Сбросить
++      </Button>
++      <span className="ds-columns-footer__spacer" />
++      <Button
++        className="js-columns-reset"
++        data-testid="tend-ui-columns-default"
++        size="medium"
++        style={controlStyle}
++        type="button"
++        variant="ghost"
++      >
++        По умолчанию
++      </Button>
++      <Button
++        className="js-columns-apply"
++        data-testid="tend-ui-columns-apply"
++        size="medium"
++        style={controlStyle}
++        type="button"
++        variant="primary"
++      >
++        Применить
++      </Button>
++    </>
++  );
++}
++
++export function mountTendUiColumnsFooterActions() {
++  const mountNode = document.getElementById('tend-ui-columns-footer-root');
++  return renderTendUi(<ColumnsFooterActions mountNode={mountNode} />, mountNode);
++}
+*** Update File: ../S-Tracker/src/main.js
+@@
+ import { mountTendUiColumnsButton } from './integrations/tend-ui/columns-button.jsx';
++import { mountTendUiColumnsFooterActions } from './integrations/tend-ui/columns-footer-actions.jsx';
+@@
+ mountTendUiColumnsButton();
++mountTendUiColumnsFooterActions();
+*** Update File: ../S-Tracker/src/features/columns/columns-drawer.js
+@@
+   const draftColumnState = {};
+   const draftActiveColumnPreset = {};
+   const presetToolbarMount = document.getElementById('tend-ui-preset-trigger-root');
++  const columnsFooterMount = document.getElementById('tend-ui-columns-footer-root');
+@@
+   function setPresetDropdownOpen(isOpen) {
+@@
+   }
++
++  function syncColumnsFooter(detail) {
++    columnsFooterMount?.dispatchEvent(
++      new CustomEvent('s-tracker:columns-footer-changed', { detail }),
++    );
++  }
+@@
+   function openLibrary() {
+     dr.classList.add('is-expanded');
+-    dr.querySelector('.js-open-library')?.classList.add('is-active');
++    syncColumnsFooter({ libraryOpen: true });
+     renderLibrary();
+     updateLibraryResetButton();
+   }
+ 
+   function closeLibrary() {
+     dr.classList.remove('is-expanded');
+-    dr.querySelector('.js-open-library')?.classList.remove('is-active');
++    syncColumnsFooter({ libraryOpen: false });
+     updateLibraryResetButton();
+@@
+   function updateLibraryResetButton() {
+     const navId = window.navigationContext.id;
+-    const resetBtn = dr.querySelector('.js-library-reset');
+-    if (!resetBtn) return;
+-    resetBtn.disabled = !hasAddedLibraryAttributes(navId);
++    syncColumnsFooter({
++      libraryResetDisabled: !hasAddedLibraryAttributes(navId),
++    });
+*** Update File: ../S-Tracker/src/styles/components/core-ui.css
+@@
+ .ds-preset-toolbar__save-mount {
+   flex: 0 0 auto;
+ }
++
++.ds-columns-footer__mount {
++  width: 100%;
++}
++
++.ds-columns-footer__mount > div {
++  display: flex;
++  align-items: center;
++  gap: 12px;
++  width: 100%;
++}
++
++.ds-columns-footer__mount .js-open-library {
++  min-width: 36px;
++  padding: 0;
++}
++
++.ds-columns-footer__spacer {
++  flex: 1 1 auto;
++  min-width: 0;
++}
+*** End Patch

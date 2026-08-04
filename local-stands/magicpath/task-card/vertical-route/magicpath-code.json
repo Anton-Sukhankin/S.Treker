@@ -1,0 +1,28 @@
+{
+  "mode": "create",
+  "componentId": "434571962312978432",
+  "projectId": "433158690502225920",
+  "selectedRevisionId": "434571962312978433",
+  "jobId": "432825861566263296-external-agent-434571962312978433",
+  "generatedName": "glad-tower-7795",
+  "name": "S Tracker Task Card Vertical Route",
+  "dimensions": {
+    "width": 1280,
+    "height": 720
+  },
+  "selectedImages": [],
+  "editableFiles": [
+    {
+      "path": "src/App.tsx",
+      "sha256": "5a4c47742e347de0df473076f89437040a5958191d01592d3bef055ccbc0a4d5"
+    },
+    {
+      "path": "src/index.css",
+      "sha256": "3af92f9f6b5e93767188381bda25e0b3e26d2885569cffb8b46ff6d8966b1860"
+    },
+    {
+      "path": "src/components/generated/STrackerTaskCardVerticalRoute.tsx",
+      "sha256": "f78ae11233625b2f66c8f2be470178ab7cf008d5abdb0a442d63e6f13e102314"
+    }
+  ]
+}

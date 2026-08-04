@@ -1,0 +1,154 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\package.json
+@@
+-    "preview": "vite preview --host 127.0.0.1",
+-    "verify:tend-ui": "node scripts/verify-tend-ui-adapter.mjs"
++    "preview": "vite preview --host 127.0.0.1",
++    "verify:tend-ui": "node scripts/verify-tend-ui-adapter.mjs",
++    "verify:tend-ui:security": "node scripts/audit-tend-ui-local-compensations.mjs",
++    "verify:tend-ui:bundle": "node scripts/report-tend-ui-bundle.mjs",
++    "verify:tend-ui:all": "npm run build && npm run verify:tend-ui && npm run verify:tend-ui:security && npm run verify:tend-ui:bundle"
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\vendor\tend-ui\compensation-policy.json
++{
++  "schemaVersion": 1,
++  "sourcePolicy": "reviewed-local-tarball",
++  "packages": {
++    "classnames": {
++      "version": "2.5.1",
++      "tarball": "classnames-2.5.1.tgz",
++      "sha256": "f51d9b43c520cf469a3866199e218260f5081cc24a03911f5de42b185cd4fbb0",
++      "allowedExports": ["default"],
++      "review": "Local compatibility helper used by the Tend UI artifact chain."
++    },
++    "lodash": {
++      "version": "4.17.21",
++      "tarball": "lodash-4.17.21.tgz",
++      "sha256": "89cb7e54f1ed52b50e1cde1945660af2eb761be8fab6c828734dabb5dc17b114",
++      "allowedExports": [
++        "camelCase",
++        "chunk",
++        "cloneDeep",
++        "countBy",
++        "debounce",
++        "default",
++        "groupBy",
++        "identity",
++        "isEmpty",
++        "isEqual",
++        "isFunction",
++        "isNil",
++        "isPlainObject",
++        "isString",
++        "kebabCase",
++        "mapKeys",
++        "mapValues",
++        "merge",
++        "mergeWith",
++        "omit",
++        "omitBy",
++        "pick",
++        "pickBy",
++        "startCase",
++        "throttle",
++        "uniq",
++        "uniqBy",
++        "upperFirst"
++      ],
++      "excludedUpstreamApis": ["template", "unset"],
++      "advisoryDisposition": "Upstream template/unset APIs are absent. Local omit deletes direct own keys only and is covered by a prototype-safety test."
++    },
++    "uuid": {
++      "version": "10.0.0",
++      "tarball": "uuid-10.0.0.tgz",
++      "sha256": "89a7db4148ccaad8891213e066c4b15516eb820179a54fa2e55076e4b6222eee",
++      "allowedExports": ["default", "v4"],
++      "excludedUpstreamApis": ["v1", "v3", "v5", "v6", "v7"],
++      "advisoryDisposition": "Only string-returning v4 is implemented. Upstream namespace/buffer APIs are absent and caller buffers are not accepted or mutated."
++    }
++  }
++}
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\audit-tend-ui-local-compensations.mjs
++import assert from 'node:assert/strict';
++import { createHash } from 'node:crypto';
++import { existsSync, readFileSync, readdirSync } from 'node:fs';
++import { createRequire } from 'node:module';
++import { resolve } from 'node:path';
++
++const root = resolve(import.meta.dirname, '..');
++const require = createRequire(import.meta.url);
++const readJson = path => JSON.parse(readFileSync(resolve(root, path), 'utf8'));
++const policy = readJson('vendor/tend-ui/compensation-policy.json');
++const packageJson = readJson('package.json');
++const packageLock = readJson('package-lock.json');
++
++assert.equal(policy.schemaVersion, 1, 'Unsupported compensation policy schema');
++assert.equal(policy.sourcePolicy, 'reviewed-local-tarball');
++
++for (const [name, definition] of Object.entries(policy.packages)) {
++  const tarballPath = resolve(root, 'vendor', 'tend-ui', definition.tarball);
++  assert.ok(existsSync(tarballPath), `Missing compensation tarball for ${name}`);
++
++  const sha256 = createHash('sha256').update(readFileSync(tarballPath)).digest('hex');
++  assert.equal(sha256, definition.sha256, `${name} tarball checksum changed`);
++  assert.equal(
++    packageJson.dependencies[name],
++    `file:vendor/tend-ui/${definition.tarball}`,
++    `${name} must resolve from its reviewed tarball`,
++  );
++  assert.equal(
++    packageLock.packages[`node_modules/${name}`]?.resolved,
++    `file:vendor/tend-ui/${definition.tarball}`,
++    `${name} lock entry must remain local`,
++  );
++
++  const installedMetadata = readJson(`node_modules/${name}/package.json`);
++  assert.equal(installedMetadata.version, definition.version, `${name} version drifted`);
++  assert.equal(installedMetadata.private, true, `${name} compensation must remain private`);
++  assert.equal(installedMetadata.license, 'UNLICENSED', `${name} compensation must not be published`);
++}
++
++const lodashPolicy = policy.packages.lodash;
++const lodashModule = await import('lodash');
++assert.deepEqual(Object.keys(lodashModule).sort(), [...lodashPolicy.allowedExports].sort());
++
++const lodashFiles = readdirSync(resolve(root, 'node_modules', 'lodash'));
++for (const excludedApi of lodashPolicy.excludedUpstreamApis) {
++  assert.equal(excludedApi in lodashModule, false, `lodash.${excludedApi} must stay absent`);
++  assert.equal(
++    lodashFiles.some(file => file.toLowerCase().startsWith(`${excludedApi.toLowerCase()}.`)),
++    false,
++    `lodash ${excludedApi} implementation must stay absent`,
++  );
++}
++
++const nested = { secret: 'kept' };
++const omitResult = lodashModule.omit(
++  { safe: true, nested, 'nested.secret': 'removed-direct-key' },
++  ['nested.secret', '__proto__.tendUiPolluted'],
++);
++assert.equal(omitResult.safe, true);
++assert.equal(omitResult.nested, nested, 'local omit must not traverse nested paths');
++assert.equal('nested.secret' in omitResult, false, 'local omit must delete the direct own key');
++assert.equal(Object.prototype.tendUiPolluted, undefined, 'local omit must not pollute Object.prototype');
++
++const uuidPolicy = policy.packages.uuid;
++const uuidModule = require('uuid');
++assert.deepEqual(Object.keys(uuidModule).sort(), [...uuidPolicy.allowedExports].sort());
++for (const excludedApi of uuidPolicy.excludedUpstreamApis) {
++  assert.equal(excludedApi in uuidModule, false, `uuid.${excludedApi} must stay absent`);
++}
++
++const callerBuffer = new Uint8Array(16).fill(7);
++const callerBufferSnapshot = [...callerBuffer];
++const generatedUuid = uuidModule.v4({}, callerBuffer, 0);
++assert.match(
++  generatedUuid,
++  /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
++  'local uuid v4 must return a valid version-4 string',
++);
++assert.deepEqual([...callerBuffer], callerBufferSnapshot, 'local uuid v4 must not mutate caller buffers');
++
++console.log('Tend UI local-compensation security verification passed.');
++console.log(`Reviewed local compensations: ${Object.keys(policy.packages).length}`);
++console.log('Checks: checksum, local lock source, private metadata, API allowlist and advisory behavior');
+*** End Patch

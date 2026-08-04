@@ -1,0 +1,1 @@
+export declare const Root: import("styled-components").StyledComponent<import("react").ForwardRefExoticComponent<import("../../../../../../primitives/Menu").MenuProps & import("react").RefAttributes<import("antd-core").MenuRef>>, import("styled-components").DefaultTheme, {}, never>;

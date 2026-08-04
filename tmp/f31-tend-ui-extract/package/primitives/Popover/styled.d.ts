@@ -1,0 +1,1 @@
+export declare const Root: import("styled-components").StyledComponent<import("react").ForwardRefExoticComponent<Omit<import("antd-core/es/popover").PopoverProps & import("react").RefAttributes<unknown>, "ref"> & import("react").RefAttributes<unknown>>, import("styled-components").DefaultTheme, {}, never>;

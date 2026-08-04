@@ -1,0 +1,28 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+ const f30Baseline = { raw: 809677, gzip: 249892 };
+ const f31PaginationBudget = { raw: 120 * 1024, gzip: 40 * 1024 };
++const f31Result = { raw: 913695, gzip: 282112 };
++const f32CheckboxBudget = { raw: 32 * 1024, gzip: 12 * 1024 };
+@@
+ assert.ok(
+-  rawBytes <= f30Baseline.raw + f31PaginationBudget.raw,
+-  `JavaScript bundle exceeds the reviewed F-31 Pagination budget: ${rawBytes} bytes`,
++  rawBytes <= f31Result.raw + f32CheckboxBudget.raw,
++  `JavaScript bundle exceeds the reviewed F-32 Checkbox budget: ${rawBytes} bytes`,
+ );
+ assert.ok(
+-  gzipBytes <= f30Baseline.gzip + f31PaginationBudget.gzip,
+-  `Gzipped JavaScript bundle exceeds the reviewed F-31 Pagination budget: ${gzipBytes} bytes`,
++  gzipBytes <= f31Result.gzip + f32CheckboxBudget.gzip,
++  `Gzipped JavaScript bundle exceeds the reviewed F-32 Checkbox budget: ${gzipBytes} bytes`,
+ );
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-task-pagination/);
++assert.match(bundle.toString('utf8'), /tend-ui-select-task/);
++assert.match(bundle.toString('utf8'), /tend-ui-select-all-tasks/);
+@@
+-console.log('Budget: F-30 baseline plus 120 KiB raw / 40 KiB gzip for Tend UI Pagination');
++console.log('Budget: F-31 result plus 32 KiB raw / 12 KiB gzip for Tend UI Checkbox');
+*** End Patch

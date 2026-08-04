@@ -1,0 +1,6 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-integration.md
+@@
+-The next group is F-30: migrate the queue/status selector to Tend UI Tabs while preserving counts, filtering, rerendering and custom-view hiding.
++The next group is F-31: migrate pagination to Tend UI Pagination while preserving current page, total calculations and card/table behavior.
+*** End Patch

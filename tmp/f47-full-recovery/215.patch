@@ -1,0 +1,84 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\columns\columns-drawer.js
+@@
+   const presetToolbarMount = document.getElementById('tend-ui-preset-trigger-root');
+   const columnsFooterMount = document.getElementById('tend-ui-columns-footer-root');
+   const libraryActionsMount = document.getElementById('tend-ui-library-actions-root');
++  const columnRowControlsMount = document.getElementById('tend-ui-column-row-controls-root');
+@@
+-        visible: row.querySelector('.js-col-cb').checked
++        visible: row.querySelector('.js-col-cb input[type="checkbox"]')?.checked ?? false
+@@
+     configurable.forEach(column => {
+       const returnIconHtml = isLibraryColumn(navId, column.key)
+-        ? `<div class="js-return-to-library" data-key="${column.key}" title="Вернуть в библиотеку" style="cursor: pointer; margin-right: 8px; color: #6B7280; display: flex; align-items: center;">
+-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+-          </div>`
++        ? `<span class="ds-column-row__return-mount" data-tend-ui-column-return></span>`
+         : '';
+ 
+       html += `
+-      <label class="ds-checkbox ds-column-row" data-key="${column.key}" draggable="true" style="cursor: grab;">
++      <div class="ds-checkbox ds-column-row" data-key="${column.key}" draggable="true" style="cursor: grab;">
+         <div class="ds-column-row__content">
+-          <input type="checkbox" class="js-col-cb" value="${column.key}" ${column._tempVisible ? 'checked' : ''}>
+-          <span class="ds-checkbox__box"></span>
+-          <span class="ds-checkbox__label">${column.label}</span>
++          <span
++            class="ds-column-row__checkbox-mount"
++            data-checked="${column._tempVisible ? 'true' : 'false'}"
++            data-key="${column.key}"
++            data-label="${column.label}"
++            data-tend-ui-column-checkbox
++          ></span>
+         </div>
+-        <div style="display: flex; align-items: center;">
++        <div class="ds-column-row__actions">
+           ${returnIconHtml}
+           <div class="ds-drag-handle" style="cursor: grab; display: flex;">
+             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+           </div>
+         </div>
+-      </label>`;
++      </div>`;
+@@
+     container.innerHTML = html;
++    columnRowControlsMount?.dispatchEvent(new CustomEvent('s-tracker:column-rows-changed'));
+@@
+-    list.querySelectorAll('.js-col-cb').forEach(cb => {
+-      cb.addEventListener('change', () => {
+-        syncDraftFromDrawer(navId);
+-        checkChanges();
+-      });
++    list.addEventListener('change', e => {
++      if (!e.target.closest('.js-col-cb')) return;
++      syncDraftFromDrawer(navId);
++      checkChanges();
+     });
+ 
+-    list.querySelectorAll('.js-return-to-library').forEach(btn => {
+-      btn.addEventListener('click', e => {
+-        e.preventDefault();
+-        e.stopPropagation();
+-        const key = btn.getAttribute('data-key');
+-        syncDraftFromDrawer(navId);
+-        setDraftState(navId, getDraftState(navId).filter(item => item.key !== key));
+-        renderColumnsDrawer();
+-        renderLibrary();
+-        checkChanges();
+-        updateLibraryResetButton();
+-      });
++    list.addEventListener('click', e => {
++      const btn = e.target.closest('.js-return-to-library');
++      if (!btn) return;
++      e.preventDefault();
++      e.stopPropagation();
++      const key = btn.getAttribute('data-key');
++      syncDraftFromDrawer(navId);
++      setDraftState(navId, getDraftState(navId).filter(item => item.key !== key));
++      renderColumnsDrawer();
++      renderLibrary();
++      checkChanges();
++      updateLibraryResetButton();
+     });
+*** End Patch

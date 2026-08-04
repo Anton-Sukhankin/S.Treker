@@ -1,0 +1,24 @@
+*** Begin Patch
+*** Update File: ../S-Tracker/index.html
+@@
+-            <div class="ds-preset-control" style="display: flex; gap: 8px;">
+-              <div class="ds-preset-select-wrapper js-preset-dropdown-trigger" style="flex: 1; position: relative;">
+-                <div class="ds-search-input-wrapper" style="width: 100%; cursor: pointer;">
+-                   <div class="ds-search-input__control js-preset-current" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; height: 36px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: #fff; color: var(--color-text-primary); user-select: none;">
+-                       <span>Базовое отображение</span>
+-                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
+-                   </div>
+-                </div>
++            <div class="ds-preset-control">
++              <div class="ds-preset-select-wrapper js-preset-dropdown-trigger">
++                <div class="ds-preset-toolbar__trigger-mount" id="tend-ui-preset-trigger-root"></div>
+                 <div class="ds-preset-dropdown js-preset-dropdown" style="display: none; position: absolute; top: calc(100% + 4px); left: 0; width: 100%; background: #fff; border: 1px solid var(--color-border); border-radius: var(--radius-md); box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 1000; padding: 4px; max-height: 200px; overflow-y: auto;">
+                    <!-- Presets injected dynamically -->
+                 </div>
+               </div>
+-              <button class="ds-button ds-button--primary js-preset-save-btn" disabled style="padding: 0 16px; transition: all 0.2s ease;">
+-                Сохранить
+-              </button>
++              <div class="ds-preset-toolbar__save-mount" id="tend-ui-preset-save-root"></div>
+             </div>
+*** End Patch

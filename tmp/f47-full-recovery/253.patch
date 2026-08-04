@@ -1,0 +1,26 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+-const f40Result = { raw: 950466, gzip: 293468 };
+-const f41ColumnChromeBudget = { raw: 28 * 1024, gzip: 9 * 1024 };
++const f43Result = { raw: 952144, gzip: 293900 };
++const f44FilterActionsBudget = { raw: 24 * 1024, gzip: 8 * 1024 };
+@@
+-  rawBytes <= f40Result.raw + f41ColumnChromeBudget.raw,
+-  `JavaScript bundle exceeds the reviewed F-41 column-chrome budget: ${rawBytes} bytes`,
++  rawBytes <= f43Result.raw + f44FilterActionsBudget.raw,
++  `JavaScript bundle exceeds the reviewed F-44 filter-actions budget: ${rawBytes} bytes`,
+@@
+-  gzipBytes <= f40Result.gzip + f41ColumnChromeBudget.gzip,
+-  `Gzipped JavaScript bundle exceeds the reviewed F-41 column-chrome budget: ${gzipBytes} bytes`,
++  gzipBytes <= f43Result.gzip + f44FilterActionsBudget.gzip,
++  `Gzipped JavaScript bundle exceeds the reviewed F-44 filter-actions budget: ${gzipBytes} bytes`,
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-toolbar-filter-button/);
++assert.match(bundle.toString('utf8'), /tend-ui-filter-drawer-close/);
++assert.match(bundle.toString('utf8'), /tend-ui-filter-drawer-reset/);
++assert.match(bundle.toString('utf8'), /tend-ui-filter-drawer-apply/);
+@@
+-console.log('Budget: F-40 result plus 28 KiB raw / 9 KiB gzip for Tend UI column chrome controls');
++console.log('Budget: F-43 result plus 24 KiB raw / 8 KiB gzip for Tend UI filter drawer actions');
+*** End Patch

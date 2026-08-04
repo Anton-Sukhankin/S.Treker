@@ -1,0 +1,52 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\styles\components\core-ui.css
+@@
+ .ds-segmented-control__item svg { width: 14px; height: 14px; }
++
++.js-status-tabs {
++  min-width: 0;
++  height: 40px;
++}
++
++.ds-queue-tabs {
++  width: max-content;
++  min-width: 100%;
++  height: 40px;
++}
++
++.ds-queue-tabs .tend-ui-tabs-nav {
++  height: 40px;
++  margin: 0;
++}
++
++.ds-queue-tabs .tend-ui-tabs-nav::before {
++  border-color: var(--color-border);
++}
++
++.ds-queue-tabs .tend-ui-tabs-tab {
++  height: 40px;
++  margin: 0;
++  padding: 0 16px;
++  white-space: nowrap;
++}
++
++.ds-queue-tabs .tend-ui-tabs-tab + .tend-ui-tabs-tab {
++  margin-left: 8px;
++}
++
++.ds-queue-tabs .tend-ui-tabs-tab-btn {
++  display: inline-flex;
++  align-items: center;
++  height: 100%;
++}
++
++.ds-queue-tabs__label {
++  display: inline-flex;
++  align-items: center;
++  gap: 2px;
++}
++
++.ds-queue-tabs .tend-ui-tabs-content-holder {
++  display: none;
++}
+*** End Patch

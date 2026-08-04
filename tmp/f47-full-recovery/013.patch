@@ -1,0 +1,46 @@
+*** Begin Patch
+*** Add File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\docs\tend-ui-compensation-security.md
++# Tend UI Local Compensation Security
++
++## Status
++
++F-23 adds an executable policy for the three reviewed local compatibility packages used by S-Tracker: `classnames`, `lodash` and `uuid`.
++
++These packages are not downloaded from a closed registry. Their tarballs are stored in `vendor/tend-ui/`, resolve through `file:` references and remain marked `private` with `UNLICENSED` metadata.
++
++## Policy And Gate
++
++The machine-readable policy is `vendor/tend-ui/compensation-policy.json`. It records:
++
++- exact package versions and tarball names;
++- SHA-256 checksums;
++- allowed runtime exports;
++- deliberately absent upstream APIs;
++- the disposition of version-based audit signals.
++
++Run the security gate with:
++
++```powershell
++npm.cmd run verify:tend-ui:security
++```
++
++The script verifies the tarball checksum, `package.json` and lockfile source, private metadata, API allowlist and behavior related to the known signals.
++
++## Advisory Disposition
++
++| Package | Version-based signal | Local implementation evidence | Decision |
++| --- | --- | --- | --- |
++| `lodash@4.17.21` | Upstream `template`, `unset` and deep-path `omit` behavior. | `template` and `unset` are absent. Local `omit` deletes direct own keys only; a regression test proves that it neither traverses a nested path nor changes `Object.prototype`. | Accepted as a reviewed local compensation. Recheck after every tarball change. |
++| `uuid@10.0.0` | Upstream namespace/buffer behavior in v3/v5/v6. | Only `v4` is exposed. It returns a UUID string and does not mutate a caller-supplied buffer. | Accepted as a reviewed local compensation. Recheck after every tarball change. |
++| `classnames@2.5.1` | No active F-22 signal. | Exact local tarball and export surface are pinned. | Keep inside the same integrity gate. |
++
++`npm audit fix` must not replace these packages automatically. A change is accepted only after policy, checksum and behavior tests are updated together.
++
++## Failure Policy
++
++Any checksum, source, metadata, export or behavior mismatch fails the gate. The correct response is to review the changed local implementation; the verifier must not be weakened merely to accept drift.
++
++## Verified Result
++
++On 2026-07-22 the gate passed for `3/3` local compensations. No network or corporate source was used.
+*** End Patch

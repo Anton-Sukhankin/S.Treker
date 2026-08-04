@@ -1,0 +1,6 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\src\features\columns\columns-drawer.js
+@@
+-      <div class="ds-checkbox ds-column-row" data-key="${column.key}" draggable="true" style="cursor: grab;">
++      <div class="ds-column-row" data-key="${column.key}" draggable="true" style="cursor: grab;">
+*** End Patch

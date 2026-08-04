@@ -1,0 +1,29 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+-const f38Result = { raw: 947513, gzip: 292047 };
+-const f39LibraryActionsBudget = { raw: 24 * 1024, gzip: 8 * 1024 };
++const f39Result = { raw: 949073, gzip: 292401 };
++const f40ColumnRowControlsBudget = { raw: 28 * 1024, gzip: 9 * 1024 };
+ 
+ assert.ok(
+-  rawBytes <= f38Result.raw + f39LibraryActionsBudget.raw,
+-  `JavaScript bundle exceeds the reviewed F-39 library-item-actions budget: ${rawBytes} bytes`,
++  rawBytes <= f39Result.raw + f40ColumnRowControlsBudget.raw,
++  `JavaScript bundle exceeds the reviewed F-40 column-row-controls budget: ${rawBytes} bytes`,
+ );
+ assert.ok(
+-  gzipBytes <= f38Result.gzip + f39LibraryActionsBudget.gzip,
+-  `Gzipped JavaScript bundle exceeds the reviewed F-39 library-item-actions budget: ${gzipBytes} bytes`,
++  gzipBytes <= f39Result.gzip + f40ColumnRowControlsBudget.gzip,
++  `Gzipped JavaScript bundle exceeds the reviewed F-40 column-row-controls budget: ${gzipBytes} bytes`,
+ );
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-arrow-back-icon/);
++assert.match(bundle.toString('utf8'), /tend-ui-column-visibility/);
++assert.match(bundle.toString('utf8'), /tend-ui-column-return/);
++assert.match(bundle.toString('utf8'), /tend-ui-column-return-icon/);
+@@
+-console.log('Budget: F-38 result plus 24 KiB raw / 8 KiB gzip for Tend UI attribute-library row actions');
++console.log('Budget: F-39 result plus 28 KiB raw / 9 KiB gzip for Tend UI main column-row controls');
+*** End Patch

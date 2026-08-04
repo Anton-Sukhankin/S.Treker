@@ -1,0 +1,8 @@
+*** Begin Patch
+*** Update File: C:\Users\armad\OneDrive\Документы\Проект в разработке\S-Tracker\scripts\report-tend-ui-bundle.mjs
+@@
+ assert.match(bundle.toString('utf8'), /tend-ui-download-icon/);
++assert.match(bundle.toString('utf8'), /tend-ui-view-switcher/);
++assert.match(bundle.toString('utf8'), /tend-ui-card-view-icon/);
++assert.match(bundle.toString('utf8'), /tend-ui-table-view-icon/);
+*** End Patch
